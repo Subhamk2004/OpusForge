@@ -1,5 +1,5 @@
 import React from 'react'
-import logo1 from '@/assets/favicon.ico'
+import logo1 from '@/assets/logo1.png'
 import NavLinkDiv from './NavLinkDiv'
 import { Info, InfoIcon, LogInIcon, Mail, Phone, PlusCircle, SendToBackIcon } from 'lucide-react'
 
