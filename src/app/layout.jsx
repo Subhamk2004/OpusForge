@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import logo from "@/assets/logo1.png";
+import AuthMiddleware from "@/lib/client/AuthMiddleware.mjs";
 
 export const metadata = {
   title: "OpusForge",
@@ -21,7 +22,9 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Navbar />
-        {children}
+        <AuthMiddleware>
+          {children}
+        </AuthMiddleware>
       </body>
     </html>
   );
