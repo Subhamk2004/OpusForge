@@ -1,5 +1,5 @@
 "use client";
-import useAuth from "@/hooks/useAuth.mjs";
+import useAuth from "@/hooks/useAuth.js";
 
 export default function AuthMiddleware({ children }) {
     useAuth();

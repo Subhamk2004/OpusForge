@@ -1,7 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import logo from "@/assets/logo1.png";
-import AuthMiddleware from "@/lib/client/AuthMiddleware.mjs";
+import AuthMiddleware from "@/lib/client/AuthMiddleware.js";
 
 export const metadata = {
   title: "OpusForge",

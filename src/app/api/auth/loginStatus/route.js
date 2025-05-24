@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import userSchema from "@/models/User.mjs";
-import connectDB from "@/lib/server/mongodb.mjs";
+import userSchema from "@/models/User.js";
+import connectDB from "@/lib/server/mongodb.js";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/server/auth.mjs";
+import { authOptions } from "@/lib/server/auth.js";
 
 export async function GET() {
   await connectDB();
