@@ -1,9 +1,11 @@
 import Hero1 from "@/components/ui/Hero1";
+import Hero2 from "@/components/ui/Hero2";
+import Hero3 from "@/components/ui/Hero3";
 
 export default function Home() {
   return (
-    <div className="bg-s h-screen w-screen overflow-scroll text-black flex flex-col justify-center items-center">
-      <div className="w-[98%] h-screen rounded-3xl bg-light  text-black p-4 flex flex-col items-center overflow-y-scroll">
+    <div className="bg-s h-screen w-screen text-black flex flex-col justify-center items-center">
+      <div className="w-[98%] h-screen rounded-3xl bg-light  text-black p-4 flex flex-col items-center overflow-y-scroll gap-10">
         <div className="flex flex-col justify-start items-start gap-2 lg:gap-3 mt-16 lg:mb-10">
           <span className="text-5xl lg:text-7xl font-bold">
             Showcase your potential,
@@ -17,6 +19,8 @@ export default function Home() {
 
         </div>
         <Hero1 />
+        <Hero2 />
+        <Hero3 />
       </div>
     </div>
   );
