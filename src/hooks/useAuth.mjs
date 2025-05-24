@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-export default function checkAuth() {
+export default function useAuth() {
   const router = useRouter();
   let pathname = usePathname();
   const publicUrls = [
