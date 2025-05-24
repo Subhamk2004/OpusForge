@@ -3,12 +3,11 @@ import { MongoClient } from "mongodb";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import connectDB from "./mongodb.mjs";
 import User from "@/models/User.mjs";
-import Credentials from "next-auth/providers/credentials";
-
+import CredentialsProvider from "next-auth/providers/credentials";
 const client = new MongoClient(process.env.MONGODB_URI);
 
 export const authOptions = {
-  adaptor: MongoDBAdapter(client),
+  adapter: MongoDBAdapter(client),
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -19,7 +18,7 @@ export const authOptions = {
         },
       },
     }),
-    Credentials({
+    CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
