@@ -15,13 +15,16 @@ if (!cached) {
 }
 
 async function connectDB() {
-  if (!cached.conn) {
+  // Fixed: Check if connection already exists and return it
+  if (cached.conn) {
     return cached.conn;
   }
+
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
     };
+
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
@@ -33,6 +36,7 @@ async function connectDB() {
     cached.promise = null;
     throw e;
   }
+
   return cached.conn;
 }
 

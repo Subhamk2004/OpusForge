@@ -8,6 +8,10 @@ let userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
     password: {
       type: String,
       required: false,
@@ -56,5 +60,5 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-let User = mongoose.models.User || mongoose.model('User', userSchema);
-export default userSchema;
+let User = mongoose.models.User || mongoose.model("User", userSchema);
+export default User;

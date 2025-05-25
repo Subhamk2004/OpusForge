@@ -77,8 +77,8 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
       }
-      console.log("JWT Callback - Token:", token);
-      console.log("JWT Callback - Account:", account);
+      // console.log("JWT Callback - Token:", token);
+      // console.log("JWT Callback - Account:", account);
       return token;
     },
     async session({ session, token }) {
@@ -88,7 +88,7 @@ export const authOptions = {
         session.refreshToken = token.refreshToken;
         session.provider = token.provider;
       }
-        console.log("Session Callback - Session:", session);
+        // console.log("Session Callback - Session:", session);
       return session;
     },
   },
