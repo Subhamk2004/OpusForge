@@ -9,8 +9,17 @@ import { useState } from "react";
 function page() {
     const { user } = useSelector((state) => state.user);
     let [userData, setUserData] = useState(user);
-    let handleSubmit = (e) => {
+    let handleSubmit = async (e) => {
         e.preventDefault();
+        let reponse = await fetch("/api/user/completeProfile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+        })
+        let resData = await reponse.json();
+        console.log(resData);
         
         console.log("Form submitted with data:", userData);
     }
