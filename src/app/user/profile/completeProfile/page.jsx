@@ -35,11 +35,11 @@ function page() {
                 body: JSON.stringify(userData),
             });
             let resData = await response.json();
-            console.log(resData);
+            // console.log(resData);
             if (resData.user.emailVerified) {
                 router.push("/user/profile");
             }
-            console.log("Form submitted with data:", userData);
+            // console.log("Form submitted with data:", userData);
         } catch (error) {
             console.error("Error submitting form:", error);
         } finally {
