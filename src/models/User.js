@@ -33,10 +33,18 @@ let userSchema = new mongoose.Schema(
       required: true,
       default: null,
     },
-    links: {
-      type: [{String}],
-      default: [],
-    },
+    links: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        link: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

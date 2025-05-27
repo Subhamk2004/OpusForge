@@ -1,7 +1,7 @@
 import React from 'react'
 import logo1 from '@/assets/logo1.png'
 import NavLinkDiv from './NavLinkDiv'
-import { Info, InfoIcon, LogInIcon, Mail, Phone, PlusCircle, SendToBackIcon, UserCircle2 } from 'lucide-react'
+import { Info, InfoIcon, LogInIcon, Mail, Phone, PlusCircle, Power, SendToBackIcon, UserCircle2 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 
 function AuthenticatedDesktopNavbar() {
@@ -44,10 +44,11 @@ function AuthenticatedDesktopNavbar() {
             </div>
             <div className='w-[25%] flex flex-row justify-start max-w-[350px] items-end h-full gap-3'>
                 <button
-                    className='bg-purple hover:bg-hoverbg 
-                    p-3 rounded-2xl mb-2'
+                    className='bg-errorbg/80 hover:bg-errorbg 
+                    p-3 rounded-2xl mb-2 flex flex-row items-center justify-center gap-2'
                     onClick={() => signOut({ callbackUrl: '/' })}
                 >
+                    <Power className='w-4 h-4' />
                     Logout
                 </button>
             </div>

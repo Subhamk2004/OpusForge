@@ -1,15 +1,15 @@
 import { Link, Trash } from 'lucide-react'
 import React, { useState } from 'react'
 
-function SignupForm({ handleSubmit, data = {}, setData }) {
+function SignupForm({ handleSubmit, data = {}, setData, loading }) {
     let [link, setLink] = useState({
         name: "",
         link: ""
     });
 
-    // Provide default values to prevent undefined errors
     const profession = data.profession || "";
     const links = data.links || [];
+    console.log(loading);
 
     return (
         <div className='w-full max-w-lg p-6 rounded-lg'>
@@ -21,6 +21,7 @@ function SignupForm({ handleSubmit, data = {}, setData }) {
                     <select
                         name=""
                         id=""
+                        required
                         className='bg-light w-full p-3 rounded-lg outline-none border-none text-gray-700'
                         value={profession}
                         onChange={(e) => setData({ ...data, profession: e.target.value })}
@@ -113,8 +114,14 @@ function SignupForm({ handleSubmit, data = {}, setData }) {
                 <button
                     type="submit"
                     className="bg-purple font-semibold hover:bg-hoverbg text-black p-2 rounded-lg w-full"
+                    disabled={loading}
                 >
                     Complete
+                    {
+                        loading ? (
+                            <span className="animate-spin inline-block w-4 h-4 border-2 border-current ml-2 border-t-transparent rounded-full"></span>
+                        ) : null
+                    }
                 </button>
             </form>
         </div>
