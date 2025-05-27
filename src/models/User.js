@@ -31,7 +31,7 @@ let userSchema = new mongoose.Schema(
     profession: {
       type: String,
       required: true,
-      default: "",
+      default: null,
     },
     links: {
       type: [{String}],
