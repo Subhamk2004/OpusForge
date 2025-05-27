@@ -20,6 +20,8 @@ module.exports = {
         "shadow-color": "rgba(0, 0, 0, 0.08)",
         hoverbg: "#B1A2E3",
         inputbg: "#F1F1F6",
+        errorbg: "#ffc3c3",
+        error: "#710909",
       },
       boxShadow: {
         soft: "0 4px 12px rgba(0, 0, 0, 0.06)",

@@ -34,7 +34,7 @@ let userSchema = new mongoose.Schema(
       default: null,
     },
     links: {
-      type: [[String]],
+      type: [{String}],
       default: [],
     },
   },
