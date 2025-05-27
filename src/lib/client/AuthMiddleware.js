@@ -3,7 +3,7 @@ import useAuth from "@/hooks/useAuth.js";
 
 export default function AuthMiddleware({ children }) {
   let { loading } = useAuth();
-  console.log("AuthMiddleware - Loading:", loading);
+  // console.log("AuthMiddleware - Loading:", loading);
   if (loading) {
     return (
     <div className="w-screen h-screen flex items-center justify-center">

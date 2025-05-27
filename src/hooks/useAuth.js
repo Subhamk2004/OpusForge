@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { loginUser } from "@/store/slices/User";
 
 export default function useAuth() {
   let [loading, setLoading] = useState(false);
   const router = useRouter();
   let pathname = usePathname();
+  let dispatch = useDispatch();
   const publicUrls = [
     "/",
     "/login",
@@ -30,12 +33,13 @@ export default function useAuth() {
           throw new Error("Not authenticated");
         }
         const data = await response.json();
-        console.log("Authentication status:", data);
+        // console.log("Authentication status:", data);
         if (!data.isLoggedIn) {
           if (pathname.includes("/user")) {
             router.push("/login");
           }
         } else {
+          dispatch(loginUser(data.userData));
           if (!pathname.includes("/user")) {
             router.push("/user");
           }

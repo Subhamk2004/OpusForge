@@ -17,7 +17,7 @@ function LoginForm({ handleSubmit, data, setData, handleGithub }) {
         </span>
       </div>
       <button
-        className='flex flex-row items-center justify-center gap-5 border p-3 rounded-2xl bg-white hover:shadow-lg transition duration-300 ease-in-out w-full mb-5'
+        className='flex max-w-lg flex-row items-center justify-center gap-5 border p-3 rounded-2xl bg-white hover:shadow-lg transition duration-300 ease-in-out w-full mb-5'
         onClick={handleGithub}
       >
         <Image
