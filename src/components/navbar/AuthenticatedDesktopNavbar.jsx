@@ -15,7 +15,7 @@ function AuthenticatedDesktopNavbar() {
                     logo={logo1}
                     activeClass={activeClass}
                     inActiveClass={inActiveClass}
-                    title={"OpusForge"}
+                    title={"Home"}
                     toHref='/user'
                 />
             </div>
