@@ -8,6 +8,7 @@ function page() {
     const { user } = useSelector((state) => state.user);
     let [show, setShow] = useState("flex");
     let [isLoaded, setIsLoaded] = useState(false);
+    let [inp, setInp] = useState("");
 
     useEffect(() => {
         if (user !== undefined) {
@@ -16,6 +17,21 @@ function page() {
             console.log("Email verified:", user?.emailVerified);
         }
     }, [user]);
+
+    function processTemplateString(str, context) {
+        return str.replace(/\$\{([^}]+)\}/g, (match, expression) => {
+            try {
+                return new Function(...Object.keys(context), `return ${expression}`)(...Object.values(context));
+            } catch (e) {
+                return match;
+            }
+        });
+    }
+
+    let strinDiv = "<div>Hello (${inp}) this is a string div</div>";
+    let processed = processTemplateString(strinDiv, { inp })
+    // console.log(processed);
+
 
     if (!isLoaded) {
         return (
@@ -55,6 +71,14 @@ function page() {
                     </button>
                 </div>
             )}
+            <div dangerouslySetInnerHTML={{ __html: processed }} />
+            <input
+                type="text"
+                value={inp}
+                onChange={(e) => setInp(e.target.value)}
+                className="border p-2 rounded w-full max-w-md mt-4"
+                placeholder="Type something here..."
+            />
         </div>
     );
 }

@@ -42,7 +42,7 @@ function AuthenticatedDesktopNavbar() {
                     icon={<Phone size={20} />}
                 />
             </div>
-            <div className='w-[25%] flex flex-row justify-start max-w-[350px] items-end h-full gap-3'>
+            <div className='w-[25%] flex flex-row justify-end max-w-[350px] items-end h-full gap-3'>
                 <button
                     className='bg-errorbg/80 hover:bg-errorbg 
                     p-3 rounded-2xl mb-2 flex flex-row items-center justify-center gap-2'
