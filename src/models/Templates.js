@@ -14,10 +14,6 @@ const templateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  formStructure: {
-    type: Object,
-    required: true,
-  },
 });
 const Template = mongoose.model("Template", templateSchema);
 export default Template;

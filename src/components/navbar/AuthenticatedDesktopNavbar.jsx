@@ -1,7 +1,7 @@
 import React from 'react'
 import logo1 from '@/assets/logo1.png'
 import NavLinkDiv from './NavLinkDiv'
-import { Info, InfoIcon, LogInIcon, Mail, Phone, PlusCircle, Power, SendToBackIcon, UserCircle2 } from 'lucide-react'
+import { Info, InfoIcon, LogInIcon, LucideFileStack, Mail, Phone, PlusCircle, Power, SendToBackIcon, UserCircle2 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 
 function AuthenticatedDesktopNavbar() {
@@ -28,11 +28,11 @@ function AuthenticatedDesktopNavbar() {
                     icon={<UserCircle2 size={22} />}
                 />
                 <NavLinkDiv
-                    title='About'
+                    title='Templates'
                     activeClass={activeClass}
                     inActiveClass={inActiveClass}
-                    toHref='/about'
-                    icon={<InfoIcon size={22} />}
+                    toHref='/user/templates'
+                    icon={<LucideFileStack size={22} />}
                 />
                 <NavLinkDiv
                     title='Contact'
