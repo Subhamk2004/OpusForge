@@ -14,6 +14,16 @@ const templateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  templateFor: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    default: "",
+    required: true,
+  },
 });
-const Template = mongoose.model("Template", templateSchema);
-export default Template;
+let Templates =
+  mongoose.model.Template || mongoose.model("Template", templateSchema);
+export default Templates;

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import processTemplateString from '@/helper/normalToBackticks';
 
-const Portfolio = ({ userData, user }) => {
+const Portfolio = ({ userData, templates }) => {
     const [processedHTML, setProcessedHTML] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [load, setLoad] = useState(false);
@@ -10,21 +10,19 @@ const Portfolio = ({ userData, user }) => {
     const containerRef = useRef(null);
     const scriptsExecutedRef = useRef(false);
 
-    // Memoized template processing
     const processTemplate = useCallback(() => {
-        if (!userData || !user?.links?.[0]?.link) {
+        if (!userData || !templates) {
             setError('Missing userData or template data');
             setIsLoading(false);
             return;
         }
 
         try {
-            const template = user.links[0].link;
-            console.log('Processing template with data:', { userData });
-
+            const template = templates[0].htmlString;
+            console.log('Template content:', template);
             const processed = processTemplateString(template, {
                 data: userData,
-                ...userData // Also make individual properties available
+                ...userData
             });
 
             console.log('Template processed successfully');
@@ -36,17 +34,15 @@ const Portfolio = ({ userData, user }) => {
         } finally {
             setIsLoading(false);
         }
-    }, [userData, user]);
+    }, [userData, templates]);
     console.log(processedHTML);
 
-    // Process template when dependencies change
     useEffect(() => {
         setIsLoading(true);
         scriptsExecutedRef.current = false;
         processTemplate();
     }, [processTemplate]);
 
-    // Execute scripts safely
     const executeScripts = useCallback(() => {
         if (!containerRef.current || scriptsExecutedRef.current) return;
 
@@ -56,17 +52,13 @@ const Portfolio = ({ userData, user }) => {
             try {
                 console.log(`Executing script ${index + 1}`);
 
-                // Create new script element
                 const newScript = document.createElement('script');
 
-                // Copy attributes
                 Array.from(script.attributes).forEach(attr => {
                     newScript.setAttribute(attr.name, attr.value);
                 });
 
-                // Handle inline scripts
                 if (script.innerHTML.trim()) {
-                    // Wrap in IIFE to avoid global scope pollution
                     newScript.innerHTML = `
             (function() {
               try {
@@ -78,7 +70,6 @@ const Portfolio = ({ userData, user }) => {
           `;
                 }
 
-                // Replace old script with new one
                 script.parentNode.replaceChild(newScript, script);
 
                 console.log(`Script ${index + 1} executed successfully`);
@@ -107,7 +98,6 @@ const Portfolio = ({ userData, user }) => {
         }
     }, [processedHTML, executeScripts]);
 
-    // Loading state
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-screen bg-gray-50">
@@ -119,7 +109,6 @@ const Portfolio = ({ userData, user }) => {
         );
     }
 
-    // Error state
     if (error) {
         return (
             <div className="flex items-center justify-center h-screen bg-gray-50">
@@ -142,7 +131,6 @@ const Portfolio = ({ userData, user }) => {
         );
     }
 
-    // Render processed HTML
     return (
         <div className=''>
             {

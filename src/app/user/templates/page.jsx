@@ -1,7 +1,15 @@
+import Link from "next/link"
+
 function Page() {
   return (
     <div>
-      <h1>User Templates</h1>
+      <Link href="/user/templates/addTemplate">
+        Add Template
+      </Link>
+      <br />
+      <Link href="/user/templates/viewTemplate">
+        View Templates
+      </Link>
     </div>
   )
 }

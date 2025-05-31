@@ -24,7 +24,7 @@ module.exports = {
         error: "#710909",
       },
       boxShadow: {
-        soft: "0 4px 12px rgba(0, 0, 0, 0.06)",
+        soft: "7px 7px 28px rgba(0, 0, 0, 0.06)",
         medium: "0 6px 18px rgba(0, 0, 0, 0.08)",
         hard: "3px 8px 18px rgba(0, 0, 0, 0.1)",
       },

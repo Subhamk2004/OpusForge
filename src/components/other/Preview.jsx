@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 import processTemplateString from "@/helper/normalToBackticks";
-import Portfolio from "@/components/other/Test";
+import Portfolio from "@/components/other/Portfolio";
 
 function page() {
-    const { user } = useSelector((state) => state.user);
+    const templates = useSelector((state) => state.templates.templates);
+
     const userData = {
         username: "John Doe",
         profession: "Web Developer",
@@ -22,7 +23,6 @@ function page() {
     let [isLoaded, setIsLoaded] = useState(false);
     let [data, setData] = useState(userData);
     let [debouncedData, setDebouncedData] = useState(userData);
-    // console.log("user data:", user);
 
     useEffect(() => {
         const delayInputTimeoutId = setTimeout(() => {
@@ -32,18 +32,12 @@ function page() {
     }, [data, 1000]);
 
     useEffect(() => {
-        if (user !== undefined) {
+        if (templates !== undefined) {
             setIsLoaded(true);
-            // console.log("User data:", user);
-            // console.log("Email verified:", user?.emailVerified);
+        } else {
+            setIsLoaded(false);
         }
-    }, [user]);
-
-
-    let strinDiv = "<div>Hello (${inp}) this is a string div</div>";
-    let processed = processTemplateString(strinDiv, { data })
-    // console.log(processed);
-
+    }, [templates]);
 
     if (!isLoaded) {
         return (
@@ -56,33 +50,9 @@ function page() {
         );
     }
 
-    const emailVerified = user?.emailVerified;
-
     return (
         <div className='w-screen overflow-hidden h-screen bg-light text-black'>
-            {!emailVerified && (
-                <div className={`${show} flex-col items-center justify-center p-3 rounded-2xl w-full bg-errorbg relative`}>
-                    <p className="text-xl font-semibold text-error">
-                        Your profile is incomplete!
-                    </p>
-                    <p>
-                        Please complete your profile
-                        <Link
-                            href="/user/profile/completeProfile"
-                            className="font-semibold mx-1 underline"
-                        >
-                            here
-                        </Link>
-                        to access all features.
-                    </p>
-                    <button
-                        className="absolute top-2 right-2"
-                        onClick={() => setShow("hidden")}
-                    >
-                        <X className="w-6 p-1 rounded-full bg-error text-white" />
-                    </button>
-                </div>
-            )}
+
             <div className="flex flex-row items-center justify-between p-4 bg-primary text-white seperator w-full h-screen overflow-auto">
                 <div className="w-1/2 lg:w-[35%] flex flex-col items-start gap-4 text-black overflow-hidden h-full p-2">
                     <input
@@ -95,7 +65,7 @@ function page() {
                 </div>
                 <hr className="h-screen w-[1px] bg-error" />
                 <div className="w-1/2 lg:w-[65%] flex h-screen gap-4 text-black overflow-scroll">
-                    <Portfolio userData={debouncedData} user={user} />
+                    <Portfolio userData={debouncedData} templates={templates[0]} />
                 </div>
             </div>
         </div>
