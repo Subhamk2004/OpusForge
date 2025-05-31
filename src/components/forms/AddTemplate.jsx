@@ -10,7 +10,8 @@ const TemplateForm = ({ showForm }) => {
         htmlString: '',
         image: '',
         for: '',
-        description: ''
+        description: '',
+        formFields: ''
     });
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,6 +29,7 @@ const TemplateForm = ({ showForm }) => {
         if (!formData.image.trim()) newErrors.image = 'Required';
         if (!formData.for.trim()) newErrors.for = 'Required';
         if (!formData.description.trim()) newErrors.description = 'Required';
+        if (!formData.formFields.trim()) newErrors.formFields = 'Required';
         return newErrors;
     };
 
@@ -39,6 +41,12 @@ const TemplateForm = ({ showForm }) => {
         }
         setIsSubmitting(true);
         try {
+            const formFieldsArray = formData.formFields.split(',').map(field => field.trim());
+            const formDataToSend = {
+                ...formData,
+                formFields: formFieldsArray,
+            }
+            console.log('Submitting form data:', formDataToSend);
             let res = await fetch('/api/user/templates', {
                 method: 'POST',
                 headers: {
@@ -51,7 +59,7 @@ const TemplateForm = ({ showForm }) => {
                 throw new Error(data.error || 'Failed to create template');
             }
             toast.success('Template created successfully!');
-            setFormData({ name: '', htmlString: '', image: '', for: '', description: '' });
+            setFormData({ name: '', htmlString: '', image: '', for: '', description: '', formFields: [] });
 
         } catch (error) {
             toast.error('Failed to create template. Please try again.');
@@ -121,6 +129,28 @@ const TemplateForm = ({ showForm }) => {
                                     style={{ backgroundColor: '#F1F1F6', color: '#2D2D2D' }}
                                 />
                                 {errors.htmlString && <p className="text-xs mt-1" style={{ color: '#710909' }}>{errors.htmlString}</p>}
+                            </div>
+                            <div>
+                                <label className="flex items-center gap-2 text-sm font-medium mb-2" style={{ color: '#2D2D2D' }}>
+                                    <FileText size={14} />
+                                    Form Fields
+                                </label>
+                                <textarea
+                                    name="formFields"
+                                    value={formData.formFields}
+                                    onChange={handleInputChange}
+                                    placeholder="Form fields (e.g., name, email)"
+                                    rows={3}
+                                    className="w-full px-3 py-2 rounded-lg border-2 focus:outline-none focus:border-purple-400 resize-none"
+                                    style={{ backgroundColor: '#F1F1F6', color: '#2D2D2D' }}
+                                />
+                                {errors.formFields && <p className="text-xs mt-1" style={{ color: '#710909' }}>{errors.formFields}</p>}
+                                <p className="text-xs mt-1" style={{ color: '#710909' }}>
+                                    Note: Enter form fields as comma-separated values (e.g., name, email, message).
+                                </p>
+                                <p className="text-xs mt-1" style={{ color: '#710909' }}>
+                                    Must be same as the variable names used by respective querySelector in html script
+                                </p>
                             </div>
 
                             <div>

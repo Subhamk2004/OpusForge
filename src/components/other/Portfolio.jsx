@@ -19,7 +19,7 @@ const Portfolio = ({ userData, templates }) => {
 
         try {
             const template = templates[0].htmlString;
-            console.log('Template content:', template);
+            // console.log('Template content:', template);
             const processed = processTemplateString(template, {
                 data: userData,
                 ...userData

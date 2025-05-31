@@ -5,8 +5,8 @@ import Templates from "@/models/Templates";
 export async function POST(request) {
   await connectDB();
   let body = await request.json();
-  let { name, htmlString, image, for: templateFor, description } = body;
-  if ((!name || !htmlString || !image || !templateFor, !description)) {
+  let { name, htmlString, image, for: templateFor, description, formFields } = body;
+  if ((!name || !htmlString || !image || !templateFor, !description, !formFields)) {
     return NextResponse.json(
       { error: "All fields are required" },
       { status: 400 }
@@ -19,6 +19,7 @@ export async function POST(request) {
       image,
       templateFor: templateFor,
       description,
+      formFields: formFields,
     });
     console.log("Template created successfully:", template);
     return NextResponse.json(

@@ -8,28 +8,55 @@ import Portfolio from "@/components/other/Portfolio";
 
 function page() {
     const templates = useSelector((state) => state.templates.templates);
+    const userData = {};
 
-    const userData = {
-        username: "John Doe",
-        profession: "Web Developer",
-        image: "/profile.jpg",
-        aboutPic: "/about.jpg",
-        resumeLink: "/resume.pdf",
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        email: "example@email.com"
-    };
     let [show, setShow] = useState("flex");
     let [isLoaded, setIsLoaded] = useState(false);
     let [data, setData] = useState(userData);
     let [debouncedData, setDebouncedData] = useState(userData);
+    let [formFieldsArray, setFormFieldsArray] = useState([]);
+
+    useEffect(() => {
+        if (templates && templates[0] && templates[0][0] && templates[0][0].formFields) {
+            const initialFormData = { ...userData };
+            console.log("Original formFields:", templates[0][0].formFields);
+
+            let fieldsArray = [];
+
+            if (Array.isArray(templates[0][0].formFields)) {
+                if (templates[0][0].formFields.length === 1 && typeof templates[0][0].formFields[0] === 'string' && templates[0][0].formFields[0].includes(',')) {
+                    fieldsArray = templates[0][0].formFields[0].split(',').map(field => field.trim());
+                    // in here if our formFields[0] is like ["name, email, phone"], then then .split(,) is breaking the string into an array like ["name", "email", "phone"]
+
+                    // "hello?world?skr".split('?');
+                    // this will return ["hello", "world", "skr"]
+                } else {
+                    fieldsArray = templates[0][0].formFields;
+                }
+            } else if (typeof templates[0][0].formFields === 'string') {
+                fieldsArray = templates[0][0].formFields.split(',').map(field => field.trim());
+            }
+
+            console.log("Parsed fields array:", fieldsArray);
+            setFormFieldsArray(fieldsArray);
+
+            fieldsArray.forEach(fieldName => {
+                if (!(fieldName in initialFormData)) {
+                    initialFormData[fieldName] = "";
+                }
+            });
+
+            setData(initialFormData);
+            setDebouncedData(initialFormData);
+        }
+    }, [templates]);
 
     useEffect(() => {
         const delayInputTimeoutId = setTimeout(() => {
-            setDebouncedData({ ...data, username: data.username });
+            setDebouncedData({ ...data });
         }, 1000);
         return () => clearTimeout(delayInputTimeoutId);
-    }, [data, 1000]);
+    }, [data]);
 
     useEffect(() => {
         if (templates !== undefined) {
@@ -38,6 +65,20 @@ function page() {
             setIsLoaded(false);
         }
     }, [templates]);
+
+    const handleInputChange = (fieldName, value) => {
+        setData(prevData => ({
+            ...prevData,
+            [fieldName]: value
+        }));
+    };
+
+    const formatFieldName = (fieldName) => {
+        return fieldName
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, str => str.toUpperCase())
+            .trim();
+    };
 
     if (!isLoaded) {
         return (
@@ -52,18 +93,28 @@ function page() {
 
     return (
         <div className='w-screen overflow-hidden h-screen bg-light text-black'>
-
             <div className="flex flex-row items-center justify-between p-4 bg-primary text-white seperator w-full h-screen overflow-auto">
                 <div className="w-1/2 lg:w-[35%] flex flex-col items-start gap-4 text-black overflow-hidden h-full p-2">
-                    <input
-                        type="text"
-                        value={data.username}
-                        onChange={(e) => setData({ ...data, username: e.target.value })}
-                        className="border p-2 rounded w-full max-w-md mt-4"
-                        placeholder="Type something here..."
-                    />
+                    {formFieldsArray.length > 0 &&
+                        formFieldsArray.map((fieldName, index) => (
+                            <div key={index} className="w-full">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    {formatFieldName(fieldName)}
+                                </label>
+                                <input
+                                    type="text"
+                                    value={data[fieldName] || ""}
+                                    onChange={(e) => handleInputChange(fieldName, e.target.value)}
+                                    className="border p-2 rounded w-full max-w-md"
+                                    placeholder={`Enter ${formatFieldName(fieldName).toLowerCase()}...`}
+                                />
+                            </div>
+                        ))
+                    }
                 </div>
+
                 <hr className="h-screen w-[1px] bg-error" />
+
                 <div className="w-1/2 lg:w-[65%] flex h-screen gap-4 text-black overflow-scroll">
                     <Portfolio userData={debouncedData} templates={templates[0]} />
                 </div>

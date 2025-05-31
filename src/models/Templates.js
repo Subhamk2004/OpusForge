@@ -23,6 +23,10 @@ const templateSchema = new mongoose.Schema({
     default: "",
     required: true,
   },
+  formFields: {
+    type: [String],
+    required: true,
+  },
 });
 let Templates =
   mongoose.model.Template || mongoose.model("Template", templateSchema);
