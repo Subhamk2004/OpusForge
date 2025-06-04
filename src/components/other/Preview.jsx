@@ -1,9 +1,6 @@
 "use client"
-import { X } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
-import processTemplateString from "@/helper/normalToBackticks";
 import Portfolio from "@/components/other/Portfolio";
 
 function page() {
