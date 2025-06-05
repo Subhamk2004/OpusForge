@@ -17,11 +17,20 @@ function page({ template }) {
     let [repoName, setRepoName] = useState("");
     let [repoCreated, setRepoCreated] = useState(false);
 
-
     let startProcess = async () => {
-        await createRepo();
-        await commitToRepo();
-        await deployToGithub();
+        let res = await createRepo();
+        console.log(res);
+        if (!res || res.error) {
+            toast.error("An error occurred in the process. Please try again.");
+            return;
+        }
+        let commitRes = await commitToRepo(res.repoName);
+        if (commitRes.error) {
+            toast.error("Error occured while commit process")
+            return;
+        }
+        if (!res.isDeployed) await deployToGithub(commitRes.repoName);
+        else toast.success("Process completed successfully, updates will be deployed soon.");
     }
 
     let createRepo = async () => {
@@ -30,13 +39,15 @@ function page({ template }) {
             toast.error("Please enter a repository name.");
         } else {
             try {
+                let formattedRepoName = repoName.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
+                const username = user.user.name || "Anonymous";
                 let response = await fetch('/api/user/createRepo', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         credentials: 'include',
                     },
-                    body: JSON.stringify({ repoName, finalHtml }),
+                    body: JSON.stringify({ formattedRepoName, finalHtml, username }),
                 });
                 if (!response.ok) {
                     const errorData = await response.json();
@@ -45,19 +56,36 @@ function page({ template }) {
                 }
                 else {
                     const data = await response.json();
-                    console.log(data.data);
-                    toast.success(`Repository created successfully: ${data.repoName}`);
-                    setRepoName(data.repoName);
-                    setRepoCreated(true);
+                    if (data.isAlreadyCreated) {
+                        toast.info(`Repository already exists: ${data.repoName}`);
+                        return {
+                            isAlreadyCreated: true,
+                            repoName: data.repoName,
+                            error: false,
+                            isDeployed: data.isDeployed || false,
+                        }
+                    }
+                    else {
+                        toast.success(`Repository created successfully: ${data.repoName}`);
+                        setRepoName(data.repoName);
+                        setRepoCreated(true);
+                        return {
+                            isAlreadyCreated: false,
+                            repoName: data.repoName,
+                            error: false,
+                            isDeployed: data.isDeployed || false,
+                        }
+                    }
                 }
             } catch (error) {
                 console.error("Error creating repository:", error);
                 toast.error(`Error: ${error.message || 'Failed to create repository.'}`);
+                return { error: true }
             }
         }
     }
 
-    let commitToRepo = async () => {
+    let commitToRepo = async (formattedRepoName) => {
         try {
             const username = user.user.name || "Anonymous";
             const res = await fetch('/api/user/commitToRepo', {
@@ -66,7 +94,7 @@ function page({ template }) {
                     'Content-Type': 'application/json',
                     credentials: 'include',
                 },
-                body: JSON.stringify({ finalHtml, username, repoName }),
+                body: JSON.stringify({ finalHtml, username, formattedRepoName }),
             })
             if (!res.ok) {
                 const errorData = await res.json();
@@ -74,15 +102,22 @@ function page({ template }) {
                 throw new Error(errorData.error || 'Failed to commit to repository.');
             }
             const data = await res.json();
-            console.log(data);
-            toast.success(`Committed to repository successfully: ${data.data.content.html_url}`);
+            console.log(data.data.url);
+            toast.success(`Committed to repository successfully: ${data.data.url}`);
+            return {
+                error: false,
+                repoName: formattedRepoName
+            }
         } catch (error) {
             console.error("Error committing to repository:", error);
             toast.error(`Error: ${error.message || 'Failed to commit to repository.'}`);
+            return {
+                error: true
+            }
         }
     }
 
-    let deployToGithub = async () => {
+    let deployToGithub = async (formattedRepoName) => {
         const username = user.user.name || "Anonymous";
         try {
             const res = await fetch('/api/user/deployToGithubPages', {
@@ -92,12 +127,12 @@ function page({ template }) {
                     credentials: 'include'
                 },
                 body: JSON.stringify({
-                    repoName,
+                    formattedRepoName,
                     username
                 })
             })
             console.log(res);
-            
+
             if (!res.ok) {
                 const errorData = await res.json();
                 toast.error(`Error: ${errorData.error || 'Failed to deploy to GitHub Pages.'}`);

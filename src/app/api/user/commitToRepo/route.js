@@ -7,9 +7,9 @@ export async function PUT(request) {
   await connectDB();
   const session = await getServerSession(authOptions);
   const body = await request.json();
-  const { finalHtml, username, repoName } = body;
+  const { finalHtml, username, formattedRepoName } = body;
 
-  if (!finalHtml || !username || !repoName) {
+  if (!finalHtml || !username || !formattedRepoName) {
     return NextResponse.json(
       { error: "HTML content, username, and repository name are required." },
       { status: 400 }
@@ -28,7 +28,7 @@ export async function PUT(request) {
     let sha = null;
     try {
       const existingFileResponse = await fetch(
-        `https://api.github.com/repos/${username}/${repoName}/contents/index.html`,
+        `https://api.github.com/repos/${username}/${formattedRepoName}/contents/index.html`,
         {
           method: "GET",
           headers: {
@@ -45,7 +45,6 @@ export async function PUT(request) {
       } else if (existingFileResponse.status === 404) {
         console.log("File doesn't exist, creating new file");
       } else {
-        // Some other error occurred while checking file existence
         const errorData = await existingFileResponse.json();
         console.error("Error checking file existence:", errorData);
         throw new Error(
@@ -54,17 +53,14 @@ export async function PUT(request) {
       }
     } catch (error) {
       console.error("Error checking existing file:", error);
-      // Continue with creation if we can't check (file likely doesn't exist)
     }
 
-    // Prepare the request body
     const requestBody = {
       message: "Update HTML content from OpusForge",
       content: btoa(finalHtml),
       branch: "main",
     };
 
-    // Include SHA if file exists (for updates)
     if (sha) {
       requestBody.sha = sha;
     }
@@ -74,9 +70,8 @@ export async function PUT(request) {
       content: "[BASE64_CONTENT_HIDDEN]",
     });
 
-    // Create or update the file
     const res = await fetch(
-      `https://api.github.com/repos/${username}/${repoName}/contents/index.html`,
+      `https://api.github.com/repos/${username}/${formattedRepoName}/contents/index.html`,
       {
         method: "PUT",
         headers: {

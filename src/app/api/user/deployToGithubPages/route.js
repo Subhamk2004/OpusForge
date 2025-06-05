@@ -9,8 +9,8 @@ export async function POST(request) {
   await connectDB();
   const session = await getServerSession(authOptions);
   const body = await request.json();
-  const { repoName, username } = body;
-  if (!repoName || !username) {
+  const { formattedRepoName, username } = body;
+  if (!formattedRepoName || !username) {
     return NextResponse.json(
       { error: "Repository name and username are required." },
       { status: 400 }
@@ -22,16 +22,16 @@ export async function POST(request) {
       { status: 401 }
     );
   }
-  
+
   try {
     const octokit = new Octokit({
       auth: session.accessToken,
     });
-    console.log('From deployment api route ',username, repoName);
-    
+    console.log("From deployment api route ", username, formattedRepoName);
+
     const pageRes = await octokit.rest.repos.createPagesSite({
       owner: username,
-      repo: repoName,
+      repo: formattedRepoName,
       source: {
         branch: "main",
         path: "/",
