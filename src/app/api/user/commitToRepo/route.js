@@ -8,12 +8,14 @@ export async function PUT(request) {
   const session = await getServerSession(authOptions);
   const body = await request.json();
   const { finalHtml, username, repoName } = body;
+
   if (!finalHtml || !username || !repoName) {
     return NextResponse.json(
-      { error: "HTML content is required." },
+      { error: "HTML content, username, and repository name are required." },
       { status: 400 }
     );
   }
+
   if (!session || !session.accessToken) {
     return NextResponse.json(
       { error: "Unauthorized. Please log in." },
@@ -22,6 +24,57 @@ export async function PUT(request) {
   }
 
   try {
+    // First, check if the file already exists to get its SHA
+    let sha = null;
+    try {
+      const existingFileResponse = await fetch(
+        `https://api.github.com/repos/${username}/${repoName}/contents/index.html`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `token ${session.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (existingFileResponse.ok) {
+        const existingFileData = await existingFileResponse.json();
+        sha = existingFileData.sha;
+        console.log("File exists, updating with SHA:", sha);
+      } else if (existingFileResponse.status === 404) {
+        console.log("File doesn't exist, creating new file");
+      } else {
+        // Some other error occurred while checking file existence
+        const errorData = await existingFileResponse.json();
+        console.error("Error checking file existence:", errorData);
+        throw new Error(
+          `Failed to check file existence: ${existingFileResponse.statusText}`
+        );
+      }
+    } catch (error) {
+      console.error("Error checking existing file:", error);
+      // Continue with creation if we can't check (file likely doesn't exist)
+    }
+
+    // Prepare the request body
+    const requestBody = {
+      message: "Update HTML content from OpusForge",
+      content: btoa(finalHtml),
+      branch: "main",
+    };
+
+    // Include SHA if file exists (for updates)
+    if (sha) {
+      requestBody.sha = sha;
+    }
+
+    console.log("Committing to repository with body:", {
+      ...requestBody,
+      content: "[BASE64_CONTENT_HIDDEN]",
+    });
+
+    // Create or update the file
     const res = await fetch(
       `https://api.github.com/repos/${username}/${repoName}/contents/index.html`,
       {
@@ -30,25 +83,41 @@ export async function PUT(request) {
           Authorization: `token ${session.accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          message: "Initial commit with HTML content from OpusForge",
-          content: btoa(finalHtml),
-          branch: "main",
-        }),
+        body: JSON.stringify(requestBody),
       }
     );
+
     if (!res.ok) {
-      throw new Error(`Failed to commit to repository: ${res.statusText}`);
+      const errorData = await res.json();
+      console.error("GitHub API Error:", errorData);
+      throw new Error(
+        `Failed to commit to repository: ${res.statusText} - ${
+          errorData.message || "Unknown error"
+        }`
+      );
     }
+
     const data = await res.json();
+    console.log("Successfully committed to repository");
+
     return NextResponse.json(
-      { message: "Committed to repository successfully.", data },
+      {
+        message: "Committed to repository successfully.",
+        data: {
+          sha: data.content.sha,
+          url: data.content.html_url,
+          download_url: data.content.download_url,
+        },
+      },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error committing to repository:", error);
     return NextResponse.json(
-      { error: "Failed to commit to repository." },
+      {
+        error: "Failed to commit to repository.",
+        details: error.message,
+      },
       { status: 500 }
     );
   }
