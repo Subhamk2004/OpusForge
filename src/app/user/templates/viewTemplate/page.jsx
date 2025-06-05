@@ -1,10 +1,10 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import Preview from '@/components/other/Preview'
 import { useSearchParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 
-function page() {
+function Page1() {
     const searchParams = useSearchParams()
     const templateId = searchParams.get('id')
     const templates = useSelector((state) => state.templates.templates);
@@ -50,4 +50,10 @@ function page() {
     )
 }
 
-export default page
+export default function page() {
+    return (
+        <Suspense>
+            <Page1 />
+        </Suspense>
+    )
+}
