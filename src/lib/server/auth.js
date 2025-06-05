@@ -73,6 +73,7 @@ export const authOptions = {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
         token.provider = account.provider;
+        token.acc = account;
       }
       if (user) {
         token.id = user.id;
@@ -87,6 +88,7 @@ export const authOptions = {
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
         session.provider = token.provider;
+        session.acc = token.acc;
       }
         // console.log("Session Callback - Session:", session);
       return session;

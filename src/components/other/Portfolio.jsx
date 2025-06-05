@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import processTemplateString from '@/helper/normalToBackticks';
 
-const Portfolio = ({ userData, templates }) => {
+const Portfolio = ({ userData, template: newTemp, setHtml }) => {
     const [processedHTML, setProcessedHTML] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [load, setLoad] = useState(false);
@@ -11,14 +11,14 @@ const Portfolio = ({ userData, templates }) => {
     const scriptsExecutedRef = useRef(false);
 
     const processTemplate = useCallback(() => {
-        if (!userData || !templates) {
+        if (!userData || !newTemp) {
             setError('Missing userData or template data');
             setIsLoading(false);
             return;
         }
 
         try {
-            const template = templates[0].htmlString;
+            const template = newTemp.htmlString;
             // console.log('Template content:', template);
             const processed = processTemplateString(template, {
                 data: userData,
@@ -27,6 +27,7 @@ const Portfolio = ({ userData, templates }) => {
 
             console.log('Template processed successfully');
             setProcessedHTML(processed);
+            setHtml(processed);
             setError(null);
         } catch (err) {
             console.error('Template processing error:', err);
@@ -34,8 +35,8 @@ const Portfolio = ({ userData, templates }) => {
         } finally {
             setIsLoading(false);
         }
-    }, [userData, templates]);
-    console.log(processedHTML);
+    }, [userData, newTemp]);
+    // console.log(processedHTML);
 
     useEffect(() => {
         setIsLoading(true);
@@ -89,12 +90,9 @@ const Portfolio = ({ userData, templates }) => {
                 executeScripts();
             });
         };
-        setLoad(true);
         const timer = setTimeout(executeAfterRender, 1500);
-        const loadtimer = setTimeout(() => setLoad(false), 1000);
         return () => {
             clearTimeout(timer);
-            clearTimeout(loadtimer);
         }
     }, [processedHTML, executeScripts]);
 
