@@ -12,7 +12,7 @@ export async function GET() {
       return NextResponse.json({ isLoggedIn: false }, { status: 401 });
     }
 
-    console.log("Session user:", session.accessToken);
+    // console.log("Session user:", session.accessToken);
     // console.log("User email:", session.user.email);
 
     const token = session.accessToken;
@@ -23,7 +23,7 @@ export async function GET() {
       },
     });
     const userN = await response.json();
-    console.log(userN.login);
+    // console.log(userN.login);
 
     const data = await User.findOne({ email: session.user.email });
 

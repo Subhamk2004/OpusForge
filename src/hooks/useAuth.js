@@ -33,7 +33,7 @@ export default function useAuth() {
           throw new Error("Not authenticated");
         }
         const data = await response.json();
-        console.log("Authentication status:", data);
+        // console.log("Authentication status:", data);
         if (!data.isLoggedIn) {
           if (pathname.includes("/user")) {
             router.push("/login");
