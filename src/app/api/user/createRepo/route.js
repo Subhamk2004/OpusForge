@@ -22,7 +22,7 @@ export async function POST(request) {
       { status: 401 }
     );
   }
-  console.log(formattedRepoName);
+  console.log(formattedRepoName, username);
 
   try {
     let sha = null;
@@ -62,14 +62,15 @@ export async function POST(request) {
         },
       }
     );
+    console.log(existingFileResponse);
 
     if (existingFileResponse.ok) {
       const existingFileData = await existingFileResponse.json();
       console.log(existingFileData);
-
       sha = existingFileData.sha;
       console.log("File exists, updating with SHA:", sha);
     } else if (existingFileResponse.status === 404) {
+      console.log(existingFileResponse);
       console.log("File doesn't exist, creating new file");
     } else {
       const errorData = await existingFileResponse.json();

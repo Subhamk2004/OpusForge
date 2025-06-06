@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 function page({ template }) {
     // console.log('from the view page: ', template);
     const user = useSelector((state) => state.user);
-    console.log(user.user);
+    // console.log(user.user);
 
     const userData = {};
     let [finalHtml, setFinalHtml] = useState("");
@@ -40,7 +40,7 @@ function page({ template }) {
         } else {
             try {
                 let formattedRepoName = repoName.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
-                const username = user.user.name || "Anonymous";
+                const username = user.user.githubUsername || "Anonymous";
                 let response = await fetch('/api/user/createRepo', {
                     method: 'POST',
                     headers: {
@@ -87,7 +87,7 @@ function page({ template }) {
 
     let commitToRepo = async (formattedRepoName) => {
         try {
-            const username = user.user.name || "Anonymous";
+            const username = user.user.githubUsername || "Anonymous";
             const res = await fetch('/api/user/commitToRepo', {
                 method: 'PUT',
                 headers: {
@@ -118,7 +118,7 @@ function page({ template }) {
     }
 
     let deployToGithub = async (formattedRepoName) => {
-        const username = user.user.name || "Anonymous";
+        const username = user.user.githubUsername || "Anonymous";
         try {
             const res = await fetch('/api/user/deployToGithubPages', {
                 method: 'POST',

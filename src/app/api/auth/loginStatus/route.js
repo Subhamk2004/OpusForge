@@ -12,20 +12,35 @@ export async function GET() {
       return NextResponse.json({ isLoggedIn: false }, { status: 401 });
     }
 
-    // console.log("Session user:", session.user);
+    console.log("Session user:", session.accessToken);
     // console.log("User email:", session.user.email);
 
-    const userData = await User.findOne({ email: session.user.email });
+    const token = session.accessToken;
+    const response = await fetch("https://api.github.com/user", {
+      headers: {
+        Authorization: `token ${token}`,
+        Accept: "application/vnd.github.v3+json",
+      },
+    });
+    const userN = await response.json();
+    console.log(userN.login);
 
-    if (!userData) {
+    const data = await User.findOne({ email: session.user.email });
+
+    if (!data) {
       console.log("User not found in database");
     }
+    const userData = {
+      ...data.toObject(),
+      githubUsername: userN.login,
+    };
+    console.log("data:", userData);
 
     return NextResponse.json(
       {
         isLoggedIn: true,
         user: session.user,
-        userData: userData
+        userData: userData,
       },
       { status: 200 }
     );
