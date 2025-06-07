@@ -34,7 +34,7 @@ export async function GET() {
       ...data.toObject(),
       githubUsername: userN.login,
     };
-    console.log("data:", userData);
+    // console.log("data:", userData);
 
     return NextResponse.json(
       {

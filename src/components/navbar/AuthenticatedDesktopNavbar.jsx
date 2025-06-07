@@ -1,7 +1,7 @@
 import React from 'react'
 import logo1 from '@/assets/logo1.png'
 import NavLinkDiv from './NavLinkDiv'
-import { Info, InfoIcon, LogInIcon, LucideFileStack, Mail, Phone, PlusCircle, Power, SendToBackIcon, UserCircle2 } from 'lucide-react'
+import { Info, InfoIcon, LogInIcon, LucideDatabaseZap, LucideFileStack, Mail, Phone, PlusCircle, Power, SendToBackIcon, UserCircle2 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 
 function AuthenticatedDesktopNavbar() {
@@ -35,11 +35,11 @@ function AuthenticatedDesktopNavbar() {
                     icon={<LucideFileStack size={22} />}
                 />
                 <NavLinkDiv
-                    title='Contact'
+                    title='Assets'
                     activeClass={activeClass}
                     inActiveClass={inActiveClass}
-                    toHref='/contact'
-                    icon={<Phone size={20} />}
+                    toHref='/user/assets'
+                    icon={<LucideDatabaseZap size={20} />}
                 />
             </div>
             <div className='w-[25%] flex flex-row justify-end max-w-[350px] items-end h-full gap-3'>

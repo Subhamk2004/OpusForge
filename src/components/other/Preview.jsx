@@ -5,9 +5,8 @@ import Portfolio from "@/components/other/Portfolio";
 import { toast, ToastContainer } from "react-toastify";
 
 function page({ template }) {
-    // console.log('from the view page: ', template);
     const user = useSelector((state) => state.user);
-    // console.log(user.user);
+    const { assets } = useSelector((state) => state.assets);
 
     const userData = {};
     let [finalHtml, setFinalHtml] = useState("");
@@ -16,6 +15,17 @@ function page({ template }) {
     let [formFieldsArray, setFormFieldsArray] = useState([]);
     let [repoName, setRepoName] = useState("");
     let [repoCreated, setRepoCreated] = useState(false);
+    let [loadedAssets, setLoadedAssets] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    console.log(loadedAssets);
+
+    useEffect(() => {
+        if (assets && assets.length > 0) {
+            setLoadedAssets(assets[0]);
+        }
+    }, [assets]);
 
     let startProcess = async () => {
         let res = await createRepo();
@@ -202,8 +212,45 @@ function page({ template }) {
 
     return (
         <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start'>
-            <ToastContainer />
+
             <div className="w-full flex items-center  p-4 bg-primary text-black">
+                <input
+                    placeholder="Search assets"
+                    type="text"
+                    className="border p-2 rounded  w-full max-w-md"
+                    value={searchQuery}
+                    onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        if (e.target.value.trim() === "") {
+                            setSearchResults([]);
+                        } else {
+                            const results = loadedAssets.filter(asset =>
+                                asset.name.toLowerCase().includes(e.target.value.toLowerCase())
+                            );
+                            setSearchResults(results);
+                        }
+                    }}
+                />
+
+                {
+                    searchResults.length > 0 && (
+                        <div className="absolute top-16 left-0 w-full bg-white shadow-lg z-10 ">
+                            <ul className="max-h-60 overflow-y-auto">
+                                {searchResults.map((asset, index) => (
+                                    <ul className="p-2 border-b flex flex-col" key={index}>
+                                        <li>
+                                            {asset.name}
+                                        </li>
+                                        <li className="underline text-blue-500 hover:text-blue-700 cursor-pointer">
+                                            {asset.url}
+                                        </li>
+                                    </ul>
+                                ))}
+                            </ul>
+                        </div>
+                    )
+                }
+
                 <input
                     type="text"
                     name="repoName"
@@ -219,6 +266,7 @@ function page({ template }) {
             </div>
             <div className="flex flex-row items-center justify-between p-4 bg-primary text-white seperator w-full h-screen overflow-auto">
                 <div className="w-1/2 lg:w-[35%] flex flex-col items-start gap-4 text-black overflow-scroll h-full p-2 ">
+                    <ToastContainer />
                     {formFieldsArray.length > 0 &&
                         formFieldsArray.map((fieldName, index) => (
                             <div key={index} className="w-full">
