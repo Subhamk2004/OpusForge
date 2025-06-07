@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.9.1",
+    "@lottiefiles/dotlottie-react": "^0.14.0",
     "@octokit/rest": "^22.0.0",
     "@reduxjs/toolkit": "^2.8.2",
     "bcryptjs": "^3.0.2",

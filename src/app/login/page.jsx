@@ -4,6 +4,7 @@ import bg1 from "@/assets/bg6.png";
 import LoginForm from "@/components/forms/LoginForm";
 import Image from "next/image";
 import { signIn } from "next-auth/react"
+import { ToastContainer, toast } from "react-toastify";
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
 
   let handleSubmit = async (e) => {
     e.preventDefault();
+    toast.info("Currently email and password login is not implemented. Please use GitHub sign-in.")
     console.log("Form submitted with data:", userData);
   }
 
@@ -26,6 +28,7 @@ export default function Home() {
 
   return (
     <div className="bg-s h-screen w-screen overflow-scroll text-black flex flex-col justify-center items-center">
+      <ToastContainer />
       <div className="w-[98%] h-screen rounded-3xl bg-light  text-black p-6 flex flex-row  gap-10">
         <div className="w-[40%] lg:w-[50%] h-[90%] border rounded-3xl relative">
           <Image

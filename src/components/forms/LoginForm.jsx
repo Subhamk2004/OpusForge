@@ -4,6 +4,7 @@ import Link from 'next/link'
 import github from '@/assets/github1.png'
 
 function LoginForm({ handleSubmit, data, setData, handleGithub }) {
+  
   return (
     <div className="w-full h-full flex flex-col items-center justify-start">
       <div className="flex flex-col justify-start items-center gap-2 lg:gap-3 mt-16 mb-10">
