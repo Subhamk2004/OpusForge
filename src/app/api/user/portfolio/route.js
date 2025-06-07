@@ -8,7 +8,7 @@ export async function POST(request) {
   await connectDB();
   const session = await getServerSession(authOptions);
   const body = await request.json();
-  const { name, email, userData, templateId, portfolioImage, deployedUrl } =
+  const { name, email, userData, templateId, portfolioImage, deployedUrl, repoName } =
     body;
 
   if (
@@ -17,7 +17,8 @@ export async function POST(request) {
     !userData ||
     !templateId ||
     !portfolioImage ||
-    !deployedUrl
+    !deployedUrl ||
+    !repoName
   ) {
     return NextResponse.json(
       { error: "All fields are required." },
@@ -40,6 +41,7 @@ export async function POST(request) {
       templateId,
       portfolioImage,
       deployedUrl,
+      repoName,
     });
 
     const savedPortfolio = await newPortfolio.save();
@@ -85,6 +87,53 @@ export async function GET(request) {
     console.error("Error fetching portfolios:", error);
     return NextResponse.json(
       { error: "Failed to fetch portfolios.", details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request) {
+  await connectDB();
+  const session = await getServerSession(authOptions);
+  const body = await request.json();
+  const { userData, portfolioId } = body;
+
+  if (!userData || !portfolioId) {
+    return NextResponse.json(
+      { error: "User data and portfolio ID are required." },
+      { status: 400 }
+    );
+  }
+
+  if (!session || !session.accessToken) {
+    return NextResponse.json(
+      { error: "Unauthorized. Please log in." },
+      { status: 401 }
+    );
+  }
+
+  try {
+    const updatedPortfolio = await Portfolios.findByIdAndUpdate(
+      portfolioId,
+      { userData },
+      { new: true }
+    );
+
+    if (!updatedPortfolio) {
+      return NextResponse.json(
+        { error: "Portfolio not found." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Portfolio updated successfully.", data: updatedPortfolio },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating portfolio:", error);
+    return NextResponse.json(
+      { error: "Failed to update portfolio.", details: error.message },
       { status: 500 }
     );
   }

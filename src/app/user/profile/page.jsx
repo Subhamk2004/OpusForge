@@ -66,7 +66,7 @@ function page() {
                             {loadedPortfolios.map((portfolio) => (
                                 <Link
                                     key={portfolio._id}
-                                    href={`/user/templates/viewTemplate?id=${portfolio.templateId}`}
+                                    href={`/user/templates/viewTemplate?id=${portfolio.templateId}&portfolioID=${portfolio._id}`}
                                     className="p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-200"
                                 >
                                     <h2 className="text-xl font-semibold">{portfolio.name}</h2>

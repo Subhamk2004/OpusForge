@@ -26,6 +26,8 @@ export async function PUT(request) {
   try {
     // First, check if the file already exists to get its SHA
     let sha = null;
+    console.log(formattedRepoName);
+    
     try {
       const existingFileResponse = await fetch(
         `https://api.github.com/repos/${username}/${formattedRepoName}/contents/index.html`,

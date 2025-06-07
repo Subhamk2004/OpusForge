@@ -1,25 +1,40 @@
 "use client"
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux"
-import Portfolio from "@/components/other/Portfolio";
-import { toast, ToastContainer } from "react-toastify";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useAssetSearch } from "@/hooks/useAssetSearch";
+import { useFormData } from "@/hooks/useFormData";
+import { usePortfolioDeployment } from "@/hooks/usePortfolioDeployment";
+import Header from "@/components/ui/Header";
+import FormSection from "@/components/forms/FormSection";
+import PortfolioPreview from "@/components/ui/PortfolioPreview";
 
-function page({ template }) {
-    const user = useSelector((state) => state.user);
+function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) {
+
+    if (portfolioId) {
+        console.log(existingPortfolioData);
+    }
     const { assets } = useSelector((state) => state.assets);
+    const [finalHtml, setFinalHtml] = useState("");
+    const [loadedAssets, setLoadedAssets] = useState([]);
 
-    const userData = {};
-    let [finalHtml, setFinalHtml] = useState("");
-    let [data, setData] = useState({});
-    let [debouncedData, setDebouncedData] = useState({});
-    let [formFieldsArray, setFormFieldsArray] = useState([]);
-    let [repoName, setRepoName] = useState("");
-    let [repoCreated, setRepoCreated] = useState(false);
-    let [loadedAssets, setLoadedAssets] = useState([]);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-
-    console.log(loadedAssets);
+    const { searchQuery, searchResults, handleSearch } = useAssetSearch(loadedAssets);
+    const {
+        data,
+        debouncedData,
+        formFieldsArray,
+        handleInputChange,
+        formatFieldName
+    } = useFormData(template, existingPortfolioData.userData || {});
+    const {
+        repoName,
+        setRepoName,
+        createRepo,
+        commitToRepo,
+        deployToGithub,
+        createPortfolio,
+        updatePortfolio,
+    } = usePortfolioDeployment(portfolioId || null, existingPortfolioData);
 
     useEffect(() => {
         if (assets && assets.length > 0) {
@@ -27,331 +42,90 @@ function page({ template }) {
         }
     }, [assets]);
 
-    let startProcess = async () => {
-        let res = await createRepo();
-        console.log(res);
-        if (!res || res.error) {
-            toast.error("An error occurred in the process. Please try again.");
-            return;
-        }
-        let commitRes = await commitToRepo(res.repoName);
-        if (commitRes.error) {
-            toast.error("Error occured while commit process")
-            return;
-        }
-        if (!res.isDeployed) {
-            let deployRes = await deployToGithub(commitRes.repoName);
-            if (deployRes.error) {
-                toast.error("Error occured while deploying to Github Pages");
-            }
-            else {
-                await createPortfolio(deployRes.deployedUrl);
-                toast.success(`Successfully deployed to ${deployRes.deployedUrl}`)
-                return;
-            }
-        }
-        else toast.success("Process completed successfully, updates will be deployed soon.");
+    const memoizedSetFinalHtml = useCallback((html) => {
+        setFinalHtml(html);
+    }, []);
 
+    const memoizedTemplate = useMemo(() => template, [template]);
 
-
-    }
-
-    let createRepo = async () => {
-        // console.log("Creating repo with data:", finalHtml);
-        if (!repoName) {
-            toast.error("Please enter a repository name.");
-        } else {
-            try {
-                let formattedRepoName = repoName.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
-                const username = user.user.githubUsername || "Anonymous";
-                let response = await fetch('/api/user/createRepo', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        credentials: 'include',
-                    },
-                    body: JSON.stringify({ formattedRepoName, finalHtml, username }),
-                });
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    toast.error(`Error: ${errorData.error || 'Failed to create repository.'}`);
-                    throw new Error(errorData.error || 'Failed to create repository.');
-                }
-                else {
-                    const data = await response.json();
-                    if (data.isAlreadyCreated) {
-                        toast.info(`Repository already exists: ${data.repoName}`);
-                        return {
-                            isAlreadyCreated: true,
-                            repoName: data.repoName,
-                            error: false,
-                            isDeployed: data.isDeployed || false,
-                        }
-                    }
-                    else {
-                        toast.success(`Repository created successfully: ${data.repoName}`);
-                        setRepoName(data.repoName);
-                        setRepoCreated(true);
-                        return {
-                            isAlreadyCreated: false,
-                            repoName: data.repoName,
-                            error: false,
-                            isDeployed: data.isDeployed || false,
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error("Error creating repository:", error);
-                toast.error(`Error: ${error.message || 'Failed to create repository.'}`);
-                return { error: true }
-            }
-        }
-    }
-
-    let commitToRepo = async (formattedRepoName) => {
-        try {
-            const username = user.user.githubUsername || "Anonymous";
-            const res = await fetch('/api/user/commitToRepo', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    credentials: 'include',
-                },
-                body: JSON.stringify({ finalHtml, username, formattedRepoName }),
-            })
-            if (!res.ok) {
-                const errorData = await res.json();
-                toast.error(`Error: ${errorData.error || 'Failed to commit to repository.'}`);
-                throw new Error(errorData.error || 'Failed to commit to repository.');
-            }
-            const data = await res.json();
-            console.log(data.data.url);
-            toast.success(`Committed to repository successfully: ${data.data.url}`);
-            return {
-                error: false,
-                repoName: formattedRepoName
-            }
-        } catch (error) {
-            console.error("Error committing to repository:", error);
-            toast.error(`Error: ${error.message || 'Failed to commit to repository.'}`);
-            return {
-                error: true
-            }
-        }
-    }
-
-    let deployToGithub = async (formattedRepoName) => {
-        const username = user.user.githubUsername || "Anonymous";
-        try {
-            const res = await fetch('/api/user/deployToGithubPages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    credentials: 'include'
-                },
-                body: JSON.stringify({
-                    formattedRepoName,
-                    username
-                })
-            })
+    const startProcess = useCallback(async () => {
+        if (portfolioId == null) {
+            let res = await createRepo(finalHtml);
             console.log(res);
 
-            if (!res.ok) {
-                const errorData = await res.json();
-                toast.error(`Error: ${errorData.error || 'Failed to deploy to GitHub Pages.'}`);
-                throw new Error(errorData.error || 'Failed to deploy to GitHub Pages.');
+            if (!res || res.error) {
+                toast.error("An error occurred in the process. Please try again.");
+                return;
             }
-            const data = await res.json();
-            console.log(data.data.html_url);
-            toast.success(`Deployed to GitHub Pages successfully: ${data.data.html_url}`);
-            return {
-                deployedUrl: data.data.html_url,
-                error: false
-            }
-        } catch (error) {
-            console.error("Error deploying to GitHub Pages:", error);
-            toast.error(`GitHub Pages deployment failed: ${error.message}`);
-            return {
-                error: true
-            }
-        }
-    }
-
-    let createPortfolio = async (deployedUrl) => {
-        let templateImage = template.image;
-
-        try {
-            const response = await fetch('/api/user/portfolio', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    credentials: 'include',
-                },
-                body: JSON.stringify({
-                    name: repoName || template.name,
-                    email: user.user.email,
-                    userData: debouncedData,
-                    templateId: template._id,
-                    portfolioImage: template.image,
-                    deployedUrl: deployedUrl,
-                }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                toast.error(`Error: ${errorData.error || 'Failed to create portfolio.'}`);
-                throw new Error(errorData.error || 'Failed to create portfolio.');
+            if (res.isAlreadyCreated) {
+                toast.info(`Repository already exists: ${res.repoName}, please update the portfolio.`);
+                return;
             }
 
-            const data = await response.json();
-            console.log(data);
+            let commitRes = await commitToRepo(finalHtml, res.repoName);
+            if (commitRes.error) {
+                toast.error("Error occurred while commit process");
+                return;
+            }
 
-            toast.success(`Portfolio created successfully!`);
-            return data;
-        } catch (error) {
-            console.error("Error creating portfolio:", error);
-            toast.error(`Error: ${error.message || 'Failed to create portfolio.'}`);
-            return { error: true }
-        }
-    }
-
-
-    useEffect(() => {
-        const initialFormData = { ...userData };
-        let fieldsArray = [];
-
-        if (Array.isArray(template.formFields)) {
-            if (template.formFields.length === 1 && typeof template.formFields[0] === 'string' && template.formFields[0].includes(',')) {
-                fieldsArray = template.formFields[0].split(',').map(field => field.trim());
-                // in here if our formFields[0] is like ["name, email, phone"], then then .split(,) is breaking the string into an array like ["name", "email", "phone"]
-
-                // "hello?world?skr".split('?');
-                // this will return ["hello", "world", "skr"]
+            if (!res.isDeployed) {
+                let deployRes = await deployToGithub(commitRes.repoName);
+                if (deployRes.error) {
+                    toast.error("Error occurred while deploying to Github Pages");
+                } else {
+                    await createPortfolio(deployRes.deployedUrl, template, debouncedData, commitRes.repoName);
+                    toast.success(`Successfully deployed to ${deployRes.deployedUrl}`);
+                    return;
+                }
             } else {
-                fieldsArray = template.formFields;
+                toast.success("Process completed successfully, updates will be deployed soon.");
             }
-        } else if (typeof template.formFields === 'string') {
-            fieldsArray = template.formFields.split(',').map(field => field.trim());
+        }
+        else {
+            let commitRes = await commitToRepo(finalHtml, existingPortfolioData.repoName);
+            if (commitRes.error) {
+                toast.error("Error occurred while committing to repository");
+                return;
+            }
+            let updateRes = await updatePortfolio(existingPortfolioData._id, debouncedData);
+            if (updateRes.error) {
+                toast.error("Error occurred while updating portfolio");
+                return;
+            }
+            toast.success("Portfolio updated successfully.");
         }
 
-        // console.log("Parsed fields array:", fieldsArray);
-        setFormFieldsArray(fieldsArray);
-
-        fieldsArray.forEach(fieldName => {
-            if (!(fieldName in initialFormData)) {
-                initialFormData[fieldName] = "";
-            }
-        });
-
-        setData(initialFormData);
-        setDebouncedData(initialFormData);
-    }, [template]);
-
-    useEffect(() => {
-        const delayInputTimeoutId = setTimeout(() => {
-            setDebouncedData({ ...data });
-        }, 1000);
-        return () => clearTimeout(delayInputTimeoutId);
-    }, [data]);
-
-    const handleInputChange = (fieldName, value) => {
-        setData(prevData => ({
-            ...prevData,
-            [fieldName]: value
-        }));
-    };
-
-    const formatFieldName = (fieldName) => {
-        return fieldName
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, str => str.toUpperCase())
-            .trim();
-    };
-
+    }, [finalHtml, createRepo, commitToRepo, deployToGithub, createPortfolio, template, debouncedData, updatePortfolio]);
 
     return (
         <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start'>
+            <Header
+                searchQuery={searchQuery}
+                searchResults={searchResults}
+                onSearch={handleSearch}
+                repoName={repoName}
+                onRepoNameChange={setRepoName}
+                onSubmit={startProcess}
+            />
 
-            <div className="w-full flex items-center  p-4 bg-primary text-black">
-                <input
-                    placeholder="Search assets"
-                    type="text"
-                    className="border p-2 rounded   max-w-[200px]"
-                    value={searchQuery}
-                    onChange={(e) => {
-                        setSearchQuery(e.target.value);
-                        if (e.target.value.trim() === "") {
-                            setSearchResults([]);
-                        } else {
-                            const results = loadedAssets.filter(asset =>
-                                asset.name.toLowerCase().includes(e.target.value.toLowerCase())
-                            );
-                            setSearchResults(results);
-                        }
-                    }}
-                />
-
-                {
-                    searchResults.length > 0 && (
-                        <div className="absolute top-16 left-0 w-full bg-white shadow-lg z-10 ">
-                            <ul className="max-h-60 overflow-y-auto">
-                                {searchResults.map((asset, index) => (
-                                    <ul className="p-2 border-b flex flex-col" key={index}>
-                                        <li>
-                                            {asset.name}
-                                        </li>
-                                        <li className="underline text-blue-500 hover:text-blue-700 cursor-pointer">
-                                            {asset.url}
-                                        </li>
-                                    </ul>
-                                ))}
-                            </ul>
-                        </div>
-                    )
-                }
-
-                <input
-                    type="text"
-                    name="repoName"
-                    placeholder="Enter repo name"
-                    value={repoName}
-                    onChange={(e) => setRepoName(e.target.value)}
-                />
-                <button
-                    onClick={startProcess}
-                >
-                    Submit
-                </button>
-            </div>
             <div className="flex flex-row items-center justify-between p-4 bg-primary text-white seperator w-full h-screen overflow-auto">
-                <div className="w-1/2 lg:w-[35%] flex flex-col items-start gap-4 text-black overflow-scroll h-full p-2 ">
-                    <ToastContainer />
-                    {formFieldsArray.length > 0 &&
-                        formFieldsArray.map((fieldName, index) => (
-                            <div key={index} className="w-full">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    {formatFieldName(fieldName)}
-                                </label>
-                                <input
-                                    type="text"
-                                    value={data[fieldName] || ""}
-                                    onChange={(e) => handleInputChange(fieldName, e.target.value)}
-                                    className="border p-2 rounded w-full max-w-md"
-                                    placeholder={`Enter ${formatFieldName(fieldName).toLowerCase()}...`}
-                                />
-                            </div>
-                        ))
-                    }
-                </div>
+                <FormSection
+                    formFieldsArray={formFieldsArray}
+                    data={data}
+                    onInputChange={handleInputChange}
+                    formatFieldName={formatFieldName}
+                />
 
                 <hr className="h-screen w-[1px] bg-error" />
 
-                <div className="w-1/2 lg:w-[65%] flex h-screen gap-4 text-black overflow-scroll">
-                    <Portfolio userData={debouncedData} template={template} setHtml={setFinalHtml} />
-                </div>
+                <PortfolioPreview
+                    userData={debouncedData}
+                    template={memoizedTemplate}
+                    setHtml={memoizedSetFinalHtml}
+                />
             </div>
         </div>
     );
 }
 
-export default page;
+export default PortfolioBuilderPage;
