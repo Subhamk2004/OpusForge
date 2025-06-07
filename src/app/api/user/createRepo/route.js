@@ -48,6 +48,7 @@ export async function POST(request) {
           isAlreadyCreated: true,
           repoName: formattedRepoName,
           isDeployed: true,
+          pageData: pagesData
         });
       }
     }
@@ -72,9 +73,9 @@ export async function POST(request) {
     else if (existingFileResponse.status === 404) {
       const errorData = await existingFileResponse.json();
       console.error("Error checking file existence:", errorData);
-      throw new Error(
-        `Failed to check file existence: ${existingFileResponse.statusText}`
-      );
+      // throw new Error(
+      //   `Failed to check file existence: ${existingFileResponse.statusText}`
+      // );
     }
 
     if (sha) {

@@ -38,6 +38,8 @@ export async function POST(request) {
       },
     });
 
+    console.log("GitHub Pages deployment response:", pageRes);
+
     if (pageRes.status !== 201) {
       return NextResponse.json(
         { error: "Failed to deploy to GitHub Pages." },
@@ -54,7 +56,7 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error deploying to GitHub Pages:", error);
     return NextResponse.json(
-      { error: "Failed to deploy to GitHub Pages.", res: pageRes },
+      { error: "Failed to deploy to GitHub Pages.", res: error.message },
       { status: 500 }
     );
   }

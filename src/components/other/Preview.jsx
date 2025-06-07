@@ -39,8 +39,21 @@ function page({ template }) {
             toast.error("Error occured while commit process")
             return;
         }
-        if (!res.isDeployed) await deployToGithub(commitRes.repoName);
+        if (!res.isDeployed) {
+            let deployRes = await deployToGithub(commitRes.repoName);
+            if (deployRes.error) {
+                toast.error("Error occured while deploying to Github Pages");
+            }
+            else {
+                await createPortfolio(deployRes.deployedUrl);
+                toast.success(`Successfully deployed to ${deployRes.deployedUrl}`)
+                return;
+            }
+        }
         else toast.success("Process completed successfully, updates will be deployed soon.");
+
+
+
     }
 
     let createRepo = async () => {
@@ -151,11 +164,57 @@ function page({ template }) {
             const data = await res.json();
             console.log(data.data.html_url);
             toast.success(`Deployed to GitHub Pages successfully: ${data.data.html_url}`);
+            return {
+                deployedUrl: data.data.html_url,
+                error: false
+            }
         } catch (error) {
             console.error("Error deploying to GitHub Pages:", error);
             toast.error(`GitHub Pages deployment failed: ${error.message}`);
+            return {
+                error: true
+            }
         }
     }
+
+    let createPortfolio = async (deployedUrl) => {
+        let templateImage = template.image;
+
+        try {
+            const response = await fetch('/api/user/portfolio', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    credentials: 'include',
+                },
+                body: JSON.stringify({
+                    name: repoName || template.name,
+                    email: user.user.email,
+                    userData: debouncedData,
+                    templateId: template._id,
+                    portfolioImage: template.image,
+                    deployedUrl: deployedUrl,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                toast.error(`Error: ${errorData.error || 'Failed to create portfolio.'}`);
+                throw new Error(errorData.error || 'Failed to create portfolio.');
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+            toast.success(`Portfolio created successfully!`);
+            return data;
+        } catch (error) {
+            console.error("Error creating portfolio:", error);
+            toast.error(`Error: ${error.message || 'Failed to create portfolio.'}`);
+            return { error: true }
+        }
+    }
+
 
     useEffect(() => {
         const initialFormData = { ...userData };
@@ -217,7 +276,7 @@ function page({ template }) {
                 <input
                     placeholder="Search assets"
                     type="text"
-                    className="border p-2 rounded  w-full max-w-md"
+                    className="border p-2 rounded   max-w-[200px]"
                     value={searchQuery}
                     onChange={(e) => {
                         setSearchQuery(e.target.value);

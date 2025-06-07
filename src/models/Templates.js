@@ -27,7 +27,10 @@ const templateSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+}, {
+  timestamps: true, 
 });
-let Templates =
-  mongoose.model.Template || mongoose.model("Template", templateSchema);
+
+let Templates = mongoose.models.Template || mongoose.model("Template", templateSchema);
+
 export default Templates;

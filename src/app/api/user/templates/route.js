@@ -39,6 +39,8 @@ export async function GET(request) {
   await connectDB();
   try {
     let templates = await Templates.find({});
+    // console.log(templates);
+    
     if (templates.length === 0) {
       return NextResponse.json(
         { message: "No templates found" },
