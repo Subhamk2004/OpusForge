@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image";
 import Link from "next/link"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
@@ -6,11 +7,13 @@ import { useSelector } from "react-redux"
 function Page() {
   let { templates } = useSelector((state) => state.templates);
   let [foundTemplates, setFoundTemplates] = useState(templates);
+
   useEffect(() => {
     if (!templates) {
       console.log("No templates found");
     } else setFoundTemplates(templates[0]);
   }, [templates])
+
   console.log("Templates:", foundTemplates);
 
   return (
@@ -22,6 +25,15 @@ function Page() {
               foundTemplates.map((template, index) => (
                 <div key={index} className="bg-white p-4 m-2 rounded-lg shadow-md w-full max-w-md">
                   <h2 className="text-xl font-bold">{template.name}</h2>
+                  {template.image && template.image.trimEnd().startsWith('https') && (
+                    <Image
+                      src={template.image.trimEnd()}
+                      alt={template.name}
+                      width={200}
+                      height={200}
+                      className="rounded-lg mt-2"
+                    />
+                  )}
                   <p className="text-gray-700">{template.description}</p>
                   <Link href={`/user/templates/viewTemplate?id=${template._id}`} className="text-blue-500 underline mt-2 block">
                     View Template
