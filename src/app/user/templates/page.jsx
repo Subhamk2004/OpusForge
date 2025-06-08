@@ -1,12 +1,13 @@
 "use client"
-import Image from "next/image";
+import TemplateCard from "@/components/cards/TemplateCard";
+import { FilePlus2Icon, LayoutTemplate } from "lucide-react";
 import Link from "next/link"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 
 function Page() {
   let { templates } = useSelector((state) => state.templates);
-  let [foundTemplates, setFoundTemplates] = useState(templates);
+  let [foundTemplates, setFoundTemplates] = useState([]);
 
   useEffect(() => {
     if (!templates) {
@@ -18,47 +19,52 @@ function Page() {
 
   return (
     <div className="flex w-full flex-col items-center justify-start min-h-screen bg-light">
+
+      <div className="w-full bg-gradient-to-r from-purple-50 to-purple-100 border-b border-purple-200">
+        <div className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="flex items-center justify-center w-16 h-16 bg-black rounded-full shadow-lg">
+              <LayoutTemplate className="w-8 h-8 text-white" />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
+                My Templates
+              </h1>
+              <p className="text-base text-texts max-w-2xl">
+                Create, manage, and organize your templates. Get started quickly with pre-built designs or create something unique.
+              </p>
+            </div>
+            <div className="flex items-center space-x-6 text-sm text-gray-500">
+              <span className="flex items-center space-x-1">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span>{foundTemplates?.length || 0} Templates</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {
-        foundTemplates ?
-          <div>
+        foundTemplates && foundTemplates.length > 0 ?
+          <div className="flex flex-row flex-wrap items-center justify-center w-full p-4 gap-5 mt-8">
             {
               foundTemplates.map((template, index) => (
-                <div key={index} className="bg-white p-4 m-2 rounded-lg shadow-md w-full max-w-md">
-                  <h2 className="text-xl font-bold">{template.name}</h2>
-                  {template.image && template.image.trimEnd().startsWith('https') && (
-                    <Image
-                      src={template.image.trimEnd()}
-                      alt={template.name}
-                      width={200}
-                      height={200}
-                      className="rounded-lg mt-2"
-                    />
-                  )}
-                  <p className="text-gray-700">{template.description}</p>
-                  <Link href={`/user/templates/viewTemplate?id=${template._id}`} className="text-blue-500 underline mt-2 block">
-                    View Template
-                  </Link>
-                </div>
+                <TemplateCard key={index} template={template} />
               ))
             }
           </div> :
           <div className="loader flex flex-col items-center justify-center h-screen">
-            <svg className="animate-spin h-10 w-10 text-purple" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2.93 6.364A8.003 8.003 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3.93-1.574zM12 20a8.003 8.003 0 01-6.364-2.93l-3.93 1.574A11.95 11.95 0 0012 24v-4zm6.364-2.93A8.003 8.003 0 0120 12h4c0 3.042-1.135 5.824-3 7.938l-3.636-1.568zM20 12a8.003 8.003 0 01-2.93 6.364l3.636 1.568A11.95 11.95 0 0024 12h-4z"></path>
-            </svg>
             <p className="text-purple mt-4">Loading templates...</p>
           </div>
       }
-      <div className="flex flex-col items-center justify-center bg-purple p-4 rounded-lg shadow-md underline">
-        <Link href="/user/templates/addTemplate">
-          Add Template
-        </Link>
-        <br />
-        <Link href="/user/templates/viewTemplate">
-          View Templates
-        </Link>
-      </div>
+
+      <Link href="/user/templates/addTemplate"
+        className="flex flex-row items-center justify-center bg-purple p-3 lg:p-5 rounded-full shadow-xl absolute bottom-4 right-6 gap-2
+        hover:scale-105 active:scale-95 group transition-all"
+      >
+        <FilePlus2Icon className="w-5 h-5 lg:w-6 lg:h-6 text-black" />
+        <p className="text-textp font-semibold text-sm hidden group-hover:flex">Add New Template</p>
+      </Link>
     </div>
   )
 }

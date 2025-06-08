@@ -13,6 +13,9 @@ const assetsSlice = createSlice({
       console.log("Adding asset:", action.payload);
       state.assets.push(action.payload);
     },
+    addSingleAsset(state, action) {
+      state.assets[0].push(action.payload);
+    },
     removeAsset(state, action) {
       state.assets = state.assets.filter(
         (asset) => asset.id !== action.payload
@@ -20,5 +23,5 @@ const assetsSlice = createSlice({
     },
   },
 });
-export const { addAsset, removeAsset } = assetsSlice.actions;
+export const { addAsset, removeAsset, addSingleAsset } = assetsSlice.actions;
 export default assetsSlice.reducer;

@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux';
 import pdfPlaceholder from "@/assets/pdfPlaceholder.png"
 import Image from 'next/image';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { addSingleAsset } from '@/store/slices/Assets';
+
 
 function page() {
     let [assetType, setAssetType] = useState('image');
@@ -17,6 +20,7 @@ function page() {
     let { user } = useSelector((state) => state.user);
     let [userEmail, setUserEmail] = useState("");
     let [loadedAssets, setLoadedAssets] = useState([]);
+    let dispatch = useDispatch();
 
     useEffect(() => {
         if (assets) {
@@ -85,6 +89,8 @@ function page() {
             if (!response.ok) {
                 throw new Error(result.error || 'Upload failed');
             }
+            console.log(result);
+            dispatch(addSingleAsset(result.asset));
 
             toast.update(loadingToast, {
                 render: 'File uploaded successfully!',

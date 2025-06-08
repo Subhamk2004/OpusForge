@@ -8,6 +8,8 @@ import { usePortfolioDeployment } from "@/hooks/usePortfolioDeployment";
 import Header from "@/components/ui/Header";
 import FormSection from "@/components/forms/FormSection";
 import PortfolioPreview from "@/components/ui/PortfolioPreview";
+import { useDispatch } from "react-redux";
+import { addPortfolio, updatePortfolio as updatePortfolioInRedux } from "@/store/slices/Portfolios";
 
 function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) {
 
@@ -17,7 +19,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
     const { assets } = useSelector((state) => state.assets);
     const [finalHtml, setFinalHtml] = useState("");
     const [loadedAssets, setLoadedAssets] = useState([]);
-
+    let dispatch = useDispatch();
     const { searchQuery, searchResults, handleSearch } = useAssetSearch(loadedAssets);
     const {
         data,
@@ -73,7 +75,9 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                 if (deployRes.error) {
                     toast.error("Error occurred while deploying to Github Pages");
                 } else {
-                    await createPortfolio(deployRes.deployedUrl, template, debouncedData, commitRes.repoName);
+                    let portfolioRes = await createPortfolio(deployRes.deployedUrl, template, debouncedData, commitRes.repoName);
+                    console.log(portfolioRes);
+                    dispatch(addPortfolio(portfolioRes.data));
                     toast.success(`Successfully deployed to ${deployRes.deployedUrl}`);
                     return;
                 }
@@ -88,10 +92,13 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                 return;
             }
             let updateRes = await updatePortfolio(existingPortfolioData._id, debouncedData);
+            console.log(updateRes);
+
             if (updateRes.error) {
                 toast.error("Error occurred while updating portfolio");
                 return;
             }
+            dispatch(updatePortfolioInRedux(updateRes.data));
             toast.success("Portfolio updated successfully.");
         }
 
