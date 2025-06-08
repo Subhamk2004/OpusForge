@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import { addSingleAsset } from '@/store/slices/Assets';
 import { GalleryHorizontalIcon, ImageIcon, SwatchBookIcon, TextSelectionIcon, UploadCloud, Search, Filter, X } from 'lucide-react';
 import ImageCard from '@/components/cards/ImageCard';
-import { set } from 'mongoose';
 import PdfCard from '@/components/cards/PdfCard';
 
 function AssetUploadPage() {
@@ -18,9 +17,8 @@ function AssetUploadPage() {
     const [description, setDescription] = useState('');
     const [isDragOver, setIsDragOver] = useState(false);
 
-    // Search states
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchFilter, setSearchFilter] = useState('all'); // 'all', 'image', 'pdf'
+    const [searchFilter, setSearchFilter] = useState('all'); 
     const [filteredAssets, setFilteredAssets] = useState([]);
 
     const { assets } = useSelector((state) => state.assets);
@@ -44,7 +42,7 @@ function AssetUploadPage() {
         }
     }, [assets, user]);
 
-    // Search and filter logic
+    
     useEffect(() => {
         if (!loadedAssets || loadedAssets.length === 0) {
             setFilteredAssets([]);
@@ -53,7 +51,7 @@ function AssetUploadPage() {
 
         let filtered = [...loadedAssets];
 
-        // Apply type filter
+        
         if (searchFilter !== 'all') {
             filtered = filtered.filter(asset => asset.type === searchFilter);
         }
@@ -371,7 +369,7 @@ function AssetUploadPage() {
                     )}
                 </div>
 
-                {/* Search Section */}
+                
                 {loadedAssets && loadedAssets.length > 0 && (
                     <div className="w-full px-4 mb-8">
                         <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 backdrop-blur-sm bg-white/90">
@@ -383,7 +381,6 @@ function AssetUploadPage() {
                             </div>
 
                             <div className="flex flex-col md:flex-row gap-4">
-                                {/* Search Input */}
                                 <div className="flex-1 relative">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <Search className="h-5 w-5 text-gray-400" />
@@ -397,7 +394,6 @@ function AssetUploadPage() {
                                     />
                                 </div>
 
-                                {/* Filter Dropdown */}
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <Filter className="h-5 w-5 text-gray-400" />
@@ -413,7 +409,6 @@ function AssetUploadPage() {
                                     </select>
                                 </div>
 
-                                {/* Clear Button */}
                                 {(searchQuery || searchFilter !== 'all') && (
                                     <button
                                         onClick={clearSearch}
@@ -425,7 +420,6 @@ function AssetUploadPage() {
                                 )}
                             </div>
 
-                            {/* Search Results Summary */}
                             {(searchQuery || searchFilter !== 'all') && (
                                 <div className="mt-4 flex items-center gap-4 text-sm text-gray-600">
                                     <span className="flex items-center gap-2">
@@ -461,7 +455,6 @@ function AssetUploadPage() {
                         )}
                     </div>
 
-                    {/* Display filtered or all images */}
                     {(searchQuery || searchFilter !== 'all' ? filteredImages : images).length > 0 ? (
                         <div className="w-full">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6">Images</h2>
@@ -489,7 +482,6 @@ function AssetUploadPage() {
                         </div>
                     )}
 
-                    {/* Display filtered or all PDFs */}
                     {(searchQuery || searchFilter !== 'all' ? filteredPdfs : pdf).length > 0 ? (
                         <div className="w-full mt-12">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6">PDF Documents</h2>
