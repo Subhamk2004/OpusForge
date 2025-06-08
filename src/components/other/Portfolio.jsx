@@ -133,7 +133,7 @@ const Portfolio = ({ userData, template: newTemp, setHtml }) => {
         <div className=''>
             {
                 !load ?
-                    <div className="portfolio-container w-full min-h-screen">
+                    <div className="portfolio-container w-full min-h-screen mt-20">
                         <div
                             ref={containerRef}
                             dangerouslySetInnerHTML={{ __html: processedHTML }}

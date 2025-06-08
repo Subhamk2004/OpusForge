@@ -115,7 +115,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                 onSubmit={startProcess}
             />
 
-            <div className="flex flex-row items-center justify-between p-4 bg-primary text-white seperator w-full h-screen overflow-auto">
+            <div className="flex flex-row items-center justify-between p-6 bg-light text-white seperator w-full h-screen overflow-auto ">
                 <FormSection
                     formFieldsArray={formFieldsArray}
                     data={data}
@@ -123,7 +123,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                     formatFieldName={formatFieldName}
                 />
 
-                <hr className="h-screen w-[1px] bg-error" />
+                <hr className="h-screen w-[0.5px] bg-texts" />
 
                 <PortfolioPreview
                     userData={debouncedData}
