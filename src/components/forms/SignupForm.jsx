@@ -1,10 +1,12 @@
 import { Link, Trash } from 'lucide-react'
+import Image from 'next/image';
 import React, { useState } from 'react'
 
 function SignupForm({ handleSubmit, data = {}, setData, loading }) {
     let [link, setLink] = useState({
         name: "",
-        link: ""
+        link: "",
+        image: ""
     });
 
     const profession = data.profession || "";
@@ -42,9 +44,27 @@ function SignupForm({ handleSubmit, data = {}, setData, loading }) {
                 {links.map((linkItem, index) => {
                     return (
                         <div key={index} className='flex flex-row w-full justify-between items-center bg-s/40 p-2 rounded-lg'>
-                            <div className='flex flex-col'>
-                                <span className='text-sm font-semibold text-gray-800'>{linkItem.name}</span>
-                                <a href={linkItem.link} target="_blank" rel="noopener noreferrer" className='text-xs text-hoverbg hover:underline'>{linkItem.link}</a>
+                            <div className='flex flex-row w-[90%]'>
+                                {linkItem.image && (
+                                    <Image
+                                        src={linkItem.image}
+                                        alt={linkItem.name}
+                                        width={50}
+                                        height={50}
+                                        className='mt-1 rounded-lg object-cover mr-2'
+                                    />
+                                )}
+                                <div>
+                                    <p className='text-sm font-semibold text-gray-800'>{linkItem.name}</p>
+                                    <a
+                                        href={linkItem.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className='text-xs text-blue-600 hover:underline'
+                                    >
+                                        {linkItem.link}
+                                    </a>
+                                </div>
                             </div>
                             <button
                                 type="button"
@@ -88,9 +108,21 @@ function SignupForm({ handleSubmit, data = {}, setData, loading }) {
                         />
                     </fieldset>
                 </div>
+                <fieldset className='w-full border border-gray-200 rounded-xl p-1 hover:border-gray-300 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all duration-200 bg-gray-50/30 focus-within:bg-white'>
+                    <legend className="px-2 text-sm font-medium text-gray-600 bg-white">
+                        Link's Image
+                    </legend>
+                    <input
+                        type="text"
+                        className='w-full p-1 bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-700'
+                        placeholder='https://res.cloudinary.com/image.png'
+                        value={link.image || ""}
+                        onChange={(e) => setLink({ ...link, image: e.target.value })}
+                    />
+                </fieldset>
 
                 <p className='text-xs text-error flex items-start justify-start w-full'>
-                    *Add your link's name and actual link seperating them with a comma
+                    *Use your assets tabb to get a link for your image.
                 </p>
 
                 <button
@@ -98,12 +130,12 @@ function SignupForm({ handleSubmit, data = {}, setData, loading }) {
                     className='bg-black font-semibold text-light p-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors duration-200 w-full'
                     onClick={(e) => {
                         e.preventDefault();
-                        if (link.name && link.link) {
+                        if (link.name && link.link && link.image) {
                             setData({
                                 ...data,
-                                links: [...links, { name: link.name, link: link.link }]
+                                links: [...links, { name: link.name, link: link.link, image: link.image }]
                             });
-                            setLink({ name: "", link: "" });
+                            setLink({ name: "", link: "", image: "" });
                         }
                     }}
                 >

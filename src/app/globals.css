@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
   margin: 0;
   padding: 0;
@@ -12,13 +11,29 @@ body {
   font-family: 'Sora';
 }
 
+
+* {
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+}
+
+*::-webkit-scrollbar {
+  display: none; 
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-html {
-  scroll-behavior: smooth;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
 }
