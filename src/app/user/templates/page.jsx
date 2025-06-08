@@ -21,7 +21,7 @@ function Page() {
     <div className="flex w-full flex-col items-center justify-start min-h-screen bg-light ">
 
       <div className="w-full bg-gradient-to-r from-purple-50 to-purple-100 border-b border-purple-200">
-        <div className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
+        <div className="max-w-7xl mx-auto px-4 pt-3 pb-6 lg:py-6">
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="flex items-center justify-center w-16 h-16 bg-black rounded-full shadow-lg">
               <LayoutTemplate className="w-8 h-8 text-white" />

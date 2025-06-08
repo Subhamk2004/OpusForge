@@ -32,7 +32,7 @@ function page() {
     const emailVerified = user?.emailVerified;
 
     return (
-        <div className='w-screen h-screen bg-light text-black overflow-y-auto no-scrollbar'>
+        <div className='w-screen h-screen bg-light text-black overflow-y-auto no-scrollbar flex flex-col items-center justify-start'>
             {!emailVerified && (
                 <div className={`${show} flex-col items-center justify-center p-3 rounded-2xl w-full max-w-[1300px] bg-errorbg relative mb-5`}>
                     <p className="text-xl font-semibold text-error">
@@ -152,7 +152,7 @@ function page() {
                     </div>
 
                     {/* Links & Social Section */}
-                    <div className="w-full mt-7 mb-32">
+                    <div className="w-full mt-7 mb-36">
                         <div className="flex items-center mb-4">
                             <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full mr-3">
                                 <Link2 className="w-5 h-5 text-primary" />
