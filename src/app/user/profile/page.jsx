@@ -3,21 +3,21 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
+import profileBg from "@/assets/profileBg9.jpg";
+import Image from "next/image";
 
 function page() {
     const { user } = useSelector((state) => state.user);
-    const { portfolios } = useSelector((state) => state.portfolios);
     let [show, setShow] = useState("flex");
     let [isLoaded, setIsLoaded] = useState(false);
-    let [loadedPortfolios, setLoadedPortfolios] = useState([]);
 
     useEffect(() => {
         if (user !== undefined) {
             setIsLoaded(true);
-        } if (portfolios !== undefined && portfolios.length > 0) {
-            setLoadedPortfolios(portfolios);
         }
-    }, [user, portfolios]);
+    }, [user]);
+    console.log(user);
+    
 
     if (!isLoaded) {
         return (
@@ -35,7 +35,7 @@ function page() {
     return (
         <div className='w-screen h-screen bg-light text-black'>
             {!emailVerified && (
-                <div className={`${show} flex-col items-center justify-center p-3 rounded-2xl w-full bg-errorbg relative`}>
+                <div className={`${show} flex-col items-center justify-center p-3 rounded-2xl w-full bg-errorbg relative mb-5`}>
                     <p className="text-xl font-semibold text-error">
                         Your profile is incomplete!
                     </p>
@@ -58,30 +58,24 @@ function page() {
                 </div>
             )}
 
-            {
-                loadedPortfolios.length > 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <h1 className="text-2xl font-bold mb-4">Your Portfolios</h1>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl p-4">
-                            {loadedPortfolios.map((portfolio) => (
-                                <Link
-                                    key={portfolio._id}
-                                    href={`/user/templates/viewTemplate?id=${portfolio.templateId}&portfolioID=${portfolio._id}`}
-                                    className="p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-200"
-                                >
-                                    <h2 className="text-xl font-semibold">{portfolio.name}</h2>
-                                    <p className="text-gray-600">{portfolio.description}</p>
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                ) : (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <h1 className="text-xl font-bold">No Portfolios Found</h1>
-                        <p className="text-gray-600">Create your first portfolio to get started!</p>
-                    </div>
-                )
-            }
+            <div className="flex flex-col items-center justify-center w-full">
+                <div className="profileBg flex flex-row justify-end rounded-2xl w-full bg-[#fafafa] h-64 lg:h-[320px] relative">
+                    <Image
+                        src={profileBg}
+                        alt="Profile Background"
+                        className="w-full  h-64 lg:h-[320px] object-cover rounded-2xl"
+                        width={1920}
+                        height={1080}
+                    />
+                    <Image
+                        src={user?.image || "/defaultProfilePic.png"}
+                        alt="Profile Picture"
+                        className="w-28 h-28 lg:w-44 lg:h-44 rounded-full border-8 border-white -bottom-10 lg:-bottom-20 left-8 lg:left-10 object-cover absolute"
+                        width={128}
+                        height={128}
+                    />
+                </div>
+            </div>
         </div>
     );
 }
