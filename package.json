@@ -12,8 +12,10 @@
     "@auth/mongodb-adapter": "^3.9.1",
     "@lottiefiles/dotlottie-react": "^0.14.0",
     "@octokit/rest": "^22.0.0",
+    "@radix-ui/react-slot": "^1.2.3",
     "@reduxjs/toolkit": "^2.8.2",
     "bcryptjs": "^3.0.2",
+    "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.6.1",
     "lucide-react": "^0.511.0",
     "mongoose": "^8.15.0",
@@ -23,7 +25,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
