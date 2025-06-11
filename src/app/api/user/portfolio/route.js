@@ -8,8 +8,15 @@ export async function POST(request) {
   await connectDB();
   const session = await getServerSession(authOptions);
   const body = await request.json();
-  const { name, email, userData, templateId, portfolioImage, deployedUrl, repoName } =
-    body;
+  const {
+    name,
+    email,
+    userData,
+    templateId,
+    portfolioImage,
+    deployedUrl,
+    repoName,
+  } = body;
 
   if (
     !name ||
@@ -73,7 +80,7 @@ export async function GET(request) {
   try {
     const portfolios = await Portfolios.find({
       email: session.user.email,
-    });
+    }).sort({ updatedAt: -1 });
 
     if (portfolios.length === 0) {
       return NextResponse.json(

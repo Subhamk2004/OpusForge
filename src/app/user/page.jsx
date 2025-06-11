@@ -7,42 +7,55 @@ import {
   Search,
   Plus,
   LayoutTemplate,
-  BarChart3,
   Loader2,
-  Star,
   Briefcase,
   Calendar,
-  ExternalLink,
   Palette,
-  Sparkles,
+  Sun,
+  Coffee,
+  Sunset,
+  SearchCheck,
+  Edit,
+  Eye,
 } from "lucide-react"
+import placeholder from "@/assets/placeholder.jpg"
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card"
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
 import { Badge } from "@/components/ui/Badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar"
+import ProfileCard from "@/components/cards/ProfileCard"
+import PortfolioOverview from "@/components/cards/PortfolioOverview"
+import AssetOverviewCard from "@/components/cards/AssetOverviewCard"
+import LinkOverviewCard from "@/components/cards/LinkOverviewCard"
+import Image from "next/image"
 
 export default function DashboardPage() {
   const { user } = useSelector((state) => state.user)
   const { portfolios } = useSelector((state) => state.portfolios)
+  const { assets } = useSelector((state) => state.assets)
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [loadedPortfolios, setLoadedPortfolios] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredPortfolios, setFilteredPortfolios] = useState([])
+  const [userData, setUserData] = useState({});
+  const [loadedAssets, setLoadedAssets] = useState([]);
 
   useEffect(() => {
     if (user !== undefined) {
+      setUserData(user);
       setIsLoaded(true)
     }
     if (portfolios !== undefined && portfolios.length > 0) {
       setLoadedPortfolios(portfolios)
       setFilteredPortfolios(portfolios)
     }
-  }, [user, portfolios])
+    if (assets !== undefined && assets.length > 0) {
+      setLoadedAssets(assets[0])
+    }
+  }, [user, portfolios, assets])
 
-  // Filter portfolios based on search query
   useEffect(() => {
     if (searchQuery.trim() === "") {
       setFilteredPortfolios(loadedPortfolios)
@@ -56,26 +69,61 @@ export default function DashboardPage() {
     }
   }, [searchQuery, loadedPortfolios])
 
-  // Get user stats
   const getUserStats = () => {
     const totalPortfolios = loadedPortfolios.length
     const deployedPortfolios = loadedPortfolios.filter((p) => p.deployedUrl && p.deployedUrl !== "").length
     const joinDate = user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"
+    const totalAssets = loadedAssets.length
 
     return {
       totalPortfolios,
       deployedPortfolios,
       joinDate,
       profession: user?.profession || "Developer",
+      totalAssets,
     }
   }
 
+  const getTimeBasedGreeting = () => {
+    const hour = new Date().getHours()
+    if (hour < 12) {
+      return {
+        greeting: "Good morning",
+        icon: Sun,
+        message: "Ready to create something amazing today?",
+        gradient: "from-amber-50 to-orange-50"
+      }
+    } else if (hour < 17) {
+      return {
+        greeting: "Good afternoon",
+        icon: Coffee,
+        message: "Hope your day is going well!",
+        gradient: "from-blue-50 to-indigo-50"
+      }
+    } else {
+      return {
+        greeting: "Good evening",
+        icon: Sunset,
+        message: "Time to wind down and reflect on your progress.",
+        gradient: "from-purple-50 to-pink-50"
+      }
+    }
+  }
+
+  console.log("User Data:", loadedPortfolios);
+
   if (!isLoaded) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
-          <p className="text-muted-foreground">Loading your dashboard...</p>
+      <div className="flex h-screen w-full items-center justify-center ">
+        <div className="flex flex-col items-center gap-6">
+          <div className="relative">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <div className="absolute inset-0 h-12 w-12 animate-ping rounded-full bg-primary/20"></div>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-medium text-slate-700">Loading your workspace</p>
+            <p className="text-sm text-slate-500 mt-1">Just a moment...</p>
+          </div>
         </div>
       </div>
     )
@@ -90,241 +138,188 @@ export default function DashboardPage() {
       .toUpperCase()
     : "U"
 
+  const timeGreeting = getTimeBasedGreeting()
+  const GreetingIcon = timeGreeting.icon
+
   return (
-    <div className="min-h-screen w-full bg-background pb-12">
-      {/* Header Section with User Greeting */}
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white">
-        <div className="container py-12">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-4">
-              <Avatar className="h-16 w-16 border-2 border-white">
-                <AvatarImage src={user?.profileImage || "/placeholder.svg"} alt={user?.name || "User"} />
-                <AvatarFallback className="bg-primary text-xl font-bold text-primary-foreground">
-                  {userInitials}
-                </AvatarFallback>
-              </Avatar>
+    <div className="min-h-screen w-full pb-16 flex flex-col items-center ">
+      <div className="w-full max-w-[1350px]">
+        <div className="container mx-auto px-4 py-12">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6">
+
               <div>
-                <h1 className="text-3xl font-bold md:text-4xl">
-                  <span className="flex items-center gap-2">
-                    Welcome back, {user?.name || "User"}!
-                    <Sparkles className="h-8 w-8 text-yellow-400" />
-                  </span>
-                </h1>
-                <div className="mt-1 flex items-center gap-2 text-slate-300">
-                  <Briefcase className="h-4 w-4" />
-                  <span>{stats.profession}</span>
-                  <span className="text-slate-400">•</span>
-                  <Calendar className="h-4 w-4" />
-                  <span>Member since {stats.joinDate}</span>
+                <div className="flex items-center gap-3 mb-2">
+                  <GreetingIcon className="h-6 w-6 text-amber-600" />
+                  <h1 className="text-3xl font-bold text-slate-800">
+                    {timeGreeting.greeting}, {userData?.name?.split(' ')[0] || 'there'}!
+                  </h1>
                 </div>
+                <p className="text-slate-600 text-lg">{timeGreeting.message}</p>
+
               </div>
             </div>
-            <Button asChild variant="secondary" size="lg" className="shrink-0">
-              <Link href="/user/profile">View Profile</Link>
-            </Button>
           </div>
         </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="container -mt-8">
-        <div className="grid gap-4 md:grid-cols-3">
-          <Card className="overflow-hidden border-none bg-white shadow-lg">
-            <CardHeader className="bg-primary/10 pb-2">
-              <CardTitle className="text-lg font-medium text-primary">Total Portfolios</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
-                  {stats.totalPortfolios}
+        {userData && (
+          <div className="container mx-auto px-4 py-8">
+            <div className="flex flex-wrap w-full flex-row gap-6 justify-center">
+              <ProfileCard data={userData} stats={stats} />
+              <div className="flex flex-col lg:flex-row h-[300px] justify-between lg:gap-6">
+                <div className="flex flex-row h-full gap-6">
+                  <PortfolioOverview stats={stats} />
+                  <AssetOverviewCard stats={stats} />
                 </div>
-                <CardDescription className="text-base">All your created portfolios</CardDescription>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="overflow-hidden border-none bg-white shadow-lg">
-            <CardHeader className="bg-green-500/10 pb-2">
-              <CardTitle className="text-lg font-medium text-green-600">Live Portfolios</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/10 text-2xl font-bold text-green-600">
-                  {stats.deployedPortfolios}
+                <div>
+                  <LinkOverviewCard data={userData} />
                 </div>
-                <CardDescription className="text-base">Currently deployed online</CardDescription>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card className="overflow-hidden border-none bg-white shadow-lg">
-            <CardHeader className="bg-amber-500/10 pb-2">
-              <CardTitle className="text-lg font-medium text-amber-600">Account Status</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-500/10 text-amber-600">
-                  <Star className="h-8 w-8 fill-current" />
-                </div>
-                <CardDescription className="text-base">
-                  {loadedPortfolios.length > 0 ? "Active Builder" : "Getting Started"}
-                </CardDescription>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* Action Buttons Section */}
-      <div className="container mt-8">
-        <div className="flex flex-wrap gap-3">
-          <Button asChild size="lg" className="gap-2">
-            <Link href="/user/create-portfolio">
-              <Plus className="h-5 w-5" />
-              Create New Portfolio
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="lg" className="gap-2">
-            <Link href="/user/templates">
-              <LayoutTemplate className="h-5 w-5" />
-              Browse Templates
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" size="lg" className="gap-2">
-            <Link href="/user/analytics">
-              <BarChart3 className="h-5 w-5" />
-              View Analytics
-            </Link>
-          </Button>
-        </div>
-      </div>
-
-      {/* Main Content Section */}
-      <div className="container mt-10">
-        {loadedPortfolios.length > 0 ? (
-          <div>
-            {/* Search Bar */}
-            <div className="mb-8 max-w-md">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search your portfolios..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              {searchQuery && (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Found {filteredPortfolios.length} portfolio{filteredPortfolios.length !== 1 ? "s" : ""}
-                </p>
-              )}
             </div>
+          </div>
+        )}
 
-            {/* Portfolios Section */}
-            <div>
-              <h2 className="mb-6 text-2xl font-bold">
-                Your Portfolios
-                {searchQuery && ` (${filteredPortfolios.length} found)`}
-              </h2>
+        <div className="container mx-auto px-4 pb-32 mt-12">
+          {loadedPortfolios.length > 0 ? (
+            <div className="">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-slate-800 mb-2">
+                    <Briefcase className="inline h-10 w-10 mr-2 text-primary p-2 bg-black text-white rounded-full" />
+                    Your Portfolios
+                    {searchQuery && (
+                      <span className="text-xl text-slate-500 ml-2">
+                        ({filteredPortfolios.length} found)
+                      </span>
+                    )}
+                  </h2>
+                  <p className="text-slate-600">
+                    Manage and showcase your creative work
+                  </p>
+                </div>
+                <Link href="/user/templates" className="bg-black text-white  rounded-xl shadow-lg flex items-center gap-2 px-4 py-2 hover:bg-gray-800 transition-colors">
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Portfolio
+                </Link>
+              </div>
+
+              <div className="mb-10">
+                <div className="relative max-w-md">
+                  <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <Input
+                    type="text"
+                    placeholder="Search your portfolios..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-12 h-12 border-slate-600 bg-white/70 backdrop-blur-sm focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all rounded-2xl"
+                  />
+                  {searchQuery && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-slate-100"
+                    >
+                      ×
+                    </Button>
+                  )}
+                </div>
+                {searchQuery && (
+                  <p className="mt-3 text-sm text-slate-500 flex items-center gap-2">
+                    <SearchCheck className="h-4 w-4" />
+                    Found {filteredPortfolios.length} portfolio{filteredPortfolios.length !== 1 ? "s" : ""} matching "{searchQuery}"
+                  </p>
+                )}
+              </div>
 
               {filteredPortfolios.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid md:grid-cols-2 gap-5 lg:grid-cols-3">
                   {filteredPortfolios.map((portfolio) => (
-                    <Link
-                      key={portfolio._id}
-                      href={`/user/templates/viewTemplate?id=${portfolio.templateId}&portfolioID=${portfolio._id}`}
-                      className="group block"
-                    >
-                      <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:ring-2 hover:ring-primary/50">
-                        {/* Portfolio Image */}
-                        {portfolio.portfolioImage ? (
-                          <div className="aspect-video overflow-hidden bg-muted">
-                            <img
-                              src={portfolio.portfolioImage || "/placeholder.svg"}
-                              alt={portfolio.name}
-                              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                            />
-                          </div>
-                        ) : (
-                          <div className="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-                            <Palette className="h-12 w-12 text-slate-400" />
-                          </div>
-                        )}
 
-                        {/* Portfolio Content */}
-                        <CardHeader>
-                          <CardTitle className="line-clamp-1 text-xl group-hover:text-primary">
-                            {portfolio.name}
-                          </CardTitle>
-                          {portfolio.description && (
-                            <CardDescription className="line-clamp-2">{portfolio.description}</CardDescription>
-                          )}
-                        </CardHeader>
+                    <Card key={portfolio._id} className="overflow-hidden transition-all duration-500 
+                    shadow-lg
+                    hover:shadow-2xl hover:shadow-primary/10  hover:-translate-y-2 bg-white/70 rounded-3xl p-4 ">
+                      {portfolio.portfolioImage && portfolio.portfolioImage.startsWith("https") ? (
+                        <div className="aspect-video overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl">
+                          <img
+                            src={portfolio.portfolioImage || "/placeholder.svg"}
+                            alt={portfolio.name}
+                            className="h-full w-full object-cover transition-transform duration-700 rounded-2xl group-hover:scale-110"
+                          />
+                        </div>
+                      ) : (
+                        <div className="aspect-video bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 flex items-center justify-center relative overflow-hidden">
+                          <Image
+                            src={placeholder}
+                            alt="Portfolio Placeholder"
+                            className="h-full w-full object-cover transition-transform duration-700 rounded-2xl group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5"></div>
+                        </div>
+                      )}
 
-                        <CardFooter className="flex items-center justify-between border-t pt-4">
-                          <Badge
-                            variant={portfolio.deployedUrl && portfolio.deployedUrl !== "" ? "success" : "secondary"}
+                      <CardHeader className="pb-4">
+                        <CardTitle className="line-clamp-1 text-xl group-hover:text-primary transition-colors duration-300 font-semibold">
+                          {portfolio.name}
+                        </CardTitle>
+
+                      </CardHeader>
+
+                      <div className="flex items-center justify-between ">
+                        <Link href={`/user/templates/viewTemplate?id=${portfolio.templateId}&portfolioID=${portfolio._id}`} className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors duration-300 p-3 rounded-lg">
+                          <Edit className="h-5 w-5 text-slate-500 hover:text-primary transition-colors duration-300" />
+                          <span className="ml-2 text-sm text-slate-600">Edit Portfolio</span>
+                        </Link>
+                        <button className="deployedUrl text-sm text-white hover:text-primary transition-colors duration-300 p-3 rounded-2xl bg-black ">
+                          <Link
+                            href={portfolio.deployedUrl || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2"
                           >
-                            {portfolio.deployedUrl && portfolio.deployedUrl !== "" ? (
-                              <span className="flex items-center gap-1">
-                                <ExternalLink className="h-3 w-3" /> Live
-                              </span>
-                            ) : (
-                              "Draft"
-                            )}
-                          </Badge>
-                          <span className="text-sm text-muted-foreground">
-                            {new Date(portfolio.createdAt || portfolio.updatedAt).toLocaleDateString()}
-                          </span>
-                        </CardFooter>
-                      </Card>
-                    </Link>
+                            <Eye className="h-5 w-5 text-whhite hover:text-primary transition-colors duration-300" />
+                            {portfolio.deployedUrl ? "View Portfolio" : "Not Deployed"}
+                          </Link>
+                        </button>
+                      </div>
+                    </Card>
                   ))}
                 </div>
               ) : (
-                /* No Search Results */
-                <Card className="flex flex-col items-center p-12 text-center">
-                  <Search className="mb-4 h-12 w-12 text-muted-foreground" />
-                  <CardTitle className="mb-2">No portfolios found</CardTitle>
-                  <CardDescription className="mb-6">
-                    Try adjusting your search terms or create a new portfolio.
+                <Card className="flex flex-col items-center p-16 text-center bg-white/70 backdrop-blur-sm border-slate-200">
+                  <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mb-6">
+                    <Search className="h-8 w-8 text-slate-400" />
+                  </div>
+                  <CardTitle className="mb-3 text-xl text-slate-800">No portfolios found</CardTitle>
+                  <CardDescription className="mb-8 text-slate-600 max-w-md">
+                    We couldn't find any portfolios matching your search. Try adjusting your search terms or create a new portfolio to get started.
                   </CardDescription>
-                  <Button variant="outline" onClick={() => setSearchQuery("")}>
-                    Clear search
-                  </Button>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={() => setSearchQuery("")} className="border-slate-200">
+                      Clear search
+                    </Button>
+                   
+                  </div>
                 </Card>
               )}
             </div>
-          </div>
-        ) : (
-          /* Empty State - No Portfolios */
-          <Card className="mt-8 flex flex-col items-center p-12 text-center">
-            <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-primary/10">
-              <Palette className="h-12 w-12 text-primary" />
-            </div>
-            <CardTitle className="mb-4 text-3xl">Ready to build your first portfolio?</CardTitle>
-            <CardDescription className="mb-8 max-w-md text-lg">
-              Create stunning portfolios in minutes with our professional templates and easy-to-use builder.
-            </CardDescription>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button asChild size="lg" className="gap-2">
-                <Link href="/user/create-portfolio">
-                  <Plus className="h-5 w-5" />
-                  Create Your First Portfolio
-                </Link>
+          ) : (
+            <Card className="flex flex-col items-center p-20 text-center bg-gradient-to-br from-white to-slate-50 border-slate-200 ">
+              <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-8 ">
+                <LayoutTemplate className="h-10 w-10 text-primary" />
+              </div>
+              <CardTitle className="mb-4 text-2xl text-slate-800">Welcome to your portfolio dashboard!</CardTitle>
+              <CardDescription className="mb-8 text-slate-600 max-w-lg text-lg leading-relaxed">
+                You haven't created any portfolios yet. Start building your first portfolio to showcase your amazing work to the world.
+              </CardDescription>
+              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary shadow-lg">
+                <Plus className="h-5 w-5 mr-2" />
+                Create Your First Portfolio
               </Button>
-              <Button asChild variant="outline" size="lg" className="gap-2">
-                <Link href="/user/templates">
-                  <LayoutTemplate className="h-5 w-5" />
-                  Browse Templates
-                </Link>
-              </Button>
-            </div>
-          </Card>
-        )}
+            </Card>
+          )}
+        </div>
       </div>
+
     </div>
   )
 }

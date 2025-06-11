@@ -10,12 +10,14 @@ import FormSection from "@/components/forms/FormSection";
 import PortfolioPreview from "@/components/ui/PortfolioPreview";
 import { useDispatch } from "react-redux";
 import { addPortfolio, updatePortfolio as updatePortfolioInRedux } from "@/store/slices/Portfolios";
+import { useRouter } from "next/navigation";
 
 function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) {
 
     if (portfolioId) {
         console.log(existingPortfolioData);
     }
+    let router = useRouter();
     const { assets } = useSelector((state) => state.assets);
     const [finalHtml, setFinalHtml] = useState("");
     const [loadedAssets, setLoadedAssets] = useState([]);
@@ -61,6 +63,9 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
             }
             if (res.isAlreadyCreated) {
                 toast.info(`Repository already exists: ${res.repoName}, please update the portfolio.`);
+                setTimeout(() => {
+                    router.push(`/user`);
+                }, 6000)
                 return;
             }
 
@@ -79,10 +84,16 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                     console.log(portfolioRes);
                     dispatch(addPortfolio(portfolioRes.data));
                     toast.success(`Successfully deployed to ${deployRes.deployedUrl}`);
+                    setTimeout(() => {
+                        router.push(`/user`);
+                    }, 6000);
                     return;
                 }
             } else {
                 toast.success("Process completed successfully, updates will be deployed soon.");
+                setTimeout(() => {
+                    router.push(`/user`);
+                }, 6000)
             }
         }
         else {
@@ -100,6 +111,9 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
             }
             dispatch(updatePortfolioInRedux(updateRes.data));
             toast.success("Portfolio updated successfully.");
+            setTimeout(() => {
+                router.push(`/user`);
+            }, 6000)
         }
 
     }, [finalHtml, createRepo, commitToRepo, deployToGithub, createPortfolio, template, debouncedData, updatePortfolio]);
@@ -123,7 +137,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                     formatFieldName={formatFieldName}
                 />
 
-                <hr className="h-screen w-[0.5px] bg-texts" />
+                <hr className="h-screen w-[0px] border-textp border-[0.1px]" />
 
                 <PortfolioPreview
                     userData={debouncedData}
