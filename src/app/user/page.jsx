@@ -311,10 +311,10 @@ export default function DashboardPage() {
               <CardDescription className="mb-8 text-slate-600 max-w-lg text-lg leading-relaxed">
                 You haven't created any portfolios yet. Start building your first portfolio to showcase your amazing work to the world.
               </CardDescription>
-              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary shadow-lg">
+              <Link href="/user/templates" size="lg" className=" shadow-lg bg-black flex items-center justify-center text-white rounded-xl px-6 py-3 hover:bg-gray-800 transition-colors">
                 <Plus className="h-5 w-5 mr-2" />
                 Create Your First Portfolio
-              </Button>
+              </Link>
             </Card>
           )}
         </div>
