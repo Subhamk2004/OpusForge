@@ -307,7 +307,7 @@ export default function DashboardPage() {
               <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-8 ">
                 <LayoutTemplate className="h-10 w-10 text-primary" />
               </div>
-              <CardTitle className="mb-4 text-2xl text-slate-800">Welcome to your portfolio dashboard!</CardTitle>
+              <CardTitle className="mb-4 text-2xl text-slate-800">Welcome to your portfolio homepage!</CardTitle>
               <CardDescription className="mb-8 text-slate-600 max-w-lg text-lg leading-relaxed">
                 You haven't created any portfolios yet. Start building your first portfolio to showcase your amazing work to the world.
               </CardDescription>
