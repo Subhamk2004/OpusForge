@@ -66,6 +66,8 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
 
   const commitToRepo = async (finalHtml, formattedRepoName) => {
     try {
+      console.log(finalHtml);
+      
       const username = user.user.githubUsername || "Anonymous";
       const res = await fetch("/api/user/commitToRepo", {
         method: "PUT",

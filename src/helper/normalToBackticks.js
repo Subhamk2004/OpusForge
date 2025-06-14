@@ -11,6 +11,8 @@ const processTemplateString = (template, variables) => {
       /\$\{JSON\.stringify\(data\)\}/g,
       JSON.stringify(variables.data || {})
     );
+    console.log(variables.data);
+    
   } catch (error) {
     console.error("Error processing template:", error);
     return template;

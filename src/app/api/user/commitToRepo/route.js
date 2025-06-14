@@ -57,9 +57,14 @@ export async function PUT(request) {
       console.error("Error checking existing file:", error);
     }
 
+    // Safe Base64 encoding that handles Unicode characters
+    const encodedContent = Buffer.from(finalHtml).toString('base64');
+    // Alternative for browser environments:
+    // const encodedContent = btoa(unescape(encodeURIComponent(finalHtml)));
+
     const requestBody = {
       message: "Update HTML content from OpusForge",
-      content: btoa(finalHtml),
+      content: encodedContent,
       branch: "main",
     };
 

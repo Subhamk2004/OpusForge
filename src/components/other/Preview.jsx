@@ -129,7 +129,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                 onSubmit={startProcess}
             />
 
-            <div className="flex flex-row items-center justify-between p-6 bg-light text-white seperator w-full h-screen overflow-auto ">
+            <div className="flex flex-row items-center justify-between p-6 bg-light text-white seperator w-full h-screen overflow-auto pt-12">
                 <FormSection
                     formFieldsArray={formFieldsArray}
                     data={data}

@@ -7,8 +7,7 @@ const Portfolio = ({ userData, template: newTemp, setHtml }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [load, setLoad] = useState(false);
     const [error, setError] = useState(null);
-    const containerRef = useRef(null);
-    const scriptsExecutedRef = useRef(false);
+    const iframeRef = useRef(null);
 
     const processTemplate = useCallback(() => {
         if (!userData || !newTemp) {
@@ -19,14 +18,48 @@ const Portfolio = ({ userData, template: newTemp, setHtml }) => {
 
         try {
             const template = newTemp.htmlString;
-            // console.log('Template content:', template);
             const processed = processTemplateString(template, {
                 data: userData,
                 ...userData
             });
 
+            const fullHTML = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Portfolio Preview</title>
+                    <style>
+                        html, body {
+                            margin: 0;
+                            padding: 0;
+                            width: 100%;
+                            height: 100%;
+                            overflow-x: hidden;
+                        }
+                        
+                        * {
+                            box-sizing: border-box;
+                        }
+                        
+                        header {
+                            position: relative !important;
+                            width: 100% !important;
+                            top: 0 !important;
+                            left: 0 !important;
+                            right: 0 !important;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${processed}
+                </body>
+                </html>
+            `;
+
             console.log('Template processed successfully');
-            setProcessedHTML(processed);
+            setProcessedHTML(fullHTML);
             setHtml(processed);
             setError(null);
         } catch (err) {
@@ -36,65 +69,26 @@ const Portfolio = ({ userData, template: newTemp, setHtml }) => {
             setIsLoading(false);
         }
     }, [userData, newTemp]);
-    // console.log(processedHTML);
 
     useEffect(() => {
         setIsLoading(true);
-        scriptsExecutedRef.current = false;
         processTemplate();
     }, [processTemplate]);
 
-    const executeScripts = useCallback(() => {
-        if (!containerRef.current || scriptsExecutedRef.current) return;
-
-        const scriptTags = containerRef.current.querySelectorAll('script');
-
-        scriptTags.forEach((script, index) => {
-            try {
-                console.log(`Executing script ${index + 1}`);
-
-                const newScript = document.createElement('script');
-
-                Array.from(script.attributes).forEach(attr => {
-                    newScript.setAttribute(attr.name, attr.value);
-                });
-
-                if (script.innerHTML.trim()) {
-                    newScript.innerHTML = `
-            (function() {
-              try {
-                ${script.innerHTML}
-              } catch (error) {
-                console.error('Script execution error:', error);
-              }
-            })();
-          `;
-                }
-
-                script.parentNode.replaceChild(newScript, script);
-
-                console.log(`Script ${index + 1} executed successfully`);
-            } catch (error) {
-                console.error(`Error executing script ${index + 1}:`, error);
-            }
-        });
-
-        scriptsExecutedRef.current = true;
-    }, []);
-
     useEffect(() => {
-        if (!processedHTML || !containerRef.current) return;
-
-        const executeAfterRender = () => {
-            requestAnimationFrame(() => {
-                executeScripts();
-            });
-        };
-        const timer = setTimeout(executeAfterRender, 1500);
-        return () => {
-            clearTimeout(timer);
+        if (processedHTML && iframeRef.current) {
+            const iframe = iframeRef.current;
+            
+            const blob = new Blob([processedHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            
+            iframe.onload = () => {
+                URL.revokeObjectURL(url);
+            };
+            
+            iframe.src = url;
         }
-    }, [processedHTML, executeScripts]);
+    }, [processedHTML]);
 
     if (isLoading) {
         return (
@@ -130,22 +124,26 @@ const Portfolio = ({ userData, template: newTemp, setHtml }) => {
     }
 
     return (
-        <div className=''>
-            {
-                !load ?
-                    <div className="portfolio-container w-full min-h-screen mt-20">
-                        <div
-                            ref={containerRef}
-                            dangerouslySetInnerHTML={{ __html: processedHTML }}
-                            className="w-full"
-                        />
-                    </div>
-                    :
-                    <div className='loader'>
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                        <p className="text-gray-600">Loading changes...</p>
-                    </div>
-            }
+        <div className="portfolio-preview-container">
+            {!load ? (
+                <div className="portfolio-container w-full h-full border border-gray-300 rounded-lg overflow-hidden bg-white shadow-inner">
+                    <iframe
+                        ref={iframeRef}
+                        className="w-full h-full border-none"
+                        sandbox="allow-scripts allow-same-origin"
+                        title="Portfolio Preview"
+                        style={{
+                            minHeight: '600px',
+                            backgroundColor: 'white'
+                        }}
+                    />
+                </div>
+            ) : (
+                <div className='loader'>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading changes...</p>
+                </div>
+            )}
         </div>
     );
 };
