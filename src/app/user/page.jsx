@@ -29,6 +29,7 @@ import PortfolioOverview from "@/components/cards/PortfolioOverview"
 import AssetOverviewCard from "@/components/cards/AssetOverviewCard"
 import LinkOverviewCard from "@/components/cards/LinkOverviewCard"
 import Image from "next/image"
+import github from "@/assets/github1.png"
 
 export default function DashboardPage() {
   const { user } = useSelector((state) => state.user)
@@ -269,17 +270,28 @@ export default function DashboardPage() {
                           <Edit className="h-5 w-5 text-slate-500 hover:text-primary transition-colors duration-300" />
                           <span className="ml-2 text-sm text-slate-600">Edit Portfolio</span>
                         </Link>
-                        <button className="deployedUrl text-sm text-white hover:text-primary transition-colors duration-300 p-3 rounded-2xl bg-black ">
-                          <Link
-                            href={portfolio.deployedUrl || "#"}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2"
+                        <div className="flex items-center gap-3">
+                          <Link href={`https://github.com/${userData.githubUsername}/${portfolio.repoName}`} target="_blank" className="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors duration-300 rounded-full"
+                          aria-label="GitHub Repository"
                           >
-                            <Eye className="h-5 w-5 text-whhite hover:text-primary transition-colors duration-300" />
-                            {portfolio.deployedUrl ? "View Portfolio" : "Not Deployed"}
+                            <Image
+                              src={github}
+                              alt="github icon"
+                              className="h-9 w-9"
+                            />
                           </Link>
-                        </button>
+                          <button className="deployedUrl text-sm text-white hover:text-primary transition-colors duration-300 p-3 rounded-2xl bg-black ">
+                            <Link
+                              href={portfolio.deployedUrl || "#"}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2"
+                            >
+                              <Eye className="h-5 w-5 text-whhite hover:text-primary transition-colors duration-300" />
+                              {portfolio.deployedUrl ? "View Portfolio" : "Not Deployed"}
+                            </Link>
+                          </button>
+                        </div>
                       </div>
                     </Card>
                   ))}
@@ -297,7 +309,7 @@ export default function DashboardPage() {
                     <Button variant="outline" onClick={() => setSearchQuery("")} className="border-slate-200">
                       Clear search
                     </Button>
-                   
+
                   </div>
                 </Card>
               )}
