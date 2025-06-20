@@ -6,7 +6,7 @@ const FormFieldInput = ({ fieldName, value, onChange, formatFieldName }) => {
       <label className="block text-sm font-semibold text-gray-800 mb-2 tracking-wide">
         {formatFieldName(fieldName)}
       </label>
-      <input
+      <textarea
         type="text"
         value={value || ""}
         onChange={(e) => onChange(fieldName, e.target.value)}
