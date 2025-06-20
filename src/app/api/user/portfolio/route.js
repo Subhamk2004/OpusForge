@@ -105,6 +105,7 @@ export async function PUT(request) {
   const body = await request.json();
   const { userData, portfolioId } = body;
 
+
   if (!userData || !portfolioId) {
     return NextResponse.json(
       { error: "User data and portfolio ID are required." },
