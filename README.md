@@ -42,7 +42,7 @@ OpusForge streamlines the portfolio creation process into simple steps:
 
 ## 🐛 Bug Reports & Feature Requests
 
-Found a bug or have a feature request? Please [mail at](opusforge1978@gmail.com).
+Found a bug or have a feature request? Please mail at [opusforge1978@gmail.com].
 
 ## 📞 Support
 
