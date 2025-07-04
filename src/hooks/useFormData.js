@@ -6,7 +6,7 @@ export const useFormData = (template, existingPortfolioData) => {
   const [formFieldsArray, setFormFieldsArray] = useState([]);
 
   useEffect(() => {
-    const initialFormData =existingPortfolioData || {};
+    let initialFormData = existingPortfolioData ? { ...existingPortfolioData } : {};
     let fieldsArray = [];
 
     if (Array.isArray(template.formFields)) {
