@@ -1,4 +1,6 @@
 'use client';
+import { Smile } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function FeedbackModal({ isOpen, onClose }) {
@@ -70,6 +72,9 @@ export default function FeedbackModal({ isOpen, onClose }) {
                         <div>
                             <h2 className="text-2xl font-bold tracking-tight">Send Feedback</h2>
                             <p className="text-gray-300 text-sm mt-1">We value your input</p>
+                            <Link href="/contact" className="text-gray-400 hover:text-white transition-all duration-200 mt-2 inline-flex items-center underline">
+                               <Smile className='mr-2 w-5 h-5' /> Wanna know more ?
+                            </Link>
                         </div>
                         <button
                             onClick={handleClose}

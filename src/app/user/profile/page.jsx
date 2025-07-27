@@ -102,6 +102,12 @@ function page() {
                                     </div>
                             }
                         </div>
+                        <div className="contact-button w-auto mt-3 flex items-center gap-2">
+                            <Link href="/contact" className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                                <Mail className="w-5 h-5" />
+                                Contact Support
+                            </Link>
+                        </div>
                     </div>
 
                     {/* Overview Section */}
