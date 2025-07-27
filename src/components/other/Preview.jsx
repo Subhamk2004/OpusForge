@@ -119,7 +119,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
     }, [finalHtml, createRepo, commitToRepo, deployToGithub, createPortfolio, template, debouncedData, updatePortfolio]);
 
     return (
-        <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start'>
+        <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start mt-2 md:mt-0'>
             <Header
                 searchQuery={searchQuery}
                 searchResults={searchResults}
@@ -130,7 +130,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                 demo={demo}
             />
 
-            <div className="flex flex-row items-center justify-between p-6 bg-light text-white seperator w-full h-screen overflow-auto pt-12">
+            <div className="flex flex-col md:flex-row items-center md:justify-between md:p-6 bg-light text-white seperator w-full h-screen overflow-auto md:pt-12  border-t border-black">
                 <FormSection
                     formFieldsArray={formFieldsArray}
                     data={data}
@@ -138,7 +138,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                     formatFieldName={formatFieldName}
                 />
 
-                <hr className="h-screen w-[0px] border-textp border-[0.1px]" />
+                <hr className=" flex h-[0px] w-full md:h-screen md:w-[0px] border-textp border-[0.1px] mt-2 mb-2" />
 
                 <PortfolioPreview
                     userData={debouncedData}

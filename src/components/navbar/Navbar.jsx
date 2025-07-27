@@ -11,7 +11,7 @@ function Navbar() {
     console.log("User in Navbar:", isAuthenticated);
     
     return (
-        <div className='w-full h-[90px] px-6 pb-0 bg-s'>
+        <div className='w-full h-[60px] md:h-[90px] px-6 pb-0 bg-s'>
             {/* Desktop Navigation - Hidden on mobile */}
             <div className='hidden md:block h-full'>
                 {

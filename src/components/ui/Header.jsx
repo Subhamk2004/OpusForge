@@ -17,11 +17,11 @@ const Header = ({
   const isUpdate = !!portfolioId;
 
   return (
-    <div className="w-full bg-white border-b border-b-texts border-gray-200 shadow-sm">
-      <div className="flex flex-col items-center p-4 pb-8 gap-4">
+    <div className={`w-full ${demo ? 'hidden' :''} bg-white border-b border-b-texts border-gray-200 shadow-sm `}>
+      <div className="flex flex-col md:items-center p-4 md:pb-8 gap-4">
 
         <div className="flex w-[95%] items-center gap-3 justify-between">
-          <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <div className="p-2 bg-black rounded-lg shadow-md">
               <Briefcase className="w-6 h-6 text-white" />
             </div>
@@ -31,7 +31,7 @@ const Header = ({
               </h1>
             </div>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg border">
+          <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg border">
             <div className={`w-2 h-2 rounded-full bg-green-400 ${isUpdate && 'bg-orange-400'} ${demo && 'bg-textPurple'}`}></div>
             <span className="text-sm font-medium text-gray-700">
               {isUpdate && 'Edit Mode' }
@@ -43,7 +43,7 @@ const Header = ({
         </div>
 
 
-        <div className="flex w-[95%] flex-row flex-wrap justify-between items-center gap-4 ">
+        <div className={`${demo ? 'hidden' : ''} flex w-[95%] flex-row md:flex-wrap justify-between items-center gap-4 `}>
           <div className="">
             <AssetSearchBar
               searchQuery={searchQuery}

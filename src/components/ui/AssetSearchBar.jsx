@@ -71,7 +71,7 @@ const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
         <input
           placeholder="Search assets..."
           type="text"
-          className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg max-w-[280px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm text-sm"
+          className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg max-w-[100px] md:max-w-[280px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm text-sm"
           value={searchQuery}
           onChange={(e) => onSearch(e.target.value)}
           disabled={demo}

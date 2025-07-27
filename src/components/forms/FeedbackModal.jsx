@@ -199,7 +199,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
                                         Sending...
                                     </div>
                                 ) : (
-                                    'Submit Feedback'
+                                    'Submit'
                                 )}
                             </button>
                         </div>

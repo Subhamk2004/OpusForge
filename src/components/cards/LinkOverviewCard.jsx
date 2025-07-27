@@ -22,7 +22,7 @@ function LinkOverviewCard({ data }) {
     }
 
     return (
-        <div className='p-4 px-6 w-full border relative overflow-hidden rounded-3xl bg-s flex flex-row justify-between items-center h-full lg:w-[300px] lg:h-[300px] lg:flex-col lg:justify-center lg:items-center lg:gap-8'>
+        <div className='mt-6 md:mt-0 p-4 px-6 w-full border relative overflow-hidden rounded-3xl bg-s flex flex-row justify-between items-center h-full lg:w-[300px] lg:h-[300px] lg:flex-col lg:justify-center lg:items-center lg:gap-8'>
 
             {/* Background decorative elements for lg screens */}
             <div className='hidden lg:block absolute top-6 right-6 w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full opacity-30'></div>

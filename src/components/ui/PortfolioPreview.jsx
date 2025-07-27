@@ -5,8 +5,8 @@ const PortfolioPreview = memo(({ userData, template, setHtml }) => {
   console.log('PortfolioPreview re-rendered');
 
   return (
-    <div className="w-1/2 lg:w-[65%] pt-20 flex h-screen gap-4 text-black">
-      <div className="preview-wrapper w-full h-full p-4 bg-gray-100 ">
+    <div className="w-full md:w-1/2 lg:w-[65%] md:pt-20 flex h-1/2 md:h-screen gap-4 text-black "> 
+      <div className="preview-wrapper w-full h-full p-2 md:p-4 bg-gray-100 ">
         <div className="preview-header mb-4 text-sm text-gray-600">
           Live Preview
         </div>

@@ -85,7 +85,7 @@ const DeploymentForm = ({ repoName, onRepoNameChange, onSubmit, demo }) => {
             placeholder="Enter repository name"
             value={repoName}
             onChange={(e) => onRepoNameChange(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg max-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm text-sm"
+            className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg max-w-[100px] md:max-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm text-sm"
             disabled={demo}
           />
         </div>
@@ -95,7 +95,7 @@ const DeploymentForm = ({ repoName, onRepoNameChange, onSubmit, demo }) => {
         onClick={handleSubmit}
         disabled={isLoading || (!repoName.trim() && !isUpdate)}
         className={`
-          flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 shadow-sm
+          flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-xs md:text-sm transition-all duration-200 shadow-sm
           ${isUpdate
             ? 'bg-orange-500 hover:bg-orange-600 text-white hover:shadow-md'
             : 'bg-blue-500 hover:bg-blue-600 text-white hover:shadow-md'

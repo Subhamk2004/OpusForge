@@ -30,7 +30,7 @@ function Page() {
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
                 My Templates
               </h1>
-              <p className="text-base text-texts max-w-2xl">
+              <p className="text-sm md:text-base text-texts max-w-2xl">
                 Create, manage, and organize your templates. Get started quickly with pre-built designs or create something unique.
               </p>
             </div>
@@ -46,7 +46,7 @@ function Page() {
 
       {
         foundTemplates && foundTemplates.length > 0 ?
-          <div className="flex flex-row flex-wrap items-center justify-center w-full p-4 gap-5 mt-8">
+          <div className="flex flex-row flex-wrap items-center justify-center w-full md:p-4 gap-5 mt-8">
             {
               foundTemplates.map((template, index) => (
                 <TemplateCard key={index} template={template} />

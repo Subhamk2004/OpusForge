@@ -145,18 +145,18 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen w-full pb-16 flex flex-col items-center ">
       <div className="w-full max-w-[1350px]">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 pt-10 md:py-12">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
 
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <GreetingIcon className="h-6 w-6 text-amber-600" />
-                  <h1 className="text-3xl font-bold text-slate-800">
+                  <h1 className="text-xl md:text-3xl font-bold text-slate-800">
                     {timeGreeting.greeting}, {userData?.name?.split(' ')[0] || 'there'}!
                   </h1>
                 </div>
-                <p className="text-slate-600 text-lg">{timeGreeting.message}</p>
+                <p className="text-slate-600 md:text-lg">{timeGreeting.message}</p>
 
               </div>
             </div>
@@ -166,8 +166,8 @@ export default function DashboardPage() {
           <div className="container mx-auto px-4 py-8">
             <div className="flex flex-wrap w-full flex-row gap-6 justify-center">
               <ProfileCard data={userData} stats={stats} />
-              <div className="flex flex-col lg:flex-row h-[300px] justify-between lg:gap-6">
-                <div className="flex flex-row h-full gap-6">
+              <div className="flex flex-col lg:flex-row md:h-[300px] justify-between lg:gap-6">
+                <div className="flex flex-col md:flex-row h-full gap-6">
                   <PortfolioOverview stats={stats} />
                   <AssetOverviewCard stats={stats} />
                 </div>
@@ -184,8 +184,8 @@ export default function DashboardPage() {
             <div className="">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h2 className="text-3xl font-bold text-slate-800 mb-2">
-                    <Briefcase className="inline h-10 w-10 mr-2 text-primary p-2 bg-black text-white rounded-full" />
+                  <h2 className="text-lg md:text-3xl font-bold text-slate-800 mb-2">
+                    <Briefcase className="hidden md:inline h-7 w-7 md:h-10 md:w-10 mr-2 text-primary p-1 md:p-2 bg-black text-white rounded-full" />
                     Your Portfolios
                     {searchQuery && (
                       <span className="text-xl text-slate-500 ml-2">
@@ -193,11 +193,11 @@ export default function DashboardPage() {
                       </span>
                     )}
                   </h2>
-                  <p className="text-slate-600">
+                  <p className="text-slate-600 text-sm md:text-base">
                     Manage and showcase your creative work
                   </p>
                 </div>
-                <Link href="/user/templates" className="bg-black text-white  rounded-xl shadow-lg flex items-center gap-2 px-4 py-2 hover:bg-gray-800 transition-colors">
+                <Link href="/user/templates" className="bg-black text-white  rounded-xl shadow-lg flex items-center gap-2 px-4 py-2 hover:bg-gray-800 transition-colors text-xs md:text-base">
                   <Plus className="h-4 w-4 mr-2" />
                   New Portfolio
                 </Link>
@@ -238,7 +238,7 @@ export default function DashboardPage() {
 
                     <Card key={portfolio._id} className="overflow-hidden transition-all duration-500 
                     shadow-lg
-                    hover:shadow-2xl hover:shadow-primary/10  hover:-translate-y-2 bg-white/70 rounded-3xl p-4 ">
+                    hover:shadow-2xl hover:shadow-primary/10  hover:-translate-y-2 bg-white/70 rounded-3xl p-2 md:p-4 ">
                       {portfolio.portfolioImage && portfolio.portfolioImage.startsWith("https") ? (
                         <div className="aspect-video overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl">
                           <img
@@ -267,8 +267,8 @@ export default function DashboardPage() {
 
                       <div className="flex items-center justify-between ">
                         <Link href={`/user/templates/viewTemplate?id=${portfolio.templateId}&portfolioID=${portfolio._id}`} className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors duration-300 p-3 rounded-lg">
-                          <Edit className="h-5 w-5 text-slate-500 hover:text-primary transition-colors duration-300" />
-                          <span className="ml-2 text-sm text-slate-600">Edit Portfolio</span>
+                          <Edit className="h-4 w-4 md:h-5 md:w-5 text-slate-500 hover:text-primary transition-colors duration-300" />
+                          <span className="ml-2 text-xs md:text-sm text-slate-600">Edit Portfolio</span>
                         </Link>
                         <div className="flex items-center gap-3">
                           <Link href={`https://github.com/${userData.githubUsername}/${portfolio.repoName}`} target="_blank" className="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors duration-300 rounded-full"
@@ -277,7 +277,7 @@ export default function DashboardPage() {
                             <Image
                               src={github}
                               alt="github icon"
-                              className="h-9 w-9"
+                              className="w-6  md:h-9 md:w-9"
                             />
                           </Link>
                           <button className="deployedUrl text-sm text-white hover:text-primary transition-colors duration-300 p-3 rounded-2xl bg-black ">
@@ -285,7 +285,7 @@ export default function DashboardPage() {
                               href={portfolio.deployedUrl || "#"}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2"
+                              className="flex items-center text-xs md:text-base md:gap-2"
                             >
                               <Eye className="h-5 w-5 text-whhite hover:text-primary transition-colors duration-300" />
                               {portfolio.deployedUrl ? "View Portfolio" : "Not Deployed"}

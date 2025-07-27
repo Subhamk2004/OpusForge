@@ -30,15 +30,15 @@ function TemplateCard({ template }, key) {
                     {template.description}
                 </p>
                 <div className='flex flex-row gap-2 w-full justify-between items-center'>
-                    <p className='bg-white text-black px-4 py-2 rounded-2xl hover:bg-purple-dark transition-colors duration-300 flex items-center justify-center'>
+                    <p className='bg-white text-black px-4 py-2 rounded-2xl hover:bg-purple-dark transition-colors duration-300 flex items-center justify-center text-sm md:text-base'>
                         <span className='font-semibold mr-1'>
-                            <TextSelect className='inline w-5 h-5 mr-1' />
+                            <TextSelect className='inline w-4 md:w-5 md:h-5 mr-1' />
                         </span>
                         {template.templateFor}
                     </p>
                     <Link
                         href={`/user/templates/viewTemplate?id=${template._id}`}
-                        className="bg-black text-white px-4 py-2 rounded-2xl shadow-md hover:bg-purple-dark transition-colors duration-300 flex items-center justify-center"
+                        className="bg-black text-white px-4 py-2 rounded-2xl shadow-md hover:bg-purple-dark transition-colors duration-300 flex items-center justify-center text-sm md:text-base"
                     >
                         <EyeIcon className="w-4 h-4 mr-2" />
                         View Template

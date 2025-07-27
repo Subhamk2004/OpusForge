@@ -198,7 +198,7 @@ function AssetUploadPage() {
                                 <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
                                     My Assets
                                 </h1>
-                                <p className="text-base text-texts max-w-2xl">
+                                <p className="text-sm md:text-base text-texts max-w-2xl">
                                     Create, manage, and organize your digital assets. Upload images, PDFs, and more to access them anytime, anywhere.
                                 </p>
                             </div>
@@ -212,14 +212,14 @@ function AssetUploadPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-col lg:flex-row items-center justify-around w-full max-w-[1500px] mx-auto px-4 py-8 gap-8">
+                <div className="flex flex-col lg:flex-row items-center justify-around w-full max-w-[1500px] mx-auto px-2 md:px-4 py-8 gap-8">
 
-                    <div className="bg-white w-full lg:w-[48%] rounded-3xl p-8 backdrop-blur-sm bg-white/90 border border-gray-100 shadow-lg">
+                    <div className="bg-white w-full lg:w-[48%] rounded-3xl p-5 md:p-8 backdrop-blur-sm bg-white/90 border border-gray-100 shadow-lg">
                         <div className="flex items-center mb-6">
-                            <div className="w-10 h-10 bg-gradient-to-r from-black to-gray-900 rounded-lg flex items-center justify-center mr-3">
-                                <UploadCloud className="w-6 h-6 text-white" />
+                            <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-black to-gray-900 rounded-lg flex items-center justify-center mr-3">
+                                <UploadCloud className="w-5 md:w-6 md:h-6 text-white" />
                             </div>
-                            <h2 className="text-2xl font-semibold text-gray-800">Upload New Asset</h2>
+                            <h2 className="text-lg md:text-2xl font-semibold text-gray-800">Upload New Asset</h2>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
@@ -374,10 +374,10 @@ function AssetUploadPage() {
                     <div className="w-full px-4 mb-8">
                         <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 backdrop-blur-sm bg-white/90">
                             <div className="flex items-center mb-4">
-                                <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center mr-3">
+                                <div className="w-10 h-10 bg-gradient-to-r from-hoverbg to-hoverbg rounded-lg flex items-center justify-center mr-3">
                                     <Search className="w-6 h-6 text-white" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-800">Search & Filter Assets</h3>
+                                <h3 className="text-lg md:text-xl font-semibold text-gray-800">Search & Filter Assets</h3>
                             </div>
 
                             <div className="flex flex-col md:flex-row gap-4">
@@ -443,11 +443,11 @@ function AssetUploadPage() {
                 )}
 
                 <div className="mt-12 mb-32 w-full">
-                    <div className="flex items-center mb-8">
-                        <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center mr-3">
+                    <div className="flex items-center mb-8 w-full p-4 md:p-4">
+                        <div className=" w-8 h-8 md:w-10 md:h-10 bg-black rounded-lg flex items-center justify-center mr-3">
                             <SwatchBookIcon className="w-6 h-6 text-white" />
                         </div>
-                        <h2 className="text-3xl font-bold text-gray-800">Your Assets</h2>
+                        <h2 className="text-xl md:text-3xl font-bold text-gray-800">Your Assets</h2>
                         {loadedAssets && loadedAssets.length > 0 && (
                             <span className="ml-4 bg-gray-200/60 text-black text-sm font-medium px-3 py-1 rounded-full">
                                 {searchQuery || searchFilter !== 'all' ? filteredAssets.length : loadedAssets.length} {((searchQuery || searchFilter !== 'all') ? filteredAssets.length : loadedAssets.length) === 1 ? 'asset' : 'assets'}
@@ -456,7 +456,7 @@ function AssetUploadPage() {
                     </div>
 
                     {(searchQuery || searchFilter !== 'all' ? filteredImages : images).length > 0 ? (
-                        <div className="w-full">
+                        <div className="w-full p-5">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6">Images</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 {(searchQuery || searchFilter !== 'all' ? filteredImages : images).map((asset, index) => (
@@ -483,7 +483,7 @@ function AssetUploadPage() {
                     )}
 
                     {(searchQuery || searchFilter !== 'all' ? filteredPdfs : pdf).length > 0 ? (
-                        <div className="w-full mt-12">
+                        <div className="w-full mt-12 p-5">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6">PDF Documents</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 {(searchQuery || searchFilter !== 'all' ? filteredPdfs : pdf).map((asset, index) => (

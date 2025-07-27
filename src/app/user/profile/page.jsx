@@ -34,8 +34,8 @@ function page() {
     return (
         <div className='w-screen h-screen bg-light text-black overflow-y-auto no-scrollbar flex flex-col items-center justify-start'>
             {!emailVerified && (
-                <div className={`${show} flex-col items-center justify-center p-3 rounded-2xl w-full max-w-[1300px] bg-errorbg relative mb-5`}>
-                    <p className="text-xl font-semibold text-error">
+                <div className={`${show} flex-col items-center justify-center p-3 rounded-2xl w-full text-sm md:text-base max-w-[1300px] bg-errorbg relative mb-5`}>
+                    <p className="text-base md:text-xl font-semibold text-error">
                         Your profile is incomplete!
                     </p>
                     <p>

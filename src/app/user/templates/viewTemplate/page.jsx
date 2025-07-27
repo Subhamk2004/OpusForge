@@ -47,7 +47,7 @@ function Page1() {
     console.log("portfolio", portfolio);
 
     return (
-        <div className='w-full h-full flex flex-col items-center justify-center'>
+        <div className='w-full h-full flex flex-col items-center justify-center -mt-8 md:mt-0'>
             {loading ? (
                 <div className="loader flex flex-col items-center justify-center h-screen">
                     <svg className="animate-spin h-10 w-10 text-purple" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
