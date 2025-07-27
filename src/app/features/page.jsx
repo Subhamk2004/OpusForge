@@ -50,9 +50,9 @@ export default function FeaturesPage() {
   return (
     <div className="bg-s h-screen w-screen text-black flex flex-col justify-center items-center">
 
-      <div className='w-[98%] h-screen rounded-3xl bg-light  text-black  flex flex-col items-center overflow-y-scroll gap-10'>
+      <div className='w-full md:w-[98%] h-screen rounded-3xl bg-light  text-black  flex flex-col items-center overflow-y-scroll gap-10'>
         {/* Hero Section */}
-        <div className="w-full p-6 h-full">
+        <div className="w-full md:p-6 h-full">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="flex flex-col lg:flex-row items-center gap-12">
               <div className="w-full lg:w-[60%] flex flex-col justify-start items-start gap-6">
@@ -91,11 +91,11 @@ export default function FeaturesPage() {
         </div>
 
         {/* Main Features Section */}
-        <div className="w-full p-6">
+        <div className="w-full md:p-6 mt-10 md:mt-0">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-textp mb-4">Core Features</h2>
-              <p className="text-lg text-texts max-w-2xl mx-auto">
+              <p className="md:text-lg text-texts max-w-2xl mx-auto">
                 Built for developers and IT professionals who value efficiency, quality, and professional presentation.
               </p>
             </div>
@@ -110,12 +110,12 @@ export default function FeaturesPage() {
                     <div className="w-full lg:w-[50%] flex flex-col justify-start items-start gap-6">
                       <div className="flex items-center gap-4">
                         <div className="bg-purple p-3 rounded-xl">
-                          <IconComponent className="w-8 h-8 text-textPurple" />
+                          <IconComponent className="md:w-8 md:h-8 text-textPurple" />
                         </div>
-                        <h3 className="text-2xl lg:text-3xl font-bold text-textp">{feature.title}</h3>
+                        <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-textp">{feature.title}</h3>
                       </div>
 
-                      <p className="text-lg text-texts leading-relaxed">{feature.description}</p>
+                      <p className="md:text-lg text-texts leading-relaxed">{feature.description}</p>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
                         {feature.highlights.map((highlight, idx) => (
@@ -127,7 +127,7 @@ export default function FeaturesPage() {
                       </div>
                     </div>
 
-                    <div className="w-full lg:w-[50%] h-[300px] lg:h-[350px] border rounded-3xl relative bg-inputbg">
+                    <div className="w-full lg:w-[50%] h-[200px] md:h-[300px] lg:h-[350px] border rounded-3xl relative bg-inputbg">
                       {/* Image placeholder */}
                       <div className="absolute inset-0 flex items-center justify-center text-texts">
                         <Image
@@ -147,11 +147,11 @@ export default function FeaturesPage() {
         </div>
 
         {/* Supporting Features Grid */}
-        <div className="w-full p-6">
+        <div className="w-full md:p-6">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-textp mb-4">Additional Features</h2>
-              <p className="text-lg text-texts">Everything else you need for a complete portfolio solution</p>
+              <p className="md:text-lg text-texts">Everything else you need for a complete portfolio solution</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -174,11 +174,11 @@ export default function FeaturesPage() {
         </div>
 
         {/* How It Works */}
-        <div className="w-full p-6">
+        <div className="w-full md:p-6">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-textp mb-4">How It Works</h2>
-              <p className="text-lg text-texts max-w-2xl mx-auto">
+              <p className="md:text-lg text-texts max-w-2xl mx-auto">
                 From zero to deployed portfolio in minutes. Our streamlined process makes portfolio creation effortless.
               </p>
             </div>
@@ -212,7 +212,7 @@ export default function FeaturesPage() {
         </div>
 
         {/* Social Proof Section */}
-        <div className="w-full p-6">
+        <div className="w-full md:p-6">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="flex flex-col lg:flex-row items-center gap-12">
               <div className="w-full lg:w-[40%] h-[250px] lg:h-[300px] border rounded-3xl relative bg-inputbg">

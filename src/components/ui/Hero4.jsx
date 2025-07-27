@@ -10,8 +10,8 @@ function Hero4() {
             <h2 className='text-3xl lg:text-5xl font-semibold text-center lg:mt-10'>
                 Get Started
             </h2>
-            <div className='w-full rounded-3xl flex flex-row items-center gap-3 justify-between p-8 '>
-                <div className='w-[50%] bg-p relative p-6 rounded-3xl flex flex-col items-center'>
+            <div className='w-full rounded-3xl flex flex-col md:flex-row items-center gap-3 justify-between p-8 '>
+                <div className='md:w-[50%] bg-p relative p-6 rounded-3xl flex flex-col items-center'>
                     <p className='text-lg lg:text-xl lg:font-semibold'>
                         Sign up for OpusForge and start building your portfolio today!
                     </p>
@@ -26,7 +26,7 @@ function Hero4() {
                         <PlusCircle className='ml-2' />
                     </Link>
                 </div>
-                <div className='w-[50%] relative rounded-3xl flex flex-col items-center h-full justify-between'>
+                <div className='md:w-[50%] relative rounded-3xl flex flex-col items-center h-full justify-between'>
                     <div className=' w-full h-[48%]'>
                         <Link
                             href="/login"

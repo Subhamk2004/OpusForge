@@ -7,7 +7,14 @@ function HeroCard2() {
 
     return (
         <div className="w-full max-w-6xl mx-auto px-4 mt-16">
-            <div className="flex flex-col sm:flex-row items-center gap-12 lg:gap-16">
+            <div className="flex flex-col sm:flex-row items-center md:gap-12 lg:gap-16">
+                <div className="md:hidden flex-1 flex justify-center">
+                    <Image
+                        src={docs1}
+                        alt="docs1"
+                        className="w-[400px] h-[400px] object-contain transition-transform duration-300 group-hover:scale-110"
+                    />
+                </div>
 
                 <div className="flex-1 space-y-6 text-center ">
                     <div className="space-y-4">
@@ -28,7 +35,7 @@ function HeroCard2() {
                         </div>
                     </div>
                 </div>
-                <div className="flex-1 flex justify-center">
+                <div className="hidden md:flex justify-center">
                     <Image
                         src={docs1}
                         alt="docs1"

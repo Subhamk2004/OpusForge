@@ -8,7 +8,7 @@ import Image from "next/image";
 function Hero2() {
     return (
         <div className="w-full flex flex-col items-center mt-10">
-            <h2 className="text-3xl lg:text-5xl font-semibold text-center lg:mt-10">
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-semibold text-center lg:mt-10">
                 Explore a wide variety of templates
             </h2>
             <div className="w-full p-5 flex flex-row justify-around items-center gap-5 mt-10 overflow-x-scroll no-scrollbar border rounded-3xl shadow-inner">

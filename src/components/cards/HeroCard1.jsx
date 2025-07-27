@@ -13,19 +13,19 @@ function HeroCard1() {
   ];
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 mt-16">
+    <div className="w-full max-w-6xl mx-auto md:px-4 mt-16">
       <div className="flex flex-col sm:flex-row items-center gap-12 lg:gap-16">
         
         <div className="flex-1 flex justify-center">
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-50 rounded-3xl "></div>
             
-            <div className="relative bg-s from-gray-50 to-white rounded-3xl p-8 ">
+            <div className="relative bg-s from-gray-50 to-white rounded-3xl p-4 md:p-8 ">
               <div className="grid grid-cols-2 gap-6">
                 {platforms.map((platform, index) => (
                   <div 
                     key={platform.name}
-                    className="group relative flex flex-col items-center justify-center p-5 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-1"
+                    className="group relative flex flex-col items-center justify-center p-3 md:p-5 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-1"
                   >
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     

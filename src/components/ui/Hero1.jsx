@@ -4,9 +4,16 @@ import HeroCard from "../cards/HeroCard";
 
 function Hero1() {
     return (
-        <div className="w-full flex flex-row justify-around items-center no-scrollbar">
+        <div className="w-full flex flex-col md:flex-row justify-around items-center no-scrollbar">
+            <div className="w-full md:hidden mb-4">
+                <Image
+                    src={hero1}
+                    alt="hero1"
+                    className="w-full rounded-3xl"
+                />
+            </div>
             <HeroCard />
-            <div className="w-[65%] md:w-[55%]">
+            <div className="w-full hidden md:block md:w-[55%]">
                 <Image
                     src={hero1}
                     alt="hero1"

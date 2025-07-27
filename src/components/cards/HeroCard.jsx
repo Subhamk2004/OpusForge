@@ -6,7 +6,7 @@ import Image from "next/image";
 
 function HeroCard() {
     return (
-        <div className="w-[35%] md:w-[40%] flex flex-col justify-around items-center lg:gap-3 bg-p p-6 lg:p-10 rounded-3xl border h-full relative overflow-hidden">
+        <div className="w-full md:w-[40%] flex flex-col justify-around items-center lg:gap-3 bg-p p-6 lg:p-10 rounded-3xl border h-full relative overflow-hidden">
             <p className="text-lg z-10 lg:text-3xl font-semibold ">
                 Easily create a stunning portfolio website with OpusForge
             </p>
@@ -27,9 +27,9 @@ function HeroCard() {
                     <Image
                         src={Github}
                         alt="github"
-                        className="w-9 h-9 "
+                        className="w-7 h-7 md:w-9 md:h-9 "
                     />
-                    <p className="text-white text-lg font-semibold ">
+                    <p className="text-white md:text-lg font-semibold ">
                         Star on Github
                     </p>
                 </Link>
