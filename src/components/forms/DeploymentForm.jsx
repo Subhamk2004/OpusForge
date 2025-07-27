@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Upload, RefreshCw, Github, Edit3, Check, X } from 'lucide-react';
 
-const DeploymentForm = ({ repoName, onRepoNameChange, onSubmit }) => {
+const DeploymentForm = ({ repoName, onRepoNameChange, onSubmit, demo }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [tempRepoName, setTempRepoName] = useState(repoName);
   const [isLoading, setIsLoading] = useState(false);
@@ -86,6 +86,7 @@ const DeploymentForm = ({ repoName, onRepoNameChange, onSubmit }) => {
             value={repoName}
             onChange={(e) => onRepoNameChange(e.target.value)}
             className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg max-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm text-sm"
+            disabled={demo}
           />
         </div>
       )}

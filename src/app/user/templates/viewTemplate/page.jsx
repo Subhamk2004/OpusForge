@@ -14,6 +14,8 @@ function Page1() {
     let [template, setTemplate] = useState({});
     let [portfolio, setPortfolio] = useState({});
     let [loading, setLoading] = useState(true);
+    console.log(template.htmlString);
+    
 
     useEffect(() => {
         if (!templates || templates.length === 0) {

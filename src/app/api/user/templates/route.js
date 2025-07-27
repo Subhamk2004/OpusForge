@@ -38,6 +38,9 @@ export async function POST(request) {
 export async function GET(request) {
   await connectDB();
   try {
+    let query = request.nextUrl.searchParams;
+    console.log("Query parameters:", query);
+    
     let templates = await Templates.find({});
     // console.log(templates);
     

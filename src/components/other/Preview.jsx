@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { addPortfolio, updatePortfolio as updatePortfolioInRedux } from "@/store/slices/Portfolios";
 import { useRouter } from "next/navigation";
 
-function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) {
+function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, demo }) {
 
     if (portfolioId) {
         console.log(existingPortfolioData);
@@ -127,6 +127,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData }) 
                 repoName={repoName}
                 onRepoNameChange={setRepoName}
                 onSubmit={startProcess}
+                demo={demo}
             />
 
             <div className="flex flex-row items-center justify-between p-6 bg-light text-white seperator w-full h-screen overflow-auto pt-12">

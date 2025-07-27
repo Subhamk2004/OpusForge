@@ -10,7 +10,8 @@ const Header = ({
   onSearch,
   repoName,
   onRepoNameChange,
-  onSubmit
+  onSubmit,
+  demo
 }) => {
   const portfolioId = useSearchParams().get('portfolioID');
   const isUpdate = !!portfolioId;
@@ -31,9 +32,11 @@ const Header = ({
             </div>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg border">
-            <div className={`w-2 h-2 rounded-full ${isUpdate ? 'bg-orange-400' : 'bg-green-400'}`}></div>
+            <div className={`w-2 h-2 rounded-full bg-green-400 ${isUpdate && 'bg-orange-400'} ${demo && 'bg-textPurple'}`}></div>
             <span className="text-sm font-medium text-gray-700">
-              {isUpdate ? 'Edit Mode' : 'Create Mode'}
+              {isUpdate && 'Edit Mode' }
+              {demo && 'Demo Mode'}
+              {!isUpdate && !demo && 'Create Mode'}
             </span>
             <Palette className="w-4 h-4 text-gray-500" />
           </div>
@@ -46,6 +49,7 @@ const Header = ({
               searchQuery={searchQuery}
               searchResults={searchResults}
               onSearch={onSearch}
+              demo={demo}
             />
           </div>
 
@@ -53,6 +57,7 @@ const Header = ({
             repoName={repoName}
             onRepoNameChange={onRepoNameChange}
             onSubmit={onSubmit}
+            demo={demo}
           />
         </div>
       </div>

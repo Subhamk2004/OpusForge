@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Image, FileText, Link, Copy, Check, X } from 'lucide-react';
 
-const AssetSearchBar = ({ searchQuery, searchResults, onSearch }) => {
+const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
   const [copiedIndex, setCopiedIndex] = useState(null);
 
   const getAssetIcon = (asset) => {
@@ -74,6 +74,7 @@ const AssetSearchBar = ({ searchQuery, searchResults, onSearch }) => {
           className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg max-w-[280px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm text-sm"
           value={searchQuery}
           onChange={(e) => onSearch(e.target.value)}
+          disabled={demo}
         />
       </div>
 
