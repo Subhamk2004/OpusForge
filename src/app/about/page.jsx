@@ -217,11 +217,11 @@ export default function AboutPage() {
 
         {/* Why Choose Us Section */}
         <div className="w-full md:p-6">
-          <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
+          <div className="w-full rounded-3xl bg-light p-5 md:p-8 lg:p-12">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl lg:text-4xl font-bold text-textp mb-4">Why Choose OpusForge?</h2>
-                <p className="text-lg text-texts">
+                <p className="md:text-lg text-texts">
                   We're not just another portfolio builder. We're your partner in professional success.
                 </p>
               </div>
@@ -262,12 +262,12 @@ export default function AboutPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="w-full p-6 mb-20">
-          <div className="w-full rounded-3xl bg-textPurple p-8 lg:p-12 text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-light mb-6">
+        <div className="w-full p-4 md:p-6 mb-32 md:mb-24">
+          <div className="w-full rounded-3xl bg-textPurple p-5 md:p-8 lg:p-12 text-center">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-light mb-6">
               Ready to Build Your Success Story?
             </h2>
-            <p className="text-lg text-purple mb-8 max-w-2xl mx-auto">
+            <p className="md:text-lg text-purple mb-8 max-w-2xl mx-auto">
               Join the community of professionals who've transformed their careers with OpusForge. Your perfect portfolio is just minutes away.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

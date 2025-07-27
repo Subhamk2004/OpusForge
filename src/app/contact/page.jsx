@@ -101,10 +101,10 @@ export default function ContactPage() {
   return (
     <div className="bg-s h-screen w-screen text-black flex flex-col justify-center items-center">
 
-      <div className='w-[98%] h-screen rounded-3xl bg-light  text-black  flex flex-col items-center overflow-y-scroll gap-10'>
+      <div className='w-full md:w-[98%] h-screen rounded-3xl bg-light  text-black  flex flex-col items-center overflow-y-scroll gap-10'>
 
         {/* Hero Section */}
-        <div className="w-full p-6">
+        <div className="w-full md:p-6">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="flex flex-col lg:flex-row items-center gap-12">
               <div className="w-full lg:w-[60%] flex flex-col justify-start items-start gap-6">
@@ -131,7 +131,7 @@ export default function ContactPage() {
                   </button>
                 </div>
               </div>
-              <div className="w-full lg:w-[40%] h-[300px] lg:h-[400px] border rounded-3xl relative bg-inputbg">
+              <div className="hidden md:block w-full lg:w-[40%] h-[300px] lg:h-[400px] border rounded-3xl relative bg-inputbg">
                 <div className="absolute inset-0 flex items-center justify-center text-texts">
                   <Image
                     src="https://res.cloudinary.com/dpazarvil/image/upload/v1753592944/assets/cse6gfejkkjzahzq3159.jpg"
@@ -147,11 +147,11 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Reasons */}
-        <div className="w-full p-6">
-          <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
+        <div className="w-full md:p-6">
+          <div className="w-full rounded-3xl bg-light p-5 md:p-8 lg:p-12">
             <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold text-textp mb-4">What Can We Help With?</h2>
-              <p className="text-lg text-texts max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-textp mb-4">What Can We Help With?</h2>
+              <p className="md:text-lg text-texts max-w-2xl mx-auto">
                 Choose the category that best describes your inquiry for faster assistance.
               </p>
             </div>
@@ -185,12 +185,12 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Form */}
-        <div className="w-full p-6" id="contact-form">
+        <div className="w-full md:p-6" id="contact-form">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl lg:text-4xl font-bold text-textp mb-4">Send Us a Message</h2>
-                <p className="text-lg text-texts">
+                <p className="md:text-lg text-texts">
                   Fill out the form below and we'll get back to you as soon as possible.
                 </p>
               </div>
@@ -308,12 +308,12 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Information */}
-        <div className="w-full p-6 mb-20">
+        <div className="w-full md:p-6 mb-32 md:mb-20">
           <div className="w-full rounded-3xl bg-light p-8 lg:p-12">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
-                <h2 className="text-3xl lg:text-4xl font-bold text-textp mb-4">Other Ways to Reach Us</h2>
-                <p className="text-lg text-texts">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-textp mb-4">Other Ways to Reach Us</h2>
+                <p className="md:text-lg text-texts">
                   Prefer direct communication? Here are additional ways to get in touch.
                 </p>
               </div>
