@@ -181,7 +181,7 @@ export default function DashboardPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <button className="flex-1 bg-error hover:bg-red-700 text-light font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2"
                   onClick={() => {
-                    deletePortfolio(deletingPortfolioId, deletingRepoName)
+                    deletePortfolio(deletingPortfolioId, deletingRepoName, userData.githubUsername)
                     setIsModelOpen(false);
                     setDeletingRepoName("");
                     setDeletingPortfolioId("");

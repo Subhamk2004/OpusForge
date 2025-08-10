@@ -106,8 +106,8 @@ export async function DELETE(req) {
   console.log(session);
   
 
-  const { portfolioId, formattedRepoName } = body;
-  if (!portfolioId || !formattedRepoName) {
+  const { portfolioId, formattedRepoName, githubUsername } = body;
+  if (!portfolioId || !formattedRepoName || !githubUsername) {
     return NextResponse.json(
       { error: "RepoName or portfolioId is missing" },
       { status: 400 }
@@ -121,7 +121,7 @@ export async function DELETE(req) {
     );
   }
 
-  const username = session.user.name;
+  // const username = session.user.name;
 
   try {
     // First delete from database
@@ -136,8 +136,10 @@ export async function DELETE(req) {
     }
 
     // Then delete from GitHub
+    console.log(githubUsername, ' ', formattedRepoName);
+    
     const githubDeleteRes = await fetch(
-      `https://api.github.com/repos/${username}/${formattedRepoName}`,
+      `https://api.github.com/repos/${githubUsername}/${formattedRepoName}`,
       {
         method: "DELETE",
         headers: {

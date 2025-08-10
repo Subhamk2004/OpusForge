@@ -180,7 +180,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
     }
   };
 
-  const deletePortfolio = async (portfolioId, formattedRepoName) => {
+  const deletePortfolio = async (portfolioId, formattedRepoName, githubUsername) => {
     try {
       
       const res = await fetch(`/api/user/portfolio`, {
@@ -192,6 +192,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
         body: JSON.stringify({
           portfolioId: portfolioId,
           formattedRepoName: formattedRepoName,
+          githubUsername: githubUsername,
         }),
       })
       let data = await res.json();
