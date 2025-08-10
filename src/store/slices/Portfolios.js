@@ -11,7 +11,7 @@ const portfoliosSlice = createSlice({
   initialState,
   reducers: {
     addPortfolio: (state, action) => {
-      state.portfolios.push(action.payload);
+      state.portfolios.unshift(action.payload);
     },
     updatePortfolio: (state, action) => {
       const index = state.portfolios.findIndex(
