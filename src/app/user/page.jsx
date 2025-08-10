@@ -17,6 +17,8 @@ import {
   SearchCheck,
   Edit,
   Eye,
+  Trash2,
+  X,
 } from "lucide-react"
 import placeholder from "@/assets/placeholder.jpg"
 
@@ -30,13 +32,19 @@ import AssetOverviewCard from "@/components/cards/AssetOverviewCard"
 import LinkOverviewCard from "@/components/cards/LinkOverviewCard"
 import Image from "next/image"
 import github from "@/assets/github1.png"
+import { usePortfolioDeployment } from "@/hooks/usePortfolioDeployment"
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function DashboardPage() {
   const { user } = useSelector((state) => state.user)
   const { portfolios } = useSelector((state) => state.portfolios)
   const { assets } = useSelector((state) => state.assets)
+  const { deletePortfolio } = usePortfolioDeployment()
 
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isModelOpen, setIsModelOpen] = useState(false);
+  const [deletingRepoName, setDeletingRepoName] = useState("");
+  const [deletingPortfolioId, setDeletingPortfolioId] = useState("");
   const [loadedPortfolios, setLoadedPortfolios] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredPortfolios, setFilteredPortfolios] = useState([])
@@ -144,6 +152,58 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen w-full pb-16 flex flex-col items-center ">
+      <ToastContainer />
+      {
+        isModelOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div className="bg-light rounded-2xl p-8 shadow-hard w-full max-w-md relative border border-border-light">
+              {/* Header with Icon */}
+              <div className="flex flex-col items-center text-center mb-6">
+                <div className="w-16 h-16 bg-errorbg rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-semibold text-textp mb-2">Delete Repository</h2>
+                <p className="text-texts text-sm leading-relaxed">
+                  Are you sure you want to delete <span className="font-medium text-base text-black">{deletingRepoName}</span> from your GitHub and OpusForge?
+                </p>
+              </div>
+
+              {/* Warning Message */}
+              <div className="bg-p rounded-lg p-4 mb-6 border-l-4 border-error">
+                <p className="text-sm text-texts">
+                  <span className="font-medium text-error">Warning:</span> This action cannot be undone. All data, commits, and issues will be permanently deleted from your Github and OpusForge.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button className="flex-1 bg-error hover:bg-red-700 text-light font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2"
+                  onClick={() => {
+                    deletePortfolio(deletingPortfolioId, deletingRepoName)
+                    setIsModelOpen(false);
+                    setDeletingRepoName("");
+                    setDeletingPortfolioId("");
+                  }}
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => {
+                    setIsModelOpen(false);
+                    setDeletingRepoName("");
+                    setDeletingPortfolioId("");
+                  }}
+                  className="flex-1 bg-s hover:bg-p text-textp font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple focus:ring-offset-2"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )
+      }
       <div className="w-full max-w-[1350px]">
         <div className="container mx-auto px-4 pt-10 md:py-12">
           <div className="flex items-center justify-between">
@@ -258,9 +318,16 @@ export default function DashboardPage() {
                         </div>
                       )}
 
-                      <CardHeader className="pb-4">
+                      <CardHeader className="pb-4 flex flex-row items-center justify-between group">
                         <CardTitle className="line-clamp-1 text-xl group-hover:text-primary transition-colors duration-300 font-semibold">
                           {portfolio.name}
+                        </CardTitle>
+                        <CardTitle className="line-clamp-1 text-xl group-hover:text-primary transition-colors duration-300 font-semibold">
+                          <Trash2 className="bg-transparent hover:bg-red-100 text-black hover:text-error p-1 h-8 w-8 rounded-lg cursor-pointer" onClick={() => {
+                            setDeletingRepoName(portfolio.repoName);
+                            setDeletingPortfolioId(portfolio._id);
+                            setIsModelOpen(true);
+                          }} />
                         </CardTitle>
 
                       </CardHeader>
@@ -272,7 +339,7 @@ export default function DashboardPage() {
                         </Link>
                         <div className="flex items-center gap-3">
                           <Link href={`https://github.com/${userData.githubUsername}/${portfolio.repoName}`} target="_blank" className="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors duration-300 rounded-full"
-                          aria-label="GitHub Repository"
+                            aria-label="GitHub Repository"
                           >
                             <Image
                               src={github}

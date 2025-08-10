@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { deletePortfolio as deleteInStore } from "@/store/slices/Portfolios";
+import { useDispatch } from "react-redux";
+
 
 export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
   const [repoName, setRepoName] = useState(existingPortfolioData?.name || "");
   const [repoCreated, setRepoCreated] = useState(false);
   const user = useSelector((state) => state.user);
+  let dispatch = useDispatch();
 
   const createRepo = async (finalHtml) => {
     if (!repoName) {
@@ -176,6 +180,33 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
     }
   };
 
+  const deletePortfolio = async (portfolioId, formattedRepoName) => {
+    try {
+      
+      const res = await fetch(`/api/user/portfolio`, {
+        method: 'DELETE',
+        headers: {
+          "Content-type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({
+          portfolioId: portfolioId,
+          formattedRepoName: formattedRepoName,
+        }),
+      })
+      let data = await res.json();
+      if(!res.ok) throw(data);
+      console.log(data.message);
+      toast.success(data.message);
+      if(data.message) dispatch(deleteInStore(portfolioId));
+
+    } catch (error) {
+      console.error("Error deleting portfolio:", error.error);
+      toast.error(`Error: ${error.error || "Failed to delete portfolio."}`);
+      return { error: true };
+    }
+  }
+
   const updatePortfolio = async (portfolioId, debouncedData) => {
     try {
       const response = await fetch(`/api/user/portfolio`, {
@@ -217,5 +248,6 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
     deployToGithub,
     createPortfolio,
     updatePortfolio,
+    deletePortfolio
   };
 };

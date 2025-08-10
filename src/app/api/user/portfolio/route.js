@@ -99,12 +99,85 @@ export async function GET(request) {
   }
 }
 
+export async function DELETE(req) {
+  await connectDB();
+  const session = await getServerSession(authOptions);
+  const body = await req.json();
+  console.log(session);
+  
+
+  const { portfolioId, formattedRepoName } = body;
+  if (!portfolioId || !formattedRepoName) {
+    return NextResponse.json(
+      { error: "RepoName or portfolioId is missing" },
+      { status: 400 }
+    );
+  }
+
+  if (!session || !session.accessToken) {
+    return NextResponse.json(
+      { error: "Unauthorized. Please log in." },
+      { status: 401 }
+    );
+  }
+
+  const username = session.user.name;
+
+  try {
+    // First delete from database
+    const deleteRes = await Portfolios.findByIdAndDelete(portfolioId);
+    console.log(deleteRes);
+
+    if (deleteRes === null) {
+      throw new Error("Portfolio not found in OpusForge database");
+    }
+    if (!deleteRes._id) {
+      throw new Error("Error while deleting from OpusForge");
+    }
+
+    // Then delete from GitHub
+    const githubDeleteRes = await fetch(
+      `https://api.github.com/repos/${username}/${formattedRepoName}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `token ${session.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (githubDeleteRes.status === 204) {
+      console.log(`Repository ${formattedRepoName} deleted successfully`);
+    } else if (githubDeleteRes.status === 404) {
+      console.log(`Repository ${formattedRepoName} not found on GitHub`);
+    } else {
+      const errorData = await githubDeleteRes.json().catch(() => ({}));
+      console.warn(
+        `GitHub delete failed: ${githubDeleteRes.status} ${
+          errorData.message || githubDeleteRes.statusText
+        }`
+      );
+    }
+
+    return NextResponse.json(
+      { message: `Successfully deleted portfolio: ${deleteRes.name}` },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: error.message || error || "Failed to delete portfolio" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(request) {
   await connectDB();
   const session = await getServerSession(authOptions);
   const body = await request.json();
   const { userData, portfolioId } = body;
-
 
   if (!userData || !portfolioId) {
     return NextResponse.json(
