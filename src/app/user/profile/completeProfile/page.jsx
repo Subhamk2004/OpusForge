@@ -19,7 +19,7 @@ function page() {
         if (user) {
             setUserData(user);
         }
-        console.log(loading);
+        // console.log(loading);
 
     }, [user, loading]);
 
@@ -41,7 +41,7 @@ function page() {
             }
             // console.log("Form submitted with data:", userData);
         } catch (error) {
-            console.error("Error submitting form:", error);
+            // console.error("Error submitting form:", error);
         } finally {
             setLoading(false);
         }

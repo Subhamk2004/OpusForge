@@ -41,7 +41,7 @@ export default function useAuth() {
         } else {
           dispatch(loginUser(data.userData));
           if (pathname.includes("/contact")){
-            console.log("Allowed");
+            // console.log("Allowed");
             
           }
           else if (!pathname.includes("/user")) {
@@ -49,7 +49,7 @@ export default function useAuth() {
           }
         }
       } catch (error) {
-        console.error("Authentication check failed:", error);
+        // console.error("Authentication check failed:", error);
         if (pathname.includes("/user")) {
           router.push("/login");
         }

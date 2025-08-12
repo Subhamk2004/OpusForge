@@ -11,7 +11,7 @@ function SignupForm({ handleSubmit, data = {}, setData, loading }) {
 
     const profession = data.profession || "";
     const links = data.links || [];
-    console.log(loading);
+    // console.log(loading);
 
     return (
         <div className='w-full max-w-lg p-6 rounded-lg'>
@@ -46,12 +46,12 @@ function SignupForm({ handleSubmit, data = {}, setData, loading }) {
                         <div key={index} className='flex flex-row w-full justify-between items-center bg-s/40 p-2 rounded-lg'>
                             <div className='flex flex-row w-[90%]'>
                                 {linkItem.image && (
-                                    <Image
+                                    <img
                                         src={linkItem.image}
                                         alt={linkItem.name}
                                         width={50}
                                         height={50}
-                                        className='mt-1 rounded-lg object-cover mr-2'
+                                        className='mt-1 rounded-lg object-cover h-[47px] w-[47px] mr-2'
                                     />
                                 )}
                                 <div>
@@ -131,6 +131,7 @@ function SignupForm({ handleSubmit, data = {}, setData, loading }) {
                     onClick={(e) => {
                         e.preventDefault();
                         if (link.name && link.link && link.image) {
+                            // if(link.image.includes())
                             setData({
                                 ...data,
                                 links: [...links, { name: link.name, link: link.link, image: link.image }]

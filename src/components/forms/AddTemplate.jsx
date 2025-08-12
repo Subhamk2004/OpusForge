@@ -46,7 +46,7 @@ const TemplateForm = ({ showForm }) => {
                 ...formData,
                 formFields: formFieldsArray,
             }
-            console.log('Submitting form data:', formDataToSend);
+            // console.log('Submitting form data:', formDataToSend);
             let res = await fetch('/api/user/templates', {
                 method: 'POST',
                 headers: {

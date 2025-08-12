@@ -55,7 +55,7 @@ const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
       setCopiedIndex(index);
       setTimeout(() => setCopiedIndex(null), 2000);
     } catch (err) {
-      console.error('Failed to copy: ', err);
+      // console.error('Failed to copy: ', err);
     }
   };
 

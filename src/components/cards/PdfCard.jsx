@@ -24,7 +24,7 @@ function PdfCard({ asset }) {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      console.error('Failed to copy URL:', err)
+      // console.error('Failed to copy URL:', err)
     }
   }
 

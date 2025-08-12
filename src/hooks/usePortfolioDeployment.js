@@ -62,7 +62,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
         };
       }
     } catch (error) {
-      console.error("Error creating repository:", error);
+      // console.error("Error creating repository:", error);
       toast.error(`Error: ${error.message || "Failed to create repository."}`);
       return { error: true };
     }
@@ -70,7 +70,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
 
   const commitToRepo = async (finalHtml, formattedRepoName) => {
     try {
-      console.log(finalHtml);
+      // console.log(finalHtml);
       
       const username = user.user.githubUsername || "Anonymous";
       const res = await fetch("/api/user/commitToRepo", {
@@ -97,7 +97,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
         repoName: formattedRepoName,
       };
     } catch (error) {
-      console.error("Error committing to repository:", error);
+      // console.error("Error committing to repository:", error);
       toast.error(
         `Error: ${error.message || "Failed to commit to repository."}`
       );
@@ -137,7 +137,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
         error: false,
       };
     } catch (error) {
-      console.error("Error deploying to GitHub Pages:", error);
+      // console.error("Error deploying to GitHub Pages:", error);
       toast.error(`GitHub Pages deployment failed: ${error.message}`);
       return { error: true };
     }
@@ -174,7 +174,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
       toast.success(`Portfolio created successfully!`);
       return data;
     } catch (error) {
-      console.error("Error creating portfolio:", error);
+      // console.error("Error creating portfolio:", error);
       toast.error(`Error: ${error.message || "Failed to create portfolio."}`);
       return { error: true };
     }
@@ -197,12 +197,12 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
       })
       let data = await res.json();
       if(!res.ok) throw(data);
-      console.log(data.message);
+      // console.log(data.message);
       toast.success(data.message);
       if(data.message) dispatch(deleteInStore(portfolioId));
 
     } catch (error) {
-      console.error("Error deleting portfolio:", error.error);
+      // console.error("Error deleting portfolio:", error.error);
       toast.error(`Error: ${error.error || "Failed to delete portfolio."}`);
       return { error: true };
     }
@@ -234,7 +234,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
       toast.success(`Portfolio updated successfully!`);
       return data;
     } catch (error) {
-      console.error("Error updating portfolio:", error);
+      // console.error("Error updating portfolio:", error);
       toast.error(`Error: ${error.message || "Failed to update portfolio."}`);
       return { error: true };
     }

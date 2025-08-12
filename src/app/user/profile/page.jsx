@@ -16,7 +16,7 @@ function page() {
             setIsLoaded(true);
         }
     }, [user]);
-    console.log(user);
+    // console.log(user);
 
     if (!isLoaded) {
         return (

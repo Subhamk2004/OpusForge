@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 
 function Navbar() {
     const { isAuthenticated } = useSelector((state) => state.user)
-    console.log("User in Navbar:", isAuthenticated);
+    // console.log("User in Navbar:", isAuthenticated);
     
     return (
         <div className='w-full h-[60px] md:h-[90px] px-6 pb-0 bg-s'>

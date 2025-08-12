@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import Portfolio from "@/components/other/Portfolio";
 
 const PortfolioPreview = memo(({ userData, template, setHtml }) => {
-  console.log('PortfolioPreview re-rendered');
+  // console.log('PortfolioPreview re-rendered');
 
   return (
     <div className="w-full md:w-1/2 lg:w-[65%] md:pt-20 flex h-1/2 md:h-screen gap-4 text-black "> 

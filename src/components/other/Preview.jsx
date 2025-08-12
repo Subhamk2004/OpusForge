@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, demo }) {
 
     if (portfolioId) {
-        console.log(existingPortfolioData);
+        // console.log(existingPortfolioData);
     }
     let router = useRouter();
     const { assets } = useSelector((state) => state.assets);
@@ -55,7 +55,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
     const startProcess = useCallback(async () => {
         if (portfolioId == null) {
             let res = await createRepo(finalHtml);
-            console.log(res);
+            // console.log(res);
 
             if (!res || res.error) {
                 toast.error("An error occurred in the process. Please try again.");
@@ -81,7 +81,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                     toast.error("Error occurred while deploying to Github Pages");
                 } else {
                     let portfolioRes = await createPortfolio(deployRes.deployedUrl, template, debouncedData, commitRes.repoName);
-                    console.log(portfolioRes);
+                    // console.log(portfolioRes);
                     dispatch(addPortfolio(portfolioRes.data));
                     toast.success(`Successfully deployed to ${deployRes.deployedUrl}`);
                     setTimeout(() => {
@@ -103,7 +103,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                 return;
             }
             let updateRes = await updatePortfolio(existingPortfolioData._id, debouncedData);
-            console.log(updateRes);
+            // console.log(updateRes);
 
             if (updateRes.error) {
                 toast.error("Error occurred while updating portfolio");

@@ -26,7 +26,7 @@ export default function usePortfolios() {
           throw new Error("Failed to fetch portfolios");
         }
         const data = await response.json();
-        console.log("Fetched portfolios:", data);
+        // console.log("Fetched portfolios:", data);
         
         dispatch(setPortfolios(data));
         setPortfoliosState(data);

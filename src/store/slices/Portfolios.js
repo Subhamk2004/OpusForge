@@ -22,7 +22,7 @@ const portfoliosSlice = createSlice({
       }
     },
     deletePortfolio: (state, action) => {
-      console.log('Inside store: ',action.payload);
+      // console.log('Inside store: ',action.payload);
       
       state.portfolios = state.portfolios.filter(
         (portfolio) => portfolio._id !== action.payload

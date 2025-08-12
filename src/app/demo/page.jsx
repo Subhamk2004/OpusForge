@@ -9,7 +9,7 @@ import useDemo from '@/helper/demoTemplate'
 
 function Page1() {
     let { templates, loading } = useDemo();
-    console.log(templates);
+    // console.log(templates);
     let template = templates[1] || {};
 
 

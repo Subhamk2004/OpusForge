@@ -25,7 +25,7 @@ export default function useAssets() {
           throw new Error("Failed to fetch assets");
         }
         const data = await response.json();
-        console.log("Assets data is ", data);
+        // console.log("Assets data is ", data);
 
         dispatch(addAsset(data));
         setAssets(data);

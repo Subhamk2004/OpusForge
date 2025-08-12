@@ -22,7 +22,7 @@ export const useFormData = (template, existingPortfolioData) => {
     setFormFieldsArray(fieldsArray);
 
     fieldsArray.forEach(fieldName => {
-      console.log(fieldName);
+      // console.log(fieldName);
       
       if (!(fieldName in initialFormData)) {
         initialFormData[fieldName] = "";

@@ -84,7 +84,7 @@ function AssetUploadPage() {
         }
     };
 
-    console.log(pdf);
+    // console.log(pdf);
 
     const handleInputFileChange = (e) => {
         const file = e.target.files[0];
@@ -164,7 +164,7 @@ function AssetUploadPage() {
             e.target.reset();
 
         } catch (error) {
-            console.error('Upload error:', error);
+            // console.error('Upload error:', error);
             toast.update(loadingToast, {
                 render: error.message || 'Upload failed. Please try again.',
                 type: 'error',

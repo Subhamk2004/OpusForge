@@ -1,6 +1,6 @@
 const processTemplateString = (template, variables) => {
   if (!template || typeof template !== "string") {
-    console.warn("Invalid template provided");
+    // console.warn("Invalid template provided");
     return "";
   }
 
@@ -11,10 +11,10 @@ const processTemplateString = (template, variables) => {
       /\$\{JSON\.stringify\(data\)\}/g,
       JSON.stringify(variables.data || {})
     );
-    console.log(variables.data);
+    // console.log(variables.data);
     
   } catch (error) {
-    console.error("Error processing template:", error);
+    // console.error("Error processing template:", error);
     return template;
   }
 

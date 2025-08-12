@@ -11,11 +11,11 @@ function Page() {
 
   useEffect(() => {
     if (!templates) {
-      console.log("No templates found");
+      // console.log("No templates found");
     } else setFoundTemplates(templates[0]);
   }, [templates])
 
-  console.log("Templates:", foundTemplates);
+  // console.log("Templates:", foundTemplates);
 
   return (
     <div className="flex w-full flex-col items-center justify-start min-h-screen bg-light ">
@@ -58,13 +58,13 @@ function Page() {
           </div>
       }
 
-      <Link href="/user/templates/addTemplate"
+      {/* <Link href="/user/templates/addTemplate"
         className="flex flex-row items-center justify-center bg-purple p-3 lg:p-5 rounded-full shadow-xl absolute bottom-24 lg:bottom-28 right-6 gap-2
         hover:scale-105 active:scale-95 group transition-all "
       >
         <FilePlus2Icon className="w-5 h-5 lg:w-6 lg:h-6 text-black" />
         <p className="text-textp font-semibold text-sm hidden group-hover:flex">Add New Template</p>
-      </Link>
+      </Link> */}
       <div className="p-14"></div>
     </div>
   )

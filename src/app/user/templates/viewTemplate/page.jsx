@@ -14,12 +14,12 @@ function Page1() {
     let [template, setTemplate] = useState({});
     let [portfolio, setPortfolio] = useState({});
     let [loading, setLoading] = useState(true);
-    console.log(template.htmlString);
+    // console.log(template.htmlString);
     
 
     useEffect(() => {
         if (!templates || templates.length === 0) {
-            console.log("No templates found");
+            // console.log("No templates found");
             setLoading(true);
         } else {
             setLoading(false);
@@ -27,7 +27,7 @@ function Page1() {
         }
 
         if (!portfolioId || portfolios.length === 0) {
-            console.log("No portfolios found or portfolioId not provided");
+            // console.log("No portfolios found or portfolioId not provided");
             setLoading(false);
             setPortfolio({});
         } else {
@@ -39,12 +39,12 @@ function Page1() {
                     portfolio: foundPortfolio
                 }));
             } else {
-                console.log("Portfolio not found");
+                // console.log("Portfolio not found");
             }
         }
     }, [templates, portfolios, templateId, portfolioId])
 
-    console.log("portfolio", portfolio);
+    // console.log("portfolio", portfolio);
 
     return (
         <div className='w-full h-full flex flex-col items-center justify-center -mt-8 md:mt-0'>

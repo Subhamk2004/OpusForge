@@ -52,7 +52,7 @@ export const authOptions = {
             links: user.links,
           };
         } catch (error) {
-          console.error("Error during authorization:", error);
+          // console.error("Error during authorization:", error);
           throw new Error("Authorization failed");
         }
       },

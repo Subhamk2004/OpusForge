@@ -58,12 +58,12 @@ const Portfolio = ({ userData, template: newTemp, setHtml }) => {
                 </html>
             `;
 
-            console.log('Template processed successfully');
+            // console.log('Template processed successfully');
             setProcessedHTML(fullHTML);
             setHtml(processed);
             setError(null);
         } catch (err) {
-            console.error('Template processing error:', err);
+            // console.error('Template processing error:', err);
             setError('Failed to process template');
         } finally {
             setIsLoading(false);

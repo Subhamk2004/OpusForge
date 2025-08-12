@@ -19,7 +19,7 @@ export default function Home() {
   let handleSubmit = async (e) => {
     e.preventDefault();
     toast.info("Currently email and password login is not implemented. Please use GitHub sign-in.")
-    console.log("Form submitted with data:", userData);
+    // console.log("Form submitted with data:", userData);
   }
 
   const handleGitHubSignIn = () => {
