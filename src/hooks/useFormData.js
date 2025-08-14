@@ -49,6 +49,18 @@ export const useFormData = (template, existingPortfolioData) => {
     }));
   };
 
+  const updateFromAI = (aiData) => {
+    setData(prevData => ({
+      ...prevData,
+      ...aiData
+    }));
+    
+    setDebouncedData(prevData => ({
+      ...prevData,
+      ...aiData
+    }));
+  };
+
   const formatFieldName = (fieldName) => {
     return fieldName
       .replace(/([A-Z])/g, ' $1')
@@ -61,6 +73,7 @@ export const useFormData = (template, existingPortfolioData) => {
     debouncedData,
     formFieldsArray,
     handleInputChange,
-    formatFieldName
+    formatFieldName,
+    updateFromAI
   };
 };

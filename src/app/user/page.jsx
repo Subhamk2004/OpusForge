@@ -34,6 +34,7 @@ import Image from "next/image"
 import github from "@/assets/github1.png"
 import { usePortfolioDeployment } from "@/hooks/usePortfolioDeployment"
 import { ToastContainer, toast } from 'react-toastify';
+import Root from "@/components/AI/Root"
 
 export default function DashboardPage() {
   const { user } = useSelector((state) => state.user)
@@ -153,6 +154,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen w-full pb-16 flex flex-col items-center ">
       <ToastContainer />
+      {/* <Root /> */}
       {
         isModelOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

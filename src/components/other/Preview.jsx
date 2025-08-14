@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useAssetSearch } from "@/hooks/useAssetSearch";
 import { useFormData } from "@/hooks/useFormData";
 import { usePortfolioDeployment } from "@/hooks/usePortfolioDeployment";
@@ -11,24 +11,28 @@ import PortfolioPreview from "@/components/ui/PortfolioPreview";
 import { useDispatch } from "react-redux";
 import { addPortfolio, updatePortfolio as updatePortfolioInRedux } from "@/store/slices/Portfolios";
 import { useRouter } from "next/navigation";
+import Root from "../AI/Root";
 
 function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, demo }) {
 
     if (portfolioId) {
         // console.log(existingPortfolioData);
     }
+    const [aiPopulatedData, setAiPopulatedData] = useState(null);
     let router = useRouter();
     const { assets } = useSelector((state) => state.assets);
     const [finalHtml, setFinalHtml] = useState("");
     const [loadedAssets, setLoadedAssets] = useState([]);
     let dispatch = useDispatch();
     const { searchQuery, searchResults, handleSearch } = useAssetSearch(loadedAssets);
+
     const {
         data,
         debouncedData,
         formFieldsArray,
         handleInputChange,
-        formatFieldName
+        formatFieldName,
+        updateFromAI
     } = useFormData(template, existingPortfolioData.userData || {});
     const {
         repoName,
@@ -39,6 +43,12 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
         createPortfolio,
         updatePortfolio,
     } = usePortfolioDeployment(portfolioId || null, existingPortfolioData);
+
+    const handleAIDataPopulated = useCallback((populatedData) => {
+        // Update the form data with AI populated data
+        updateFromAI(populatedData);
+        toast.success("Form fields updated with resume data!");
+    }, [updateFromAI]);
 
     useEffect(() => {
         if (assets && assets.length > 0) {
@@ -118,8 +128,11 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
 
     }, [finalHtml, createRepo, commitToRepo, deployToGithub, createPortfolio, template, debouncedData, updatePortfolio]);
 
+    // console.log(debouncedData);
+
     return (
         <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start mt-2 md:mt-0'>
+            {/* <ToastContainer /> */}
             <Header
                 searchQuery={searchQuery}
                 searchResults={searchResults}
@@ -128,6 +141,8 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                 onRepoNameChange={setRepoName}
                 onSubmit={startProcess}
                 demo={demo}
+                userData={debouncedData}
+                onAIDataPopulated={handleAIDataPopulated}
             />
 
             <div className="flex flex-col md:flex-row items-center md:justify-between md:p-6 bg-light text-white seperator w-full h-screen overflow-auto md:pt-12  border-t border-black">

@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import AssetSearchBar from '@/components/ui/AssetSearchBar';
 import DeploymentForm from '@/components/forms/DeploymentForm';
 import { Briefcase, Sparkles, Code, Palette } from 'lucide-react';
+import Root from '../AI/Root';
 
 const Header = ({
   searchQuery,
@@ -11,13 +12,15 @@ const Header = ({
   repoName,
   onRepoNameChange,
   onSubmit,
-  demo
+  demo,
+  userData,
+  onAIDataPopulated ,
 }) => {
   const portfolioId = useSearchParams().get('portfolioID');
   const isUpdate = !!portfolioId;
 
   return (
-    <div className={`w-full ${demo ? 'hidden' :''} bg-white border-b border-b-texts border-gray-200 shadow-sm `}>
+    <div className={`w-full ${demo ? 'hidden' : ''} bg-white border-b border-b-texts border-gray-200 shadow-sm `}>
       <div className="flex flex-col md:items-center p-4 md:pb-8 gap-4">
 
         <div className="flex w-[95%] items-center gap-3 justify-between">
@@ -34,7 +37,7 @@ const Header = ({
           <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg border">
             <div className={`w-2 h-2 rounded-full bg-green-400 ${isUpdate && 'bg-orange-400'} ${demo && 'bg-textPurple'}`}></div>
             <span className="text-sm font-medium text-gray-700">
-              {isUpdate && 'Edit Mode' }
+              {isUpdate && 'Edit Mode'}
               {demo && 'Demo Mode'}
               {!isUpdate && !demo && 'Create Mode'}
             </span>
@@ -43,13 +46,17 @@ const Header = ({
         </div>
 
 
-        <div className={`${demo ? 'hidden' : ''} flex w-[95%] flex-row md:flex-wrap justify-between items-center gap-4 `}>
-          <div className="">
+        <div className={`${demo ? 'hidden' : ''} flex w-[95%] flex-row md:flex-row justify-between items-center gap-4 overflow-x-scroll `}>
+          <div className="flex flex-row items-center gap-4 w-full">
             <AssetSearchBar
               searchQuery={searchQuery}
               searchResults={searchResults}
               onSearch={onSearch}
               demo={demo}
+            />
+            <Root
+              userData={userData}
+              onAIDataPopulated={onAIDataPopulated}
             />
           </div>
 

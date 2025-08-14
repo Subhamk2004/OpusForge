@@ -40,7 +40,7 @@ export default function useAuth() {
           }
         } else {
           dispatch(loginUser(data.userData));
-          if (pathname.includes("/contact")){
+          if (pathname.includes("/contact") || pathname.includes("/resume")){
             // console.log("Allowed");
             
           }

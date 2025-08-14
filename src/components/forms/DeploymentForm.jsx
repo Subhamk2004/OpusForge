@@ -114,7 +114,7 @@ const DeploymentForm = ({ repoName, onRepoNameChange, onSubmit, demo }) => {
         ) : (
           <>
             <Upload className="w-4 h-4" />
-            <span>{isUpdate ? 'Update Portfolio' : 'Create Portfolio'}</span>
+            <span className='text-nowrap'>{isUpdate ? 'Update Portfolio' : 'Create Portfolio'}</span>
           </>
         )}
       </button>

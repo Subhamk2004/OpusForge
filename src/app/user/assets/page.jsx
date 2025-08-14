@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { addSingleAsset } from '@/store/slices/Assets';
-import { GalleryHorizontalIcon, ImageIcon, SwatchBookIcon, TextSelectionIcon, UploadCloud, Search, Filter, X } from 'lucide-react';
+import { GalleryHorizontalIcon, ImageIcon, SwatchBookIcon, TextSelectionIcon, UploadCloud, Search, Filter, X, ChevronDownCircle } from 'lucide-react';
 import ImageCard from '@/components/cards/ImageCard';
 import PdfCard from '@/components/cards/PdfCard';
 
@@ -16,9 +16,10 @@ function AssetUploadPage() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [isDragOver, setIsDragOver] = useState(false);
+    let [expand, setExpand] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchFilter, setSearchFilter] = useState('all'); 
+    const [searchFilter, setSearchFilter] = useState('all');
     const [filteredAssets, setFilteredAssets] = useState([]);
 
     const { assets } = useSelector((state) => state.assets);
@@ -42,7 +43,7 @@ function AssetUploadPage() {
         }
     }, [assets, user]);
 
-    
+
     useEffect(() => {
         if (!loadedAssets || loadedAssets.length === 0) {
             setFilteredAssets([]);
@@ -51,7 +52,7 @@ function AssetUploadPage() {
 
         let filtered = [...loadedAssets];
 
-        
+
         if (searchFilter !== 'all') {
             filtered = filtered.filter(asset => asset.type === searchFilter);
         }
@@ -212,164 +213,181 @@ function AssetUploadPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-col lg:flex-row items-center justify-around w-full max-w-[1500px] mx-auto px-2 md:px-4 py-8 gap-8">
+                <div className="flex flex-col items-center justify-around w-full  mt-10 mx-auto px-4 md:px-6 mb-10">
 
-                    <div className="bg-white w-full lg:w-[48%] rounded-3xl p-5 md:p-8 backdrop-blur-sm bg-white/90 border border-gray-100 shadow-lg">
-                        <div className="flex items-center mb-6">
+                    <button
+                        className='px-6 py-6 hover:bg-gray-100 hover:shadow-lg transition-all duration-200 w-full  bg-white rounded-2xl  shadow-md backdrop-blur-sm bg-white/90 flex flex-row items-center justify-center'
+                        onClick={() => {
+                            setExpand(!expand)
+                            console.log('Expand state:', !expand);
+
+                        }}
+                    >
+                        <div className="flex items-center ">
                             <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-black to-gray-900 rounded-lg flex items-center justify-center mr-3">
                                 <UploadCloud className="w-5 md:w-6 md:h-6 text-white" />
                             </div>
                             <h2 className="text-lg md:text-2xl font-semibold text-gray-800">Upload New Asset</h2>
+                            <ChevronDownCircle className={`w-5 h-5 ml-2 text-black transition-transform duration-200 ${expand ? 'transform rotate-180' : ''}`} />
                         </div>
+                    </button>
+                    {
+                        expand &&
+                        <div className="flex flex-col lg:flex-row items-center justify-around w-full max-w-[1500px] mx-auto px-2 md:px-4 py-8 gap-8">
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                                    Asset Type
-                                </label>
-                                <div className="flex space-x-4">
-                                    <button
-                                        type="button"
-                                        onClick={() => setAssetType('image')}
-                                        className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${assetType === 'image'
-                                            ? 'border-hoverbg bg-purple/30 text-textPurple'
-                                            : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
-                                            }`}
-                                    >
-                                        <div className="flex items-center justify-center">
-                                            <ImageIcon className="w-5 h-5 mr-2" />
-                                            Image
-                                        </div>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setAssetType('pdf')}
-                                        className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${assetType === 'pdf'
-                                            ? 'border-hoverbg bg-purple/30 text-textPurple'
-                                            : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
-                                            }`}
-                                    >
-                                        <div className="flex items-center justify-center">
-                                            <TextSelectionIcon className="w-5 h-5 mr-2" />
-                                            PDF
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
+                            <div className="bg-white w-full lg:w-[48%] rounded-3xl p-5 md:p-8 backdrop-blur-sm bg-white/90 border border-gray-100 shadow-lg">
 
-                            {/* File Upload Area */}
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                                    Upload File
-                                </label>
-                                <div
-                                    className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 ${isDragOver
-                                        ? 'border-hoverbg bg-purple/30'
-                                        : 'border-gray-300 hover:border-gray-400'
-                                        }`}
-                                    onDrop={handleDrop}
-                                    onDragOver={handleDragOver}
-                                    onDragLeave={handleDragLeave}
-                                >
-                                    <input
-                                        type="file"
-                                        accept={
-                                            assetType === 'image' ? 'image/*'
-                                                : assetType === 'pdf' ? 'application/pdf'
-                                                    : ''
-                                        }
-                                        onChange={handleInputFileChange}
-                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                    />
 
-                                    <div className="space-y-4">
-                                        <div className="w-16 h-16 bg-hoverbg rounded-full flex items-center justify-center mx-auto">
-                                            <UploadCloud className="w-8 h-8 text-white" />
-                                        </div>
-                                        <div>
-                                            <p className="text-lg font-medium text-gray-700">
-                                                Drop your {assetType} here or <span className="text-textPurple">browse</span>
-                                            </p>
-                                            <p className="text-sm text-gray-500 mt-1">
-                                                {assetType === 'image' ? 'Supports: JPG, PNG, GIF, WebP' : 'Supports: PDF files only'}
-                                            </p>
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                            Asset Type
+                                        </label>
+                                        <div className="flex space-x-4">
+                                            <button
+                                                type="button"
+                                                onClick={() => setAssetType('image')}
+                                                className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${assetType === 'image'
+                                                    ? 'border-hoverbg bg-purple/30 text-textPurple'
+                                                    : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
+                                                    }`}
+                                            >
+                                                <div className="flex items-center justify-center">
+                                                    <ImageIcon className="w-5 h-5 mr-2" />
+                                                    Image
+                                                </div>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setAssetType('pdf')}
+                                                className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${assetType === 'pdf'
+                                                    ? 'border-hoverbg bg-purple/30 text-textPurple'
+                                                    : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
+                                                    }`}
+                                            >
+                                                <div className="flex items-center justify-center">
+                                                    <TextSelectionIcon className="w-5 h-5 mr-2" />
+                                                    PDF
+                                                </div>
+                                            </button>
                                         </div>
                                     </div>
-                                </div>
+
+                                    {/* File Upload Area */}
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                            Upload File
+                                        </label>
+                                        <div
+                                            className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 ${isDragOver
+                                                ? 'border-hoverbg bg-purple/30'
+                                                : 'border-gray-300 hover:border-gray-400'
+                                                }`}
+                                            onDrop={handleDrop}
+                                            onDragOver={handleDragOver}
+                                            onDragLeave={handleDragLeave}
+                                        >
+                                            <input
+                                                type="file"
+                                                accept={
+                                                    assetType === 'image' ? 'image/*'
+                                                        : assetType === 'pdf' ? 'application/pdf'
+                                                            : ''
+                                                }
+                                                onChange={handleInputFileChange}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                            />
+
+                                            <div className="space-y-4">
+                                                <div className="w-16 h-16 bg-hoverbg rounded-full flex items-center justify-center mx-auto">
+                                                    <UploadCloud className="w-8 h-8 text-white" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-lg font-medium text-gray-700">
+                                                        Drop your {assetType} here or <span className="text-textPurple">browse</span>
+                                                    </p>
+                                                    <p className="text-sm text-gray-500 mt-1">
+                                                        {assetType === 'image' ? 'Supports: JPG, PNG, GIF, WebP' : 'Supports: PDF files only'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Form Fields */}
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                                Asset Name *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
+                                                required
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple focus:border-transparent transition-all duration-200"
+                                                placeholder="Enter asset name"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                                Description
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={description}
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-hoverbg focus:border-transparent transition-all duration-200"
+                                                placeholder="Brief description"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        disabled={!asset}
+                                        className="w-full bg-hoverbg text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                    >
+                                        Upload Asset
+                                    </button>
+                                </form>
                             </div>
 
-                            {/* Form Fields */}
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                        Asset Name *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple focus:border-transparent transition-all duration-200"
-                                        placeholder="Enter asset name"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                        Description
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-hoverbg focus:border-transparent transition-all duration-200"
-                                        placeholder="Brief description"
-                                    />
-                                </div>
-                            </div>
+                            {/* Preview Section */}
+                            {filePreview && (
+                                <div className="bg-white rounded-2xl w-full h-full lg:w-[48%] shadow-xl p-8 backdrop-blur-sm bg-white/90 border border-white/20">
+                                    <div className="flex items-center mb-6">
+                                        <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center mr-3">
+                                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </div>
+                                        <h2 className="text-2xl font-semibold text-gray-800">Preview</h2>
+                                    </div>
 
-                            <button
-                                type="submit"
-                                disabled={!asset}
-                                className="w-full bg-hoverbg text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                            >
-                                Upload Asset
-                            </button>
-                        </form>
-                    </div>
-
-                    {/* Preview Section */}
-                    {filePreview && (
-                        <div className="bg-white rounded-2xl w-full h-full lg:w-[48%] shadow-xl p-8 backdrop-blur-sm bg-white/90 border border-white/20">
-                            <div className="flex items-center mb-6">
-                                <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center mr-3">
-                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
+                                    <div className="rounded-xl overflow-hidden border border-gray-200">
+                                        {assetType === 'image' ? (
+                                            <img
+                                                src={filePreview}
+                                                alt="Asset Preview"
+                                                className="w-full h-auto max-h-96 object-contain bg-gray-50"
+                                            />
+                                        ) : (
+                                            <iframe
+                                                src={filePreview}
+                                                title="Asset Preview"
+                                                className="w-full h-96 bg-gray-50"
+                                            />
+                                        )}
+                                    </div>
                                 </div>
-                                <h2 className="text-2xl font-semibold text-gray-800">Preview</h2>
-                            </div>
-
-                            <div className="rounded-xl overflow-hidden border border-gray-200">
-                                {assetType === 'image' ? (
-                                    <img
-                                        src={filePreview}
-                                        alt="Asset Preview"
-                                        className="w-full h-auto max-h-96 object-contain bg-gray-50"
-                                    />
-                                ) : (
-                                    <iframe
-                                        src={filePreview}
-                                        title="Asset Preview"
-                                        className="w-full h-96 bg-gray-50"
-                                    />
-                                )}
-                            </div>
+                            )}
                         </div>
-                    )}
+                    }
                 </div>
 
-                
+
                 {loadedAssets && loadedAssets.length > 0 && (
                     <div className="w-full px-4 mb-8">
                         <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 backdrop-blur-sm bg-white/90">

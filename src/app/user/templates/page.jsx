@@ -28,10 +28,10 @@ function Page() {
             </div>
             <div className="space-y-2">
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
-                My Templates
+                Templates
               </h1>
               <p className="text-sm md:text-base text-texts max-w-2xl">
-                Create, manage, and organize your templates. Get started quickly with pre-built designs or create something unique.
+                Explore a variety of templates to kickstart your projects.Select from a range of pre-designed templates that suit your needs, whether it's for web development or design
               </p>
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-500">
