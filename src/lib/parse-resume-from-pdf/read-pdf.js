@@ -26,7 +26,7 @@ export const readPdf = async (fileUrl) => {
     // Parse each page into text content
     const page = await pdfFile.getPage(i);
     const textContent = await page.getTextContent();
-    console.log(`Page ${i} text content:`, textContent);
+    // console.log(`Page ${i} text content:`, textContent);
 
     // Wait for font data to be loaded
     await page.getOperatorList();

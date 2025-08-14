@@ -60,14 +60,14 @@ function Root({ userData, onAIDataPopulated  }) {
         if (table && table.length > 0) {
             const convertedText = convertTableToStructuredString(table);
             setResumeText(convertedText);
-            console.log('Resume as string:', convertedText);
+            // console.log('Resume as string:', convertedText);
         }
     }, [table]);
     // console.log(resumeText);
 
 
     let sendToAI = async () => {
-        console.log(resumeText);
+        // console.log(resumeText);
 
         try {
             setLoading(true);
@@ -94,7 +94,7 @@ function Root({ userData, onAIDataPopulated  }) {
                 onAIDataPopulated(data);
             }
             toast.success("Resume processed successfully!");
-            console.log("parser Response:", data);
+            // console.log("parser Response:", data);
         } catch (error) {
             console.error("Error sending resume to parser:", error);
             if (!toast.isActive("parser-error")) {
