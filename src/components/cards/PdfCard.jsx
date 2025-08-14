@@ -3,7 +3,7 @@ import { FileText, Download, Calendar, User, ExternalLink, Copy, Check } from 'l
 
 function PdfCard({ asset }) {
   const [copied, setCopied] = useState(false)
-  
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -13,25 +13,25 @@ function PdfCard({ asset }) {
   }
 
   const handleDownload = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch(asset.url);
-    const blob = await response.blob();
+    e.preventDefault();
+    try {
+      const response = await fetch(asset.url);
+      const blob = await response.blob();
 
-    const pdfBlob = new Blob([blob], { type: "application/pdf" });
+      const pdfBlob = new Blob([blob], { type: "application/pdf" });
 
-    const url = window.URL.createObjectURL(pdfBlob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${asset?.name || "document"}.pdf`; 
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Error downloading PDF:", error);
-  }
-};
+      const url = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${asset?.name || "document"}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
+  };
 
 
   const handleCopyUrl = async (e) => {
@@ -53,7 +53,7 @@ function PdfCard({ asset }) {
           <FileText className='w-16 h-16 text-textPurple mx-auto mb-2' />
           <span className='text-textPurple font-medium text-sm'>PDF Document</span>
         </div>
-        
+
 
         <div className='absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center'>
           <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2'>
@@ -75,9 +75,9 @@ function PdfCard({ asset }) {
             >
               <Download className='w-5 h-5 text-gray-700' />
             </button>
-            <a 
-              href={asset?.url} 
-              target="_blank" 
+            <a
+              href={asset?.url}
+              target="_blank"
               rel="noopener noreferrer"
               className='bg-white rounded-full p-2 hover:bg-gray-50 shadow-md transition-colors'
               title='Open PDF'
@@ -87,19 +87,19 @@ function PdfCard({ asset }) {
           </div>
         </div>
       </div>
-      
+
 
       <div className='p-4'>
         <h3 className='font-semibold text-gray-800 text-lg mb-2 truncate'>
           {asset?.name || 'Untitled PDF'}.pdf
         </h3>
-        
+
         {asset?.description && (
           <p className='text-gray-600 text-sm mb-3 line-clamp-2'>
             {asset.description}
           </p>
         )}
-        
+
 
         <div className='flex items-center justify-between text-xs text-gray-500 mb-3'>
           <div className='flex items-center gap-1'>
@@ -113,7 +113,7 @@ function PdfCard({ asset }) {
             <span>{formatDate(asset?.createdAt)}</span>
           </div>
         </div>
-        
+
 
         <div className='flex gap-2'>
           <button
