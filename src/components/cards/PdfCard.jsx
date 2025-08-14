@@ -12,10 +12,27 @@ function PdfCard({ asset }) {
     })
   }
 
-  const handleDownload = (e) => {
-    e.preventDefault()
-    window.open(asset.url, '_blank')
+  const handleDownload = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch(asset.url);
+    const blob = await response.blob();
+
+    const pdfBlob = new Blob([blob], { type: "application/pdf" });
+
+    const url = window.URL.createObjectURL(pdfBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${asset?.name || "document"}.pdf`; 
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading PDF:", error);
   }
+};
+
 
   const handleCopyUrl = async (e) => {
     e.preventDefault()

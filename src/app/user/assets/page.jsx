@@ -220,7 +220,6 @@ function AssetUploadPage() {
                         onClick={() => {
                             setExpand(!expand)
                             console.log('Expand state:', !expand);
-
                         }}
                     >
                         <div className="flex items-center ">
