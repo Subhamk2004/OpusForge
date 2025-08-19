@@ -33,6 +33,14 @@ let userSchema = new mongoose.Schema(
       required: true,
       default: null,
     },
+    aiGenerationCounter: {
+      type: Number,
+      default: 0,
+    },
+    lastRequestTimestamp: {
+      type: Date,
+      default: Date.now,
+    },
     links: [
       {
         name: {

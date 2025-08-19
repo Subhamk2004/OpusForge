@@ -5,6 +5,8 @@ import React from 'react'
 import github from '@/assets/github.png';
 
 function ProfileCard({ data, stats }) {
+  // console.log(data.githubUsername);
+  
 
   return (
     <div className='p-4 py-6 shadow-medium flex flex-col items-center rounded-3xl w-[310px] h-[300px] justify-center'>

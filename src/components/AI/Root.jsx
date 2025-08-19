@@ -71,7 +71,7 @@ function Root({ userData, onAIDataPopulated  }) {
 
         try {
             setLoading(true);
-            let res = await fetch('/api/AI', {
+            let res = await fetch('/api/AI/Parser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

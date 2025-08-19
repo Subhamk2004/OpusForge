@@ -131,7 +131,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
     // console.log(debouncedData);
 
     return (
-        <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start mt-2 md:mt-0'>
+        <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start mt-2 md:mt-0 z-50 relative'>
             {/* <ToastContainer /> */}
             <Header
                 searchQuery={searchQuery}
@@ -145,7 +145,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                 onAIDataPopulated={handleAIDataPopulated}
             />
 
-            <div className="flex flex-col md:flex-row items-center md:justify-between md:p-6 bg-light text-white seperator w-full h-screen overflow-auto md:pt-12  border-t border-black">
+            <div className="flex flex-col md:flex-row items-center md:justify-between md:p-6 bg-light text-white seperator w-full h-screen overflow-auto md:pt-12  border-t border-black z-30">
                 <FormSection
                     formFieldsArray={formFieldsArray}
                     data={data}

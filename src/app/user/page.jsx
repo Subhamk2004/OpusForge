@@ -120,7 +120,7 @@ export default function DashboardPage() {
     }
   }
 
-  // console.log("User Data:", loadedPortfolios);
+  // console.log("User Data:", userData);
 
   if (!isLoaded) {
     return (

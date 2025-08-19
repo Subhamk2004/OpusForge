@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Search, Image, FileText, Link, Copy, Check, X } from 'lucide-react';
 
 const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
+  // console.log(searchResults.length, 'searchResults length');
+  
   const [copiedIndex, setCopiedIndex] = useState(null);
 
   const getAssetIcon = (asset) => {
@@ -29,7 +31,7 @@ const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
               e.target.nextSibling.style.display = 'flex';
             }}
           />
-          <div className="w-full h-full bg-gray-200 flex items-center justify-center hidden">
+          <div className="w-full h-full bg-gray-200 flex items-center justify-center">
             <Image className="w-6 h-6 text-gray-400" />
           </div>
         </div>
@@ -65,7 +67,7 @@ const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
   };
 
   return (
-    <div className="relative">
+    <div className=" z-40">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
         <input
@@ -79,7 +81,7 @@ const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
       </div>
 
       {searchResults.length > 0 && (
-        <div className="absolute top-12 left-0 w-[400px] bg-white shadow-xl border border-gray-200 rounded-lg z-50 max-h-80 overflow-hidden">
+        <div className="absolute md:top-32 md:left-8 w-[300px] md:w-[400px] bg-white shadow-xl border border-gray-200 rounded-lg z-50 max-h-80 overflow-scroll">
           <div className='flex items-center justify-between p-4
            border-gray-100 relative'>
             <button

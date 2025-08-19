@@ -20,8 +20,8 @@ const Header = ({
   const isUpdate = !!portfolioId;
 
   return (
-    <div className={`w-full ${demo ? 'hidden' : ''} bg-white border-b border-b-texts border-gray-200 shadow-sm `}>
-      <div className="flex flex-col md:items-center p-4 md:pb-8 gap-4">
+    <div className={`w-full ${demo ? 'hidden' : ''} bg-white border-b border-b-texts border-gray-200 shadow-sm z-50 `}>
+      <div className="flex flex-col md:items-center p-4 md:pb-8 gap-4 z-50">
 
         <div className="flex w-[95%] items-center gap-3 justify-between">
           <div className="hidden md:flex items-center gap-2">
@@ -46,8 +46,8 @@ const Header = ({
         </div>
 
 
-        <div className={`${demo ? 'hidden' : ''} flex w-[95%] flex-row md:flex-row justify-between items-center gap-4 overflow-x-scroll `}>
-          <div className="flex flex-row items-center gap-4 w-full">
+        <div className={`${demo ? 'hidden' : ''} flex w-[95%] flex-row md:flex-row justify-between items-center gap-4 overflow-x-scroll overflow-y-hidden z-50`}>
+          <div className="flex flex-row z-40 items-center gap-4 w-full ">
             <AssetSearchBar
               searchQuery={searchQuery}
               searchResults={searchResults}

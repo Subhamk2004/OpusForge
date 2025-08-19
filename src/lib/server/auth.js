@@ -74,6 +74,7 @@ export const authOptions = {
         token.refreshToken = account.refresh_token;
         token.provider = account.provider;
         token.acc = account;
+        token.aiGenerationCounter = 0;
       }
       if (user) {
         token.id = user.id;
@@ -89,40 +90,10 @@ export const authOptions = {
         session.refreshToken = token.refreshToken;
         session.provider = token.provider;
         session.acc = token.acc;
+        session.aiGenerationCounter = token.aiGenerationCounter;
       }
         // console.log("Session Callback - Session:", session);
       return session;
     },
   },
 };
-
-// import GithubProvider from "next-auth/providers/github";
-
-// export const authOptions = {
-//   providers: [
-//     GithubProvider({
-//       clientId: process.env.GITHUB_CLIENT_ID || "dummy",
-//       clientSecret: process.env.GITHUB_CLIENT_SECRET || "dummy",
-//     }),
-//   ],
-//   session: {
-//     strategy: "jwt",
-//   },
-//   pages: {
-//     signIn: "/login",
-//   },
-//   callbacks: {
-//     async jwt({ token, user, account }) {
-//       if (user) {
-//         token.id = user.id;
-//       }
-//       return token;
-//     },
-//     async session({ session, token }) {
-//       if (token) {
-//         session.user.id = token.id;
-//       }
-//       return session;
-//     },
-//   },
-// };
