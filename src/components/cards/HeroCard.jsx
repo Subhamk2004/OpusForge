@@ -1,4 +1,4 @@
-import Github from "@/assets/github.png";
+import Github from "@/assets/logo1.png";
 import pattern1 from "@/assets/pattern3.webp";
 import Link from "next/link";
 import { LucideArrowUpRight } from "lucide-react";
@@ -22,15 +22,15 @@ function HeroCard() {
                     </p>
                 </Link>
                 <Link
-                    href="https://github.com/Subhamk2004/OpusForge" target="_blank"
+                    href="/demo" 
                     className="w-full z-10 flex flex-row justify-start items-center gap-5 mt-3 p-2 px-3 rounded-2xl bg-black cursor-pointer hover:scale-110 transition-all duration-300">
                     <Image
                         src={Github}
-                        alt="github"
+                        alt="demo"
                         className="w-7 h-7 md:w-9 md:h-9 "
                     />
                     <p className="text-white md:text-lg font-semibold ">
-                        Star on Github
+                        View Demo
                     </p>
                 </Link>
             </div>
