@@ -5,6 +5,7 @@ import logo from "@/assets/logo1.png";
 import AuthMiddleware from "@/lib/client/AuthMiddleware.js";
 import { Provider } from "react-redux";
 import { store } from '@/store/index'
+import Footer from "@/components/other/Footer";
 
 // export const metadata = {
 //   title: "OpusForge",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
           <AuthMiddleware>
             {children}
           </AuthMiddleware>
+          <Footer />
         </Provider>
       </body>
     </html>
