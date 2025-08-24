@@ -66,6 +66,14 @@ export default function RootLayout({ children }) {
         <meta name="twitter:title" content="OpusForge - Build Your Professional Portfolio" />
         <meta name="twitter:description" content="Create stunning professional portfolios with OpusForge." />
         <meta name="twitter:image" content="/twitter-image.jpg" />
+        {/* Search Engine Verification */}
+        <meta name="google-site-verification" content="your-google-search-console-verification-code" />
+        <meta name="msvalidate.01" content="your-bing-webmaster-verification-code" />
+        <meta name="yandex-verification" content="your-yandex-verification-code" />
+
+        {/* Additional SEO Meta Tags */}
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
         <link rel="canonical" href="https://www.opusforge.tech" />
 
