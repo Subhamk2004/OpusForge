@@ -17,13 +17,13 @@ export function WebVitals() {
       }
 
       // Console log for debugging (remove in production)
-      console.log('Web Vital:', {
-        name: metric.name,
-        value: metric.value,
-        rating: metric.rating,
-        delta: metric.delta,
-        id: metric.id,
-      });
+      // console.log('Web Vital:', {
+      //   name: metric.name,
+      //   value: metric.value,
+      //   rating: metric.rating,
+      //   delta: metric.delta,
+      //   id: metric.id,
+      // });
     }
   });
 
