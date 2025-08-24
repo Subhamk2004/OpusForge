@@ -1,13 +1,21 @@
-import path from 'path';
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+
   experimental: {
     // Enable optimized package imports
     optimizePackageImports: ["lucide-react", "recharts"],
     // Reduce JavaScript bundle size
     webVitalsAttribution: ["CLS", "LCP"],
   },
+
   images: {
     remotePatterns: [
       {
@@ -30,40 +38,36 @@ const nextConfig = {
       },
     ],
   },
+
   webpack: (config, { dev, isServer }) => {
     // Production optimizations
     if (!dev && !isServer) {
-      // Split chunks for better caching
       config.optimization.splitChunks = {
-        chunks: 'all',
+        ...config.optimization.splitChunks,
         cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
+          ...config.optimization.splitChunks?.cacheGroups,
           vendor: {
             test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            priority: -10,
-            chunks: 'all',
+            name: "vendors",
+            chunks: "all",
           },
           common: {
-            name: 'common',
+            name: "common",
             minChunks: 2,
-            chunks: 'all',
-            priority: -5,
+            chunks: "all",
             reuseExistingChunk: true,
           },
         },
       };
     }
+
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.resolve(__dirname, 'src'),
+      "@": path.resolve(__dirname, "src"),
     };
 
     return config;
   },
 };
+
 export default nextConfig;
