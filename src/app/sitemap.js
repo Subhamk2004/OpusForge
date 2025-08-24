@@ -1,101 +1,44 @@
-export default function sitemap() {
+// app/sitemap.xml/route.js
+export async function GET() {
   const baseUrl = 'https://www.opusforge.tech';
   const currentDate = new Date().toISOString();
 
-  // Static pages with their priorities and change frequencies
   const staticPages = [
-    {
-      url: baseUrl,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/features`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/demo`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/signin`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly',
-      priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly',
-      priority: 0.4,
-    },
-    // User dashboard pages (for logged-in users - helps with SEO discovery)
-    {
-      url: `${baseUrl}/user`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/user/templates`,
-      lastModified: currentDate,
-      changeFrequency: 'daily',
-      priority: 0.9, // High priority - this is where users create portfolios
-    },
-    {
-      url: `${baseUrl}/user/templates/viewTemplate`,
-      lastModified: currentDate,
-      changeFrequency: 'daily',
-      priority: 0.95, // Highest priority - main portfolio builder
-    },
-    {
-      url: `${baseUrl}/user/templates/aiTemplate`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.85, // AI template generator
-    },
-    {
-      url: `${baseUrl}/user/templates/addTemplate`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/user/profile`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/user/assets`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
+    { url: baseUrl, changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${baseUrl}/features`, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/demo`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${baseUrl}/about`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/contact`, changeFrequency: 'yearly', priority: 0.6 },
+    { url: `${baseUrl}/signin`, changeFrequency: 'yearly', priority: 0.5 },
+    { url: `${baseUrl}/privacy`, changeFrequency: 'yearly', priority: 0.4 },
+    { url: `${baseUrl}/terms`, changeFrequency: 'yearly', priority: 0.4 },
+    { url: `${baseUrl}/user`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${baseUrl}/user/templates`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${baseUrl}/user/templates/viewTemplate`, changeFrequency: 'daily', priority: 0.95 },
+    { url: `${baseUrl}/user/templates/aiTemplate`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${baseUrl}/user/templates/addTemplate`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/user/profile`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/user/assets`, changeFrequency: 'weekly', priority: 0.7 },
   ];
 
-  return staticPages;
+  // Convert array to XML
+  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  ${staticPages
+    .map(
+      (page) => `<url>
+    <loc>${page.url}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>${page.changeFrequency}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`
+    )
+    .join("\n")}
+</urlset>`;
+
+  return new Response(sitemapXml, {
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+    },
+  });
 }
