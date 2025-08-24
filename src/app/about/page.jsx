@@ -29,7 +29,7 @@ export default function AboutPage() {
   ];
 
   const stats = [
-    { number: "200+", label: "Portfolios Created" },
+    { number: "350+", label: "Portfolios Created" },
     { number: "5+", label: "Professional Templates" },
     // { number: "24hrs", label: "Average Response Time" },
     { number: "99%", label: "Uptime Guarantee" }
@@ -271,7 +271,7 @@ export default function AboutPage() {
               Join the community of professionals who've transformed their careers with OpusForge. Your perfect portfolio is just minutes away.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/login" className="bg-light hover:bg-s text-textPurple px-8 py-3 rounded-xl font-medium transition-colors duration-200">
+              <Link href="/signin" className="bg-light hover:bg-s text-textPurple px-8 py-3 rounded-xl font-medium transition-colors duration-200">
                 Start Building Now
               </Link>
               <Link href="/demo" className="border border-purple hover:border-light text-light hover:bg-hoverbg px-8 py-3 rounded-xl font-medium transition-colors duration-200">

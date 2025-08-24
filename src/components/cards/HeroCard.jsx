@@ -14,7 +14,7 @@ function HeroCard() {
                 OpusForge lets you build a portfolio website in minutes. It is a free and open-source platform that allows you to create a portfolio website with ease. You can customize your portfolio website with various templates and themes. OpusForge is built with Next.js, Tailwind CSS, and Framer Motion.
             </p>
             <div className="w-full flex flex-col lg:flex-row justify-between items-center gap-4 z-10">
-                <Link href="/login"
+                <Link href="/signin"
                     className="w-full z-10 flex-row justify-start items-center gap-5 mt-3 p-2 px-3 rounded-2xl bg-light border cursor-pointer hover:scale-110 transition-all duration-300 hidden lg:flex">
                     <LucideArrowUpRight className="w-9 h-9 text-black" />
                     <p className="text-black text-lg font-semibold ">

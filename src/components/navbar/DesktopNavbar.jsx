@@ -43,20 +43,12 @@ function DesktopNavbar() {
             </div>
             <div className='w-[25%] flex flex-row justify-start max-w-[350px] items-end h-full gap-3'>
                 <NavLinkDiv
-                    title="Login"
+                    title="Sign In"
                     activeClass={activeClass}
                     inActiveClass={inActiveClass}
-                    toHref='/login'
+                    toHref='/signin'
                     customClass={'bg-purple p-2 px-3 rounded-3xl text-center'}
                     icon={<LogInIcon size={22} />}
-                />
-                <NavLinkDiv
-                    title="Sign Up"
-                    activeClass={activeClass}
-                    inActiveClass={inActiveClass}
-                    toHref='/signup'
-                    customClass={'bg-yellow p-2 px-3 rounded-3xl text-center'}
-                    icon={<PlusCircle size={22} />}
                 />
             </div>
         </div>

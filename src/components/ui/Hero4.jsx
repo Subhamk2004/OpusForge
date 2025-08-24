@@ -2,7 +2,7 @@ import React from 'react'
 import hero1 from '../../assets/hero1.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRightFromLineIcon, List, LucideSquareArrowRight, PlusCircle } from 'lucide-react'
+import { ArrowRightFromLineIcon, List, LucideSquareArrowRight, LucideWorkflow, PlusCircle } from 'lucide-react'
 
 function Hero4() {
     return (
@@ -13,27 +13,27 @@ function Hero4() {
             <div className='w-full rounded-3xl flex flex-col md:flex-row items-center gap-3 justify-between p-8 '>
                 <div className='md:w-[50%] bg-p relative p-6 rounded-3xl flex flex-col items-center'>
                     <p className='text-lg lg:text-xl lg:font-semibold'>
-                        Sign up for OpusForge and start building your portfolio today!
+                        Sign in for OpusForge and start building your portfolio today!
                     </p>
                     <span className='text-sm lg:text-base text-texts mt-2'>
-                        Signup and start showcasing your skills and projects to the world, using our easy-to-use platform.
+                        Sign in and start showcasing your skills and projects to the world, using our easy-to-use platform.
                     </span>
                     <Link
-                        href="/signup"
+                        href="/signin"
                         className='bg-purple text-black w-full font-semibold rounded-3xl p-4 mt-4 hover:bg-hoverbg transition-all duration-300 flex flex-row items-center justify-between'
                     >
-                        Sign Up
+                        Sign In
                         <PlusCircle className='ml-2' />
                     </Link>
                 </div>
                 <div className='md:w-[50%] relative rounded-3xl flex flex-col items-center h-full justify-between'>
                     <div className=' w-full h-[48%]'>
                         <Link
-                            href="/login"
+                            href="/demo"
                             className='bg-yellow/70 text-black h-full w-full font-semibold rounded-3xl p-4 hover:bg-yellow transition-all duration-300 flex flex-row items-center justify-between'
                         >
-                            Already registered?
-                            <ArrowRightFromLineIcon className='ml-2' />
+                            Wanna try it before sign in?
+                            <LucideWorkflow className='ml-2' />
                         </Link>
                     </div>
                     <div className=' w-full h-[48%]'>

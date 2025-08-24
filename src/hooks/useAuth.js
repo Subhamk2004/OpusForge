@@ -36,7 +36,7 @@ export default function useAuth() {
         // console.log("Authentication status:", data);
         if (!data.isLoggedIn) {
           if (pathname.includes("/user")) {
-            router.push("/login");
+            router.push("/signin");
           }
         } else {
           dispatch(loginUser(data.userData));
@@ -51,7 +51,7 @@ export default function useAuth() {
       } catch (error) {
         // console.error("Authentication check failed:", error);
         if (pathname.includes("/user")) {
-          router.push("/login");
+          router.push("/signin");
         }
       } finally {
         setLoading(false);

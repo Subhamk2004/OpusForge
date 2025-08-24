@@ -64,8 +64,8 @@ export const authOptions = {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   pages: {
-    signIn: "/login",
-    signUp: "/signup",
+    signIn: "/signin",
+    signUp: "/signin",
   },
   callbacks: {
     async jwt({ token, user, account }) {

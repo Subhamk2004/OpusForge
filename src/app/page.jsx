@@ -2,6 +2,7 @@ import Hero1 from "@/components/ui/Hero1";
 import Hero2 from "@/components/ui/Hero2";
 import Hero3 from "@/components/ui/Hero3";
 import Hero4 from "@/components/ui/Hero4";
+import Testimonials from "@/components/other/Testimonials";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         </div>
         <Hero1 />
         <Hero2 />
+        <Testimonials whichPage={"home"} />
         <Hero3 />
         <Hero4 />
       </div>

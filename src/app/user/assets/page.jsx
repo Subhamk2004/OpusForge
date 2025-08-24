@@ -219,7 +219,7 @@ function AssetUploadPage() {
                         className='px-6 py-6 hover:bg-gray-100 hover:shadow-lg transition-all duration-200 w-full  bg-white rounded-2xl  shadow-md backdrop-blur-sm bg-white/90 flex flex-row items-center justify-center'
                         onClick={() => {
                             setExpand(!expand)
-                            console.log('Expand state:', !expand);
+                            // console.log('Expand state:', !expand);
                         }}
                     >
                         <div className="flex items-center ">

@@ -109,22 +109,15 @@ function MobileNavbar() {
                         <h3 className='text-sm font-medium text-gray-600 mb-2'>Account</h3>
                         
                         <Link 
-                            href='/login' 
+                            href='/signin' 
                             onClick={closeMenu}
                             className='flex items-center justify-center gap-2 bg-purple p-3 rounded-lg text-center font-medium hover:opacity-90 transition-opacity duration-200'
                         >
                             <LogInIcon size={20} />
-                            <span>Login</span>
+                            <span>Sign In</span>
                         </Link>
 
-                        <Link 
-                            href='/signup' 
-                            onClick={closeMenu}
-                            className='flex items-center justify-center gap-2 bg-yellow p-3 rounded-lg text-center font-medium hover:opacity-90 transition-opacity duration-200'
-                        >
-                            <PlusCircle size={20} />
-                            <span>Sign Up</span>
-                        </Link>
+                        
                     </div>
                 </div>
             </div>

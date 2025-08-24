@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
-import { Rocket, FolderOpen, Eye, Github, Zap, Edit3, ArrowRight, Check, Code, Globe, Lock, FileText, Users, Star, GalleryHorizontal } from 'lucide-react';
+import { Rocket, FolderOpen, Eye, Github, Zap, Edit3, ArrowRight, Check, Code, Globe, Lock, FileText, LucideFilePenLine } from 'lucide-react';
 import Link from 'next/link';
 
 export default function FeaturesPage() {
@@ -34,7 +34,7 @@ export default function FeaturesPage() {
     { icon: Zap, title: "Instant Deployment", desc: "Zero-config hosting with shareable links" },
     { icon: Edit3, title: "Easy Updates", desc: "Simple editing interface for maintenance" },
     { icon: Globe, title: "Custom Templates", desc: "Your design our developement, truly yours" },
-    { icon: Lock, title: "Secure Storage", desc: "Protected document management" },
+    { icon: LucideFilePenLine, title: "Auto-fill", desc: "Automatically fill details with resume" },
     { icon: Code, title: "Developer Focused", desc: "Built for technical professionals" }
   ];
 
@@ -64,7 +64,7 @@ export default function FeaturesPage() {
                   Everything you need to create, manage, and deploy stunning portfolios that showcase your expertise.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/login" className="bg-black/80 hover:bg-black text-light px-8 py-3 rounded-xl font-medium transition-colors duration-200">
+                  <Link href="/signin" className="bg-black/80 hover:bg-black text-light px-8 py-3 rounded-xl font-medium transition-colors duration-200">
                     Get Started Free
                   </Link>
                   <Link href="/demo" className="border border-border-light hover:border-textPurple text-textp px-8 py-3 rounded-xl font-medium transition-colors duration-200">
@@ -236,7 +236,7 @@ export default function FeaturesPage() {
                 </p>
                 <div className="flex items-center gap-8">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-textPurple">200+</div>
+                    <div className="text-2xl font-bold text-textPurple">350+</div>
                     <div className="text-sm text-texts">Portfolios Created</div>
                   </div>
                   <div className="text-center">
@@ -266,7 +266,7 @@ export default function FeaturesPage() {
               Transform your career today with a professional portfolio that showcases your skills and expertise.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/login" className="bg-light hover:bg-s text-black px-8 py-3 rounded-xl font-medium transition-colors duration-200">
+              <Link href="/signin" className="bg-light hover:bg-s text-black px-8 py-3 rounded-xl font-medium transition-colors duration-200">
                 Get Started Free
               </Link>
               

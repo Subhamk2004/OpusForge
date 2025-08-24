@@ -7,8 +7,8 @@ function Hero3() {
             <h2 className=" text-2xl md:text-3xl lg:text-5xl font-semibold text-center lg:mt-10">
                 And many more features to try out!
             </h2>
-            <HeroCard1 />
             <HeroCard2 />
+            <HeroCard1 />
         </div>
     )
 }

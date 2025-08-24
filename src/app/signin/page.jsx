@@ -9,18 +9,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
 
-  let initialUserData = {
-    email: "",
-    password: "",
-  };
-
-  let [userData, setUserData] = useState(initialUserData);
-
-  let handleSubmit = async (e) => {
-    e.preventDefault();
-    toast.info("Currently email and password login is not implemented. Please use GitHub sign-in.")
-    // console.log("Form submitted with data:", userData);
-  }
 
   const handleGitHubSignIn = () => {
     signIn('github', { callbackUrl: '/user' });
@@ -39,9 +27,6 @@ export default function Home() {
         </div>
         <div className="flex md:w-[60%] lg:w-[50%] flex-col justify-start items-start gap-2 lg:gap-3  lg:mb-10">
           <LoginForm
-            handleSubmit={handleSubmit}
-            data={userData}
-            setData={setUserData}
             handleGithub={handleGitHubSignIn}
           />
         </div>

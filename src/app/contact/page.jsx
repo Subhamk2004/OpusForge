@@ -354,12 +354,12 @@ export default function ContactPage() {
                   </div>
                   <div className="space-y-2">
                     <a
-                      href="https://opus-forge.vercel.app/"
+                      href="https://www.opusforge.tech/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-textPurple hover:underline font-medium"
                     >
-                      opus-forge.vercel.app
+                      opusforge.tech
                     </a>
                     <p className="text-texts text-sm">
                       Explore features, templates, and get started with your portfolio
