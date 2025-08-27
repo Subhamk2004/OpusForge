@@ -26,6 +26,8 @@ export async function GET() {
     // console.log(userN.login);
 
     const data = await User.findOne({ email: session.user.email });
+    const createdAt = data?data._id.getTimestamp():null;
+    // console.log("User data from DB:", data);
 
     if (!data) {
       console.log("User not found in database");
@@ -33,6 +35,7 @@ export async function GET() {
     const userData = {
       ...data.toObject(),
       githubUsername: userN.login,
+      createdAt: createdAt,
     };
     // console.log("data:", userData);
 
