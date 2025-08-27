@@ -41,7 +41,7 @@ export async function GET(request) {
     let query = request.nextUrl.searchParams;
     console.log("Query parameters:", query);
     
-    let templates = await Templates.find({});
+    let templates = await Templates.find({}).sort({ createdAt: -1 });
     // console.log(templates);
     
     if (templates.length === 0) {
@@ -51,7 +51,9 @@ export async function GET(request) {
       );
     }
 
+    
     let activeTemplates = templates.filter(template => template._id != '683a683f4d6326e430d6e5b4');
+
 
     return NextResponse.json(activeTemplates, { status: 200 });
   } catch (error) {
