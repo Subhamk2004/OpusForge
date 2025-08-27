@@ -1,5 +1,5 @@
 "use client"
-import { Calendar, GithubIcon, Mail, Verified, Workflow, X, ExternalLink, Briefcase, Link2 } from "lucide-react";
+import { Calendar, GithubIcon, Mail, Verified, Workflow, X, ExternalLink, Briefcase, Link2, Newspaper } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
@@ -81,8 +81,8 @@ function page() {
                             <span className="text-2xl lg:text-4xl font-semibold text-primary mr-1">
                                 {user?.name}
                             </span>
-                            <Verified className={`inline w-6 h-6 lg:w-8 lg:h-8 text-primary ${emailVerified ? 'visible' : 'invisible'}`} />
                         </h1>
+
                         <div className="flex items-center gap-2 text-sm">
                             <h2 className="font-semibold flex items-center">
                                 <div className="p-1 bg-green-500 mr-2 rounded-full"></div>  User since:
@@ -94,6 +94,7 @@ function page() {
                                 </span>
                             </h2>
                         </div>
+
                         <div className="contact-button w-auto mt-3 flex items-center gap-2">
                             <Link href="/contact" className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
                                 <Mail className="w-5 h-5" />
@@ -105,14 +106,14 @@ function page() {
                     {/* Overview Section */}
                     <div className="w-full mt-7">
                         <div className="flex items-center mb-4">
-                            <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full mr-3">
-                                <Workflow className="w-5 h-5 text-primary" />
+                            <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full mr-1">
+                                <Newspaper className="w-5 h-5 text-primary" />
                             </div>
                             <h2 className="text-2xl font-semibold text-gray-800">Updates</h2>
                         </div>
                         <div className="flex flex-row flex-wrap items-center justify-center lg:justify-around w-full p-4 py-8 bg-s shadow-inner rounded-2xl gap-3">
-                           
-                            
+
+
                         </div>
                     </div>
 
