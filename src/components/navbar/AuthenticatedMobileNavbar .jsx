@@ -5,10 +5,12 @@ import { LucideDatabaseZap, LucideFileStack, Menu, X, UserCircle2, Power } from 
 import Image from 'next/image'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
+import useNotifications from '@/hooks/useNotifications'
 
 function AuthenticatedMobileNavbar() {
+    let { unreadCount } = useNotifications()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }
@@ -33,7 +35,7 @@ function AuthenticatedMobileNavbar() {
                 </Link>
 
                 {/* Hamburger Menu Button */}
-                <button 
+                <button
                     onClick={toggleMenu}
                     className='p-2 rounded-lg hover:bg-light transition-colors duration-200 z-50'
                     aria-label="Toggle menu"
@@ -48,23 +50,22 @@ function AuthenticatedMobileNavbar() {
 
             {/* Mobile Menu Overlay */}
             {isMenuOpen && (
-                <div 
+                <div
                     className='fixed inset-0 bg-black bg-opacity-50 z-40'
                     onClick={closeMenu}
                 />
             )}
 
             {/* Mobile Menu */}
-            <div className={`fixed top-0 right-0 h-full w-80 bg-s shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
-                isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}>
+            <div className={`fixed top-0 right-0 h-full w-80 bg-s shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                }`}>
                 {/* Menu Header */}
                 <div className='flex justify-between items-center p-4 border-b border-light'>
                     <div className='flex items-center gap-2'>
                         <Image src={logo1} alt="logo1" className='w-6 h-6' />
                         <h2 className='font-semibold'>Menu</h2>
                     </div>
-                    <button 
+                    <button
                         onClick={closeMenu}
                         className='p-1 rounded-lg hover:bg-light transition-colors duration-200'
                     >
@@ -77,18 +78,23 @@ function AuthenticatedMobileNavbar() {
                     {/* Navigation Links */}
                     <div className='flex flex-col gap-2 mb-6'>
                         <h3 className='text-sm font-medium text-gray-600 mb-2'>Navigation</h3>
-                        
-                        <Link 
-                            href='/user/profile' 
+
+                        <Link
+                            href='/user/profile'
                             onClick={closeMenu}
                             className={`flex items-center gap-3 p-3 rounded-lg hover:bg-light transition-colors duration-200`}
                         >
                             <UserCircle2 size={20} />
                             <span>Profile</span>
+                            {
+                                unreadCount > 0 &&
+                                <span className=' bg-textPurple text-white text-[10px] font-semibold p-1 rounded-full'>
+                                </span>
+                            }
                         </Link>
 
-                        <Link 
-                            href='/user/templates' 
+                        <Link
+                            href='/user/templates'
                             onClick={closeMenu}
                             className={`flex items-center gap-3 p-3 rounded-lg hover:bg-light transition-colors duration-200`}
                         >
@@ -96,8 +102,8 @@ function AuthenticatedMobileNavbar() {
                             <span>Templates</span>
                         </Link>
 
-                        <Link 
-                            href='/user/assets' 
+                        <Link
+                            href='/user/assets'
                             onClick={closeMenu}
                             className={`flex items-center gap-3 p-3 rounded-lg hover:bg-light transition-colors duration-200`}
                         >
@@ -109,8 +115,8 @@ function AuthenticatedMobileNavbar() {
                     {/* Logout Button */}
                     <div className='flex flex-col gap-3 border-t border-light pt-4'>
                         <h3 className='text-sm font-medium text-gray-600 mb-2'>Account</h3>
-                        
-                        <button 
+
+                        <button
                             onClick={handleLogout}
                             className='flex items-center justify-center gap-2 bg-errorbg/80 hover:bg-errorbg p-3 rounded-lg text-center font-medium transition-colors duration-200'
                         >

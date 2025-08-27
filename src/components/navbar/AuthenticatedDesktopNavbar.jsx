@@ -3,8 +3,10 @@ import logo1 from '@/assets/logo1.png'
 import NavLinkDiv from './NavLinkDiv'
 import { Info, InfoIcon, LogInIcon, LucideDatabaseZap, LucideFileStack, Mail, Phone, PlusCircle, Power, SendToBackIcon, UserCircle2 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
+import useNotifications from '@/hooks/useNotifications'
 
 function AuthenticatedDesktopNavbar() {
+    let { unreadCount } = useNotifications();
     let activeClass = 'rounded-t-3xl h-[60px] bg-light p-2 w-full font-semibold transition-height pb-0 duration-500 linear'
     let inActiveClass = 'rounded-t-3xl font-[500] bg-s p-2 w-full h-[0px] pb-8 transition-height duration-500 linear'
 
@@ -26,6 +28,7 @@ function AuthenticatedDesktopNavbar() {
                     inActiveClass={inActiveClass}
                     toHref='/user/profile'
                     icon={<UserCircle2 size={22} />}
+                    notificationCount={unreadCount}
                 />
                 <NavLinkDiv
                     title='Templates'

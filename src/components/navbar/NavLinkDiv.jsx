@@ -12,7 +12,8 @@ function NavLinkDiv({
     inActiveClass,
     title,
     toHref,
-    customClass
+    customClass,
+    notificationCount = 0
 }) {
     let location = usePathname()
 
@@ -42,7 +43,14 @@ function NavLinkDiv({
                     </div>
                     {
                         title &&
-                        <h1 className=''>{title}</h1>
+                        <h1 className='flex items-center gap-2'>
+                            {title}
+                            {
+                                notificationCount > 0 &&
+                                <span className=' bg-textPurple text-white text-[10px] font-semibold p-1 rounded-full'>
+                                </span>
+                            }
+                        </h1>
                     }
                 </div>
 

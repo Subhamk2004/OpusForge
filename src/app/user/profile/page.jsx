@@ -1,21 +1,25 @@
 "use client"
-import { Calendar, GithubIcon, Mail, Verified, Workflow, X, ExternalLink, Briefcase, Link2, Newspaper } from "lucide-react";
+import { Mail, Newspaper } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 import profileBg from "@/assets/profileBg9.jpg";
 import Image from "next/image";
+import useNotifications from "@/hooks/useNotifications";
+import NotificationsSection from "@/components/notification/NotificationsSection";
 
 function page() {
     const { user } = useSelector((state) => state.user);
-    let [show, setShow] = useState("flex");
     let [isLoaded, setIsLoaded] = useState(false);
+    let { notifications, loading, markAsRead } = useNotifications();
+
 
     useEffect(() => {
         if (user !== undefined) {
             setIsLoaded(true);
         }
     }, [user]);
+
     // console.log(user);
 
     if (!isLoaded) {
@@ -28,11 +32,13 @@ function page() {
             </div>
         );
     }
+    // console.log(notifications);
+    
 
     const emailVerified = user?.emailVerified;
 
     return (
-        <div className='w-screen h-screen bg-light text-black overflow-y-auto no-scrollbar flex flex-col items-center justify-start'>
+        <div className='w-screen h-screen bg-light text-black overflow-y-auto no-scrollbar flex flex-col items-center justify-start pb-[200px]'>
             {/* {!emailVerified && (
                 <div className={`${show} flex-col items-center justify-center p-3 rounded-2xl w-full text-sm md:text-base max-w-[1300px] bg-errorbg relative mb-5`}>
                     <p className="text-base md:text-xl font-semibold text-error">
@@ -58,7 +64,7 @@ function page() {
             )} */}
             {
                 user &&
-                <div className="flex flex-col items-center justify-center w-full max-w-[1300px] mx-auto mt-5 px-4 ">
+                <div className="flex flex-col items-center justify-center w-full max-w-[1300px] mx-auto mt-5 px-4">
                     <div className="profileBg flex flex-row justify-end rounded-2xl w-full bg-[#fafafa] h-64 lg:h-[320px] relative">
                         <Image
                             src={profileBg}
@@ -112,8 +118,11 @@ function page() {
                             <h2 className="text-2xl font-semibold text-gray-800">Updates</h2>
                         </div>
                         <div className="flex flex-row flex-wrap items-center justify-center lg:justify-around w-full p-4 py-8 bg-s shadow-inner rounded-2xl gap-3">
-
-
+                            <NotificationsSection
+                                notifications={notifications}
+                                markAsRead={markAsRead}
+                                loading={loading}
+                            />
                         </div>
                     </div>
 
