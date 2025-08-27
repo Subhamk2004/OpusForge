@@ -132,7 +132,7 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
 
     return (
         <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start mt-2 md:mt-0 z-30 relative'>
-            {/* <ToastContainer /> */}
+            <ToastContainer />
             <Header
                 searchQuery={searchQuery}
                 searchResults={searchResults}
