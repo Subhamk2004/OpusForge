@@ -50,7 +50,10 @@ export async function GET(request) {
         { status: 404 }
       );
     }
-    return NextResponse.json(templates, { status: 200 });
+
+    let activeTemplates = templates.filter(template => template._id != '683a683f4d6326e430d6e5b4');
+
+    return NextResponse.json(activeTemplates, { status: 200 });
   } catch (error) {
     console.error("Error fetching templates:", error);
     return NextResponse.json(
