@@ -26,7 +26,7 @@ function Page1() {
             event.preventDefault();
             
             setTimeout(() => {
-                const confirmReload = window.confirm("Reloading will stop all the processes and you might lose your data, drafts are not saved as of now, do you still wanna proceed?");
+                const confirmReload = window.confirm("Your work may be lost, as drafts aren't auto-saved. Proceed only if you believe your data is saved");
                 if (!confirmReload) {
                     history.pushState(null, null, window.location.href);
                 }
@@ -40,7 +40,7 @@ function Page1() {
         const handlePopState = (event) => {
             if (isConfirming) return;
             
-            const confirmLeave = window.confirm("Reloading will stop all the processes and you might lose your data, drafts are not saved as of now, do you still wanna proceed?");
+            const confirmLeave = window.confirm("Your work may be lost, as drafts aren't auto-saved. Proceed only if you believe your data is saved");
             if (!confirmLeave) {
                 history.pushState(null, null, window.location.href);
             }
@@ -63,7 +63,7 @@ function Page1() {
                 const linkUrl = new URL(link.href, currentOrigin);
                 
                 if (linkUrl.origin === currentOrigin && linkUrl.pathname !== window.location.pathname) {
-                    const confirmLeave = window.confirm("Reloading will stop all the processes and you might lose your data, drafts are not saved as of now, do you still wanna proceed?");
+                    const confirmLeave = window.confirm("Your work may be lost, as drafts aren't auto-saved. Proceed only if you believe your data is saved");
                     if (!confirmLeave) {
                         event.preventDefault();
                         event.stopPropagation();
