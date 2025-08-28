@@ -104,12 +104,17 @@ export async function DELETE(req) {
   const session = await getServerSession(authOptions);
   const body = await req.json();
   console.log(session);
-  
 
-  const { portfolioId, formattedRepoName, githubUsername } = body;
-  if (!portfolioId || !formattedRepoName || !githubUsername) {
+  const { portfolioId, formattedRepoName, githubUsername, fromStep } = body;
+  if (!formattedRepoName || !githubUsername) {
     return NextResponse.json(
       { error: "RepoName or portfolioId is missing" },
+      { status: 400 }
+    );
+  }
+  if (fromStep === "deletion" && !portfolioId) {
+    return NextResponse.json(
+      { error: "portfolioId is required for deletion" },
       { status: 400 }
     );
   }
@@ -125,19 +130,22 @@ export async function DELETE(req) {
 
   try {
     // First delete from database
-    const deleteRes = await Portfolios.findByIdAndDelete(portfolioId);
-    console.log(deleteRes);
+    let deleteRes = null;
+    if (fromStep === "deletion") {
+      deleteRes = await Portfolios.findByIdAndDelete(portfolioId);
+      console.log(deleteRes);
 
-    if (deleteRes === null) {
-      throw new Error("Portfolio not found in OpusForge database");
-    }
-    if (!deleteRes._id) {
-      throw new Error("Error while deleting from OpusForge");
+      if (deleteRes === null) {
+        throw new Error("Portfolio not found in OpusForge database");
+      }
+      if (!deleteRes._id) {
+        throw new Error("Error while deleting from OpusForge");
+      }
     }
 
     // Then delete from GitHub
-    console.log(githubUsername, ' ', formattedRepoName);
-    
+    console.log(githubUsername, " ", formattedRepoName);
+
     const githubDeleteRes = await fetch(
       `https://api.github.com/repos/${githubUsername}/${formattedRepoName}`,
       {
@@ -163,7 +171,7 @@ export async function DELETE(req) {
     }
 
     return NextResponse.json(
-      { message: `Successfully deleted portfolio: ${deleteRes.name}` },
+      { message: `Successfully deleted portfolio: ${formattedRepoName}` },
       { status: 200 }
     );
   } catch (error) {

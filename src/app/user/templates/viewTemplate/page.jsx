@@ -14,12 +14,63 @@ function Page1() {
     let [template, setTemplate] = useState({});
     let [portfolio, setPortfolio] = useState({});
     let [loading, setLoading] = useState(true);
-    // console.log(template.htmlString);
     
 
     useEffect(() => {
+        let isConfirming = false;
+
+        const handleBeforeUnload = (event) => {
+            if (isConfirming) return;
+            
+            isConfirming = true;
+            event.preventDefault();
+            
+            setTimeout(() => {
+                const confirmReload = window.confirm("Reloading will stop all the processes and you might lose your data, drafts are not saved as of now, do you still wanna proceed?");
+                if (!confirmReload) {
+                    history.pushState(null, null, window.location.href);
+                }
+                isConfirming = false;
+            }, 100);
+            
+            event.returnValue = "";
+            return "";
+        };
+
+        const handlePopState = (event) => {
+            if (isConfirming) return;
+            
+            const confirmLeave = window.confirm("Reloading will stop all the processes and you might lose your data, drafts are not saved as of now, do you still wanna proceed?");
+            if (!confirmLeave) {
+                history.pushState(null, null, window.location.href);
+            }
+        };
+
+        const handleKeyDown = (event) => {
+            if ((event.ctrlKey && event.key === 'r') || (event.metaKey && event.key === 'r') || event.key === 'F5') {
+                const confirmReload = window.confirm("Reloading will stop all the processes and you might lose your data, drafts are not saved as of now, do you still wanna proceed?");
+                if (!confirmReload) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        };
+
+        history.pushState(null, null, window.location.href);
+        
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener('popstate', handlePopState);
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('popstate', handlePopState);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    useEffect(() => {
         if (!templates || templates.length === 0) {
-            // console.log("No templates found");
             setLoading(true);
         } else {
             setLoading(false);
@@ -27,7 +78,6 @@ function Page1() {
         }
 
         if (!portfolioId || portfolios.length === 0) {
-            // console.log("No portfolios found or portfolioId not provided");
             setLoading(false);
             setPortfolio({});
         } else {
@@ -38,13 +88,9 @@ function Page1() {
                     ...prevTemplate,
                     portfolio: foundPortfolio
                 }));
-            } else {
-                // console.log("Portfolio not found");
             }
         }
     }, [templates, portfolios, templateId, portfolioId])
-
-    // console.log("portfolio", portfolio);
 
     return (
         <div className='w-full h-full flex flex-col items-center justify-center -mt-8 md:mt-0'>

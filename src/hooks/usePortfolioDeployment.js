@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { deletePortfolio as deleteInStore } from "@/store/slices/Portfolios";
 import { useDispatch } from "react-redux";
 
-
 export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
   const [repoName, setRepoName] = useState(existingPortfolioData?.name || "");
   const [repoCreated, setRepoCreated] = useState(false);
@@ -71,7 +70,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
   const commitToRepo = async (finalHtml, formattedRepoName) => {
     try {
       // console.log(finalHtml);
-      
+
       const username = user.user.githubUsername || "Anonymous";
       const res = await fetch("/api/user/commitToRepo", {
         method: "PUT",
@@ -95,6 +94,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
       return {
         error: false,
         repoName: formattedRepoName,
+        githubUsername: username,
       };
     } catch (error) {
       // console.error("Error committing to repository:", error);
@@ -107,6 +107,7 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
 
   const deployToGithub = async (formattedRepoName) => {
     const username = user.user.githubUsername || "Anonymous";
+    let toastId = toast.loading("Deploying to GitHub Pages, this may take a minute...");
     try {
       const res = await fetch("/api/user/deployToGithubPages", {
         method: "POST",
@@ -122,28 +123,48 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
 
       if (!res.ok) {
         const errorData = await res.json();
-        toast.error(
-          `Error: ${errorData.error || "Failed to deploy to GitHub Pages."}`
-        );
+        toast.update(toastId, {
+          render: `Error: ${
+            errorData.error || "Failed to deploy to GitHub Pages."
+          }`,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
         throw new Error(errorData.error || "Failed to deploy to GitHub Pages.");
       }
 
       const data = await res.json();
-      toast.success(
-        `Deployed to GitHub Pages successfully: ${data.data.html_url}`
-      );
+      toast.update(toastId, {
+        render: `Deployed to GitHub Pages successfully!`,
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
       return {
         deployedUrl: data.data.html_url,
         error: false,
       };
     } catch (error) {
       // console.error("Error deploying to GitHub Pages:", error);
-      toast.error(`GitHub Pages deployment failed: ${error.message}`);
+      toast.update(toastId, {
+        render: `Error: ${
+          error.message || "Failed to deploy to GitHub Pages."
+        }`,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
       return { error: true };
     }
   };
 
-  const createPortfolio = async (deployedUrl, template, debouncedData, formattedRepoName) => {
+  const createPortfolio = async (
+    deployedUrl,
+    template,
+    debouncedData,
+    formattedRepoName
+  ) => {
     try {
       const response = await fetch("/api/user/portfolio", {
         method: "POST",
@@ -180,33 +201,36 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
     }
   };
 
-  const deletePortfolio = async (portfolioId, formattedRepoName, githubUsername) => {
+  const deletePortfolio = async (
+    portfolioId,
+    formattedRepoName,
+    githubUsername
+  ) => {
     try {
-      
       const res = await fetch(`/api/user/portfolio`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
           "Content-type": "application/json",
           credentials: "include",
         },
         body: JSON.stringify({
+          fromStep: "deletion",
           portfolioId: portfolioId,
           formattedRepoName: formattedRepoName,
           githubUsername: githubUsername,
         }),
-      })
+      });
       let data = await res.json();
-      if(!res.ok) throw(data);
+      if (!res.ok) throw data;
       // console.log(data.message);
       toast.success(data.message);
-      if(data.message) dispatch(deleteInStore(portfolioId));
-
+      if (data.message) dispatch(deleteInStore(portfolioId));
     } catch (error) {
       // console.error("Error deleting portfolio:", error.error);
       toast.error(`Error: ${error.error || "Failed to delete portfolio."}`);
       return { error: true };
     }
-  }
+  };
 
   const updatePortfolio = async (portfolioId, debouncedData) => {
     try {
@@ -249,6 +273,6 @@ export const usePortfolioDeployment = (portfolioId, existingPortfolioData) => {
     deployToGithub,
     createPortfolio,
     updatePortfolio,
-    deletePortfolio
+    deletePortfolio,
   };
 };

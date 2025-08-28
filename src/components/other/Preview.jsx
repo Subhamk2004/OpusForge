@@ -87,9 +87,35 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
 
             if (!res.isDeployed) {
                 let deployRes = await deployToGithub(commitRes.repoName);
+
                 if (deployRes.error) {
-                    toast.error("Error occurred while deploying to Github Pages");
-                } else {
+                    toast.error("Error occurred while deploying to Github Pages, reverting changes");
+                    try {
+                        let revertRes = await fetch(`/api/user/portfolio`, {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                                credentials: "include",
+                            },
+                            body: JSON.stringify({
+                                fromStep: "creation",
+                                portfolioId: null,
+                                formattedRepoName: commitRes.repoName,
+                                githubUsername: commitRes.githubUsername,
+                            }),
+                        })
+                        if (revertRes.status === 200) {
+                            toast.info("Reverted all changes successfully.");
+                        } else {
+                            toast.error("Error occurred while reverting changes, please delete the repository manually from your github account.");
+                        }
+                    } catch (error) {
+                        toast.error("Error occurred while reverting changes, please delete the repository manually from your github account.");
+                    }
+
+                } 
+                
+                else {
                     let portfolioRes = await createPortfolio(deployRes.deployedUrl, template, debouncedData, commitRes.repoName);
                     // console.log(portfolioRes);
                     dispatch(addPortfolio(portfolioRes.data));
@@ -99,6 +125,8 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                     }, 6000);
                     return;
                 }
+
+
             } else {
                 toast.success("Process completed successfully, updates will be deployed soon.");
                 setTimeout(() => {
