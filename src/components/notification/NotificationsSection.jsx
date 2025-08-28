@@ -45,6 +45,14 @@ const NotificationsSection = ({ notifications, markAsRead, loading }) => {
   };
   // console.log(unreadNotifications);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-textPurple"></div>
+      </div>
+    );
+  }
+
 
   const NotificationCard = ({ notification, showMarkAsRead = false }) => (
     <div className={`p-5 rounded-2xl transition-all duration-300 hover:shadow-medium ${!notification.isRead
