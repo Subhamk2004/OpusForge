@@ -11,6 +11,7 @@ import PortfolioPreview from "@/components/ui/PortfolioPreview";
 import { useDispatch } from "react-redux";
 import { addPortfolio, updatePortfolio as updatePortfolioInRedux } from "@/store/slices/Portfolios";
 import { useRouter } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
 import Root from "../AI/Root";
 
 function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, demo }) {
@@ -113,8 +114,8 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
                         toast.error("Error occurred while reverting changes, please delete the repository manually from your github account.");
                     }
 
-                } 
-                
+                }
+
                 else {
                     let portfolioRes = await createPortfolio(deployRes.deployedUrl, template, debouncedData, commitRes.repoName);
                     // console.log(portfolioRes);
@@ -160,7 +161,38 @@ function PortfolioBuilderPage({ template, portfolioId, existingPortfolioData, de
 
     return (
         <div className='w-screen overflow-hidden h-screen bg-light text-black flex flex-col items-center justify-start mt-2 md:mt-0 z-30 relative'>
-            <ToastContainer />
+            <ToastContainer
+                position="top-right"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                style={{
+                    zIndex: 9999,
+                    fontSize: '14px',
+                }}
+                toastStyle={{
+                    minHeight: '48px',
+                    maxWidth: '400px',
+                    fontSize: '14px',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    lineHeight: '1.4',
+                    wordWrap: 'break-word',
+                }}
+                bodyStyle={{
+                    fontSize: '14px',
+                    padding: '0',
+                }}
+                progressStyle={{
+                    height: '3px',
+                }}
+            />
             <Header
                 searchQuery={searchQuery}
                 searchResults={searchResults}
