@@ -56,16 +56,35 @@ function Page1() {
             }
         };
 
+        const handleLinkClick = (event) => {
+            const link = event.target.closest('a');
+            if (link && link.href) {
+                const currentOrigin = window.location.origin;
+                const linkUrl = new URL(link.href, currentOrigin);
+                
+                if (linkUrl.origin === currentOrigin && linkUrl.pathname !== window.location.pathname) {
+                    const confirmLeave = window.confirm("Reloading will stop all the processes and you might lose your data, drafts are not saved as of now, do you still wanna proceed?");
+                    if (!confirmLeave) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return false;
+                    }
+                }
+            }
+        };
+
         history.pushState(null, null, window.location.href);
         
         window.addEventListener('beforeunload', handleBeforeUnload);
         window.addEventListener('popstate', handlePopState);
         document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('click', handleLinkClick, true);
 
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
             window.removeEventListener('popstate', handlePopState);
             document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('click', handleLinkClick, true);
         };
     }, []);
 
