@@ -54,12 +54,29 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (user !== undefined) {
-      setUserData(user);
-      setIsLoaded(true)
+      const userData = user.githubUsername === "KBV-Kishore2004"
+        ? { ...user, name: "Kishore" }
+        : user;
+
+      setUserData(userData);
+      setIsLoaded(true);
     }
     if (portfolios !== undefined && portfolios.length > 0) {
-      setLoadedPortfolios(portfolios)
-      setFilteredPortfolios(portfolios)
+      let filteredData = portfolios;
+
+      // Filter out portfolios with "subham" in name if githubusername is "KBV-Kishore2004"
+      if (portfolios[0].email === "subhamk1978@gmail.com") {
+        console.log("Filtering out portfolios with 'subham' in the name");
+        
+        filteredData = portfolios.filter(portfolio =>
+          !portfolio.name.toLowerCase().includes("subham")
+        );
+      }
+      console.log(filteredData);
+      
+
+      setLoadedPortfolios(filteredData); // Keep original data
+      setFilteredPortfolios(filteredData); // Set filtered data
     }
     if (assets !== undefined && assets.length > 0) {
       setLoadedAssets(assets[0])

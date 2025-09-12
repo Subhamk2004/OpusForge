@@ -164,7 +164,7 @@ export default function AboutPage() {
               <div className="w-full lg:w-[40%] h-[300px] lg:h-[400px] border rounded-3xl relative bg-inputbg">
                 <div className="absolute inset-0 flex items-center justify-center text-texts">
                   <Image
-                    src="https://res.cloudinary.com/dpazarvil/image/upload/v1749910065/assets/luhnxdkvjalj3e1k8gb0.jpg"
+                    src="https://res.cloudinary.com/dpazarvil/image/upload/v1757685978/assets/qhabvaqsvn7745eusdyc.jpg"
                     alt="Subham Kumar"
                     className="rounded-3xl object-cover w-full h-full"
                     width={600}
@@ -175,12 +175,12 @@ export default function AboutPage() {
               <div className="w-full lg:w-[60%] flex flex-col justify-start items-start gap-6">
                 <div>
                   <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-textp mb-2">Meet the person behind OpusForge</h2>
-                  <h3 className="text-lg md:text-xl text-textPurple font-semibold md:mb-4">Subham Kumar</h3>
+                  <h3 className="text-lg md:text-xl text-textPurple font-semibold md:mb-4">KBV Kishore</h3>
                 </div>
 
                 <div className="space-y-4 text-texts leading-relaxed text-sm md:text-base">
                   <p>
-                    Hi, I'm Subham Kumar,  creator of OpusForge. As a passionate developer myself, I understand the challenges of building a professional portfolio that truly represents your skills and achievements.
+                    Hi, I'm Kishore,  creator of OpusForge. As a passionate developer myself, I understand the challenges of building a professional portfolio that truly represents your skills and achievements.
                   </p>
                   <p>
                     After seeing countless talented developers struggle with portfolio creation or settle for generic solutions, I decided to build something different. OpusForge represents my commitment to empowering the developer community with tools that are both powerful and accessible.
@@ -190,7 +190,7 @@ export default function AboutPage() {
 
                 <div className="flex flex-col sm:flex-row gap-4 w-full">
                   <a
-                    href="https://www.linkedin.com/in/subham-kumar-73b98b252"
+                    href="https://www.linkedin.com/in/kbv-kishore/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors duration-200 flex items-center gap-3 justify-center"
@@ -200,7 +200,7 @@ export default function AboutPage() {
                     <ExternalLink className="w-4 h-4" />
                   </a>
                   <a
-                    href="https://github.com/Subhamk2004"
+                    href="https://github.com/KBV-Kishore2004"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-xl font-medium transition-colors duration-200 flex items-center gap-3 justify-center"
