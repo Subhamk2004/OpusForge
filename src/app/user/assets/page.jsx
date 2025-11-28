@@ -308,6 +308,9 @@ function AssetUploadPage() {
                                                     <p className="text-sm text-gray-500 mt-1">
                                                         {assetType === 'image' ? 'Supports: JPG, PNG, GIF, WebP' : 'Supports: PDF files only'}
                                                     </p>
+                                                    <p className='text-sm mt-1'>
+                                                        Max file size: 5MB
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
