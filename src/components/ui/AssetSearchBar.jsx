@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Image, FileText, Link, Copy, Check, X } from 'lucide-react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AssetSearchBar = ({ searchQuery, searchResults, onSearch, demo }) => {
   // console.log(searchResults.length, 'searchResults length');
   
   const [copiedIndex, setCopiedIndex] = useState(null);
+
+  useEffect(() => {
+    toast.warn(
+      'Note: For resume or photos links please use links uploaded on OpusForge Assets, others will most probably not work.',
+      {
+        position: "top-center",
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false,
+        closeButton: true
+      }
+    );
+  }, []);
 
   const getAssetIcon = (asset) => {
     const url = asset.url?.toLowerCase() || '';
