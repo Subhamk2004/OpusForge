@@ -1,4 +1,3 @@
-import docs from "@/assets/docs.avif";
 import docs1 from "@/assets/docs1.png";
 import Image from "next/image";
 
