@@ -164,7 +164,7 @@ export default function AboutPage() {
               <div className="w-full lg:w-[40%] h-[300px] lg:h-[400px] border rounded-3xl relative bg-inputbg">
                 <div className="absolute inset-0 flex items-center justify-center text-texts">
                   <Image
-                    src="https://res.cloudinary.com/dpazarvil/image/upload/v1767033976/assets/ril2y7rnsivghrgogjpi.jpg"
+                    src="https://res.cloudinary.com/dpazarvil/image/upload/v1767034426/assets/dfnfn6txk4nyaojetzuz.jpg"
                     alt="Subham Kumar"
                     className="rounded-3xl object-cover w-full h-full"
                     width={600}
