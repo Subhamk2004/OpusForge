@@ -31,7 +31,7 @@ export default function AboutPage() {
   const stats = [
     { number: "350+", label: "Portfolios Created" },
     { number: "5+", label: "Professional Templates" },
-    // { number: "24hrs", label: "Average Response Time" },
+    
     { number: "99%", label: "Uptime Guarantee" }
   ];
 
