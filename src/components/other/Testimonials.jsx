@@ -31,7 +31,7 @@ function Testimonials({ whichPage }) {
             timestamp: '3 days ago'
         },
         {
-            username: 'Subhamk2004',
+            username: 'kbvkishore',
             feedback: 'cant believe how easy this was. Like editing a text document!',
             image: 'https://res.cloudinary.com/dpazarvil/image/upload/v1756011524/assets/mesec5fhxzepwwjeu9si.webp',
             timestamp: '6 days ago',
@@ -178,5 +178,6 @@ function Testimonials({ whichPage }) {
         </div>
     )
 }
+
 
 export default Testimonials
