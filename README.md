@@ -565,7 +565,7 @@ GOOGLE_GENAI_API_KEY=your_google_genai_key
 ### **Installation**
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Subhamk2004/OpusForge.git
+   git clone https://github.com/kbvkishore/OpusForge.git
    cd OpusForge
    ```
 
@@ -1272,4 +1272,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Forged by [KBV Kishore]**
+
 
