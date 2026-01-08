@@ -21,7 +21,7 @@ function ProfileCard({ data, stats }) {
         <BadgeCheckIcon className='absolute right-0 -bottom-2 text-white w-8 h-8' fill='purple' />
       </div>
       <p className='mt-5 text-lg font-semibold'>
-        {data.name}
+        
       </p>
       <p className='text-sm text-texts'>
         ~ {data.profession || `developer`}
@@ -53,5 +53,6 @@ function ProfileCard({ data, stats }) {
     </div>
   )
 }
+
 
 export default ProfileCard
