@@ -1251,7 +1251,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Email**: opusforge1978@gmail.com
 - **Website**: [https://opus-forge.vercel.app/](https://opus-forge.vercel.app/)
-- **GitHub Issues**: [Report bugs or request features](https://github.com/Subhamk2004/OpusForge/issues)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/kbvkishore/OpusForge/issues)
 
 ## 🙏 **Acknowledgments**
 
@@ -1264,11 +1264,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ by [Subham Kumar](https://github.com/Subhamk2004)**
+**Built with ❤️ by [KBV Kishore](https://github.com/kbvkishore)**
 
 *OpusForge - Where professionals craft their digital presence*
 
 
 ---
 
-**Forged by [Subham Kumar]**
+**Forged by [KBV Kishore]**
+
