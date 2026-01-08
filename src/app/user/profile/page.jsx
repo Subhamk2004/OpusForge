@@ -84,9 +84,7 @@ function page() {
 
                     <div className="ml-2 flex flex-col w-full mt-14 lg:mt-24 gap-1">
                         <h1 className="flex items-center">
-                            <span className="text-2xl lg:text-4xl font-semibold text-primary mr-1">
-                                {user?.name}
-                            </span>
+                            
                         </h1>
 
                         <div className="flex items-center gap-2 text-sm">
@@ -131,5 +129,6 @@ function page() {
         </div>
     );
 }
+
 
 export default page;
