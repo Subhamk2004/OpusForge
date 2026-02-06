@@ -11,10 +11,7 @@ import StructuredData from "@/components/seo/StructuredData";
 import { WebVitals } from "@/components/analytics/WebVitals";
 import { ResourcePreloader } from "@/components/performance/ResourcePreloader";
 
-// export const metadata = {
-//   title: "OpusForge",
-//   description: "Build your portfolio with OpusForge"
-// };
+
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
