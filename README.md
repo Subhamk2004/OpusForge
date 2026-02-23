@@ -17,12 +17,6 @@ OpusForge is a modern, full-stack web application that empowers developers and I
 - **Instant GitHub Integration**: Automatic repository creation with portfolio code
 - **Immediate Deployment**: Get a shareable link instantly upon creation
 
-### 🤖 **AI-Powered Template Generation**
-- **Custom Template Creation**: Describe your vision and let AI create tailored templates
-- **Multiple Categories**: Landing pages, portfolios, dashboards, and more
-- **Smart Customization**: AI understands your requirements and generates appropriate designs
-- **Real-time Generation**: Fast AI processing for immediate results
-
 ### 📁 **Centralized Asset Management**
 - **Document Storage**: Store resumes, cover letters, certificates, and more
 - **Quick Access**: Retrieve all professional documents from one location
@@ -1272,5 +1266,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Forged by [KBV Kishore]**
+
 
 
