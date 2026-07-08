@@ -83,8 +83,8 @@ function page() {
                     </div>
 
                     <div className="ml-2 flex flex-col w-full mt-14 lg:mt-24 gap-1">
-                        <h1 className="flex items-center">
-                            
+                        <h1 className="text-2xl md:text-4xl font-semibold text-gray-800">
+                            {user?.name || user?.username || ""}
                         </h1>
 
                         <div className="flex items-center gap-2 text-sm">

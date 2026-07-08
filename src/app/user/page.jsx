@@ -215,7 +215,7 @@ export default function DashboardPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <GreetingIcon className="h-6 w-6 text-amber-600" />
                   <h1 className="text-xl md:text-3xl font-bold text-slate-800">
-                    {timeGreeting.greeting}!
+                    {timeGreeting.greeting} !
                   </h1>
                 </div>
                 <p className="text-slate-600 md:text-lg">{timeGreeting.message}</p>
